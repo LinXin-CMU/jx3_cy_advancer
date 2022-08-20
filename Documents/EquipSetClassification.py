@@ -1,0 +1,11 @@
+#   >1 门派套装
+#       1.2 BelongSchool=苍云
+#       1.3 MagicKind=外功/防御
+#       1.4 _SetAttrbs.Name=xxxxT套
+#   >2 切糕
+#       2.2 MagicKind=身法/防御
+#       2.3 _SetAttrbs.Name=xxxx切糕
+#   >3 冬至
+#       3.2 BelongSchool=苍云
+#       3.3 MagicKind=外功/防御
+#       3.4 _SetAttrbs.Name=xxxx品御厨套装
