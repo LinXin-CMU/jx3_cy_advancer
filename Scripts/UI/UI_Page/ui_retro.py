@@ -7,7 +7,7 @@ import numpy as np
 
 from Scripts.UI.UI_Base.ui_base import BaseUi
 from Scripts.UI.UI_Base.ui import Ui_MainWindow
-from Scripts.UI.UI_Base.ui_other import TABLE_COLUMN_WIDTHS, INFO_TABLE_COLUMN_WIDTHS, TARGET_TABLE_COLUMN_WIDTHS
+from Scripts.UI.UI_Base.ui_other import DATA_TABLE_COLUMN_WIDTHS, INFO_TABLE_COLUMN_WIDTHS, TARGET_TABLE_COLUMN_WIDTHS
 
 
 class Retro_UI(BaseUi):
