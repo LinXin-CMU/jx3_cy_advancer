@@ -12,7 +12,7 @@ from os import getcwd
 
 class MyFont:
     """
-    用于保证每次重新设置字体大小都能返回一个新的FreeTypeFont实例
+    实现对字体大小的直接设置
     """
     def __init__(self, path):
         self._path = path
