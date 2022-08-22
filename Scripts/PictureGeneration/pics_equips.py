@@ -44,29 +44,38 @@ class EquipPictureCreator:
         self._equip_data = equip_data
         # 背景图
         self.background: Union[Image.Image, None] = None
+        # 实例方法装饰器
+        self._decorator()
 
     def run(self):
         self.background = Image.new('RGB', BACKGROUND_SIZE, BACKGROUND_COLOR)
+        self._add_backgrounds()
         self._add_equip_icon([Image.new('RGB', EQUIP_ICON_SIZE, 'white') for _ in range(12)])
         self._add_talent_icon([Image.new('RGB', TALENT_ICON_SIZE, 'white') for _ in range(12)])
 
-    @staticmethod
-    def _add_pics(instance):
+
+    def _check_background(self, func):
         """
         确保背景图不为None
         :return:
         """
-        _instance = instance
-        def wrapper(func):
-            def inner(*args, **kwargs):
-                ret = None
-                if _instance.background is not None:
-                    ret = func(*args, **kwargs)
-                return ret
-            return inner
-        return wrapper
+        def inner(*args, **kwargs):
+            ret = None
+            # print('inside')
+            if self.background is not None:
+                ret = func(*args, **kwargs)
+            return ret
+        return inner
 
-    @_add_pics
+    def _decorator(self):
+        """
+        给实例方法添加实例装饰器\n
+        :return:
+        """
+        self._add_equip_icon = self._check_background(self._add_equip_icon)
+        self._add_talent_icon = self._check_background(self._add_talent_icon)
+
+
     def _add_backgrounds(self):
         """
         向背景图添加各部分背景图\n
