@@ -38,6 +38,7 @@ class EquipPictureCreator:
     """
     生成图片格式复盘的类
     """
+
     def __init__(self, equip_data: Dict[str, Equip]):
         # 装备数据
         self._equip_data = equip_data
