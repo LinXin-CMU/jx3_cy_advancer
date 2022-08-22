@@ -9,6 +9,7 @@ from win32clipboard import OpenClipboard, CloseClipboard, SetClipboardText, Empt
 
 from Scripts.UI.UI_Base.ui_base import BaseUi
 from Scripts.UI.UI_Base.ui import Ui_MainWindow
+from Scripts.PictureGeneration.pics_equips import EquipPictureCreator
 from CustomClasses.TypeHints import Attribute
 
 
@@ -25,6 +26,8 @@ class Calculator_UI(BaseUi):
         self._talent_labels = None
         # 储存显示奇穴所用的label，便于修改
         self._json_attribute = None
+        # 装备总览图片生成类
+        self._gen_equip_pic = EquipPictureCreator(self.equip)
 
         # 绑定按钮
         self.ui.export_json_button.clicked.connect(self._show_json_widget)

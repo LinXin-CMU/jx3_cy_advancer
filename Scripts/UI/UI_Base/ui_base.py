@@ -20,7 +20,7 @@ class BaseUi:
         # config初始化
         self.config = ConfigSetting()
         # 装备数据
-        self.equip = None
+        self.equip: dict[str: Equip] = None
 
     # 警告弹窗
 
