@@ -3,9 +3,10 @@
 """
 生成图片的基本设置
 """
-FONT = r'Sources/UI_Resources/FangZhengYouHei.TTF'
-
 from collections import namedtuple
+
+
+FONT = r'Sources/UI_Resources/FangZhengYouHei.TTF'
 
 position = namedtuple("position", ['x', 'y'])
 size = namedtuple("size", ['width', 'height'])
