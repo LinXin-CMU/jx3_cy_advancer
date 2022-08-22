@@ -8,7 +8,7 @@ from PIL.ImageDraw import ImageDraw
 from typing import Dict, List, Union
 
 from CustomClasses.TypeHints import Equip
-from Scripts.PictureGeneration.pics_setting import position, size, rgb, get_icon, font
+from Scripts.PictureGeneration.pics_setting import position, size, rgb, get_skill_icon, font, get_equip_icon
 
 
 # 位置
@@ -51,9 +51,9 @@ class EquipPictureCreator:
     生成图片格式复盘的类
     """
 
-    def __init__(self, equip_data: Dict[str, Equip]):
+    def __init__(self):
         # 装备数据
-        self._equip_data = equip_data
+        self._equip_data = None
         # 背景图
         self.background: Union[Image.Image, None] = None
         # 背景图ImageDraw实例化
@@ -61,12 +61,16 @@ class EquipPictureCreator:
         # 实例方法装饰器
         self._decorator()
 
+    def set_equip_data(self, equip_data: Dict[str, Equip]):
+        self._equip_data = equip_data
+
     def run(self, talent: List[str]):
-        self.background = Image.new('RGB', BACKGROUND_SIZE, BACKGROUND_COLOR)
-        self._add_backgrounds()
-        self._add_equip_icon([Image.new('RGB', EQUIP_ICON_SIZE, 'white') for _ in range(12)])
-        self._add_talent_icon(talent)
-        self.background.show()
+        if self._equip_data is not None:
+            self.background = Image.new('RGB', BACKGROUND_SIZE, BACKGROUND_COLOR)
+            self._add_backgrounds()
+            self._add_equip_icon([Image.new('RGB', EQUIP_ICON_SIZE, 'white') for _ in range(12)])
+            self._add_talent_icon(talent)
+            self.background.show()
 
 
     def _check_background(self, func):
@@ -105,13 +109,14 @@ class EquipPictureCreator:
     def _add_equip_icon(self, icons):
         """
         向背景图添加装备图标的方法\n
-        :param icons:
         :return:
         """
         pos_y = EQUIP_ICON_POSITION.y
         for index_y in range(12):
             self.background.paste(icons[index_y], (EQUIP_ICON_POSITION.x, pos_y))
             pos_y += EQUIP_ICON_SPACE
+        get_equip_icon(icon_id=[i.equip_data['_IconID'] for i in self._equip_data.values() if i is not None])
+
 
     def _add_talent_info(self, talent_list: List[str]):
         """
@@ -121,7 +126,7 @@ class EquipPictureCreator:
         """
         pos_x = TALENT_ICON_POSITION.x
         pos_y = TALENT_ICON_POSITION.y
-        icons = [get_icon(icon_name=i, icon_size=TALENT_ICON_SIZE) for i in talent_list]
+        icons = [get_skill_icon(icon_name=i, icon_size=TALENT_ICON_SIZE) for i in talent_list]
         font.size = TALENT_TEXT_SIZE
         for index_x in range(3):
             for index_y in range(4):

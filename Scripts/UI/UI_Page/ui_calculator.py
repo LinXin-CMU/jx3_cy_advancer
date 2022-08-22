@@ -29,7 +29,7 @@ class Calculator_UI(BaseUi):
         # 储存显示奇穴所用的label，便于修改
         self._json_attribute = None
         # 装备总览图片生成类
-        self._gen_equip_pic = EquipPictureCreator(self.equip)
+        self._gen_equip_pic = EquipPictureCreator()
 
         # 绑定按钮
         self.ui.export_json_button.clicked.connect(self._show_json_widget)
@@ -232,6 +232,7 @@ class Calculator_UI(BaseUi):
         生成图片格式的配装总览\n
         :return:
         """
+        self._gen_equip_pic.set_equip_data(self.equip)
         if self._attribute.player_talent is not None:
             self._gen_equip_pic.run(self._attribute.player_talent)
 
