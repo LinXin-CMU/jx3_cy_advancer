@@ -61,7 +61,7 @@ def get_buff_or_skill_from_jx3box(subtype: Literal["buff", "skill"], id: int, le
     if subtype in personal_data:
         if id in personal_data[subtype]:
             if level in personal_data[subtype][id]:
-                ret = {'ID': id, 'Data': personal_data[subtype][id][level]}
+                ret = personal_data[subtype][id][level]
                 return ret
 
     url = f"https://node.jx3box.com/{subtype}/id/{id}?client=std&level={level}"

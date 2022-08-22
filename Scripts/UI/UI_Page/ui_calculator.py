@@ -20,6 +20,8 @@ class Calculator_UI(BaseUi):
         self.ui: Ui_MainWindow = obj.ui
         self.widget = obj
         # print(f"class Calculator_UI: {id(self.ui)}")
+        self._attribute: Attribute | None = None
+        # 玩家属性类
         # 装备label已在designer中生成过了, 这里不涉及重复生成的问题
         self._attribute_labels = None
         # 储存显示属性所用的label，便于修改
@@ -31,6 +33,7 @@ class Calculator_UI(BaseUi):
 
         # 绑定按钮
         self.ui.export_json_button.clicked.connect(self._show_json_widget)
+        self.ui.generate_equip_button.clicked.connect(self._get_equip_picture)
 
     def show_labels(self, attribute: Attribute):
         """
@@ -172,6 +175,8 @@ class Calculator_UI(BaseUi):
         :param attribute:
         :return:
         """
+        # 储存Attribute供生成图片使用
+        self._attribute = attribute
         y_range = range(66, 397, 30)
         x_pos = 620
         for index, talent in enumerate(attribute.player_talent):
@@ -227,6 +232,8 @@ class Calculator_UI(BaseUi):
         生成图片格式的配装总览\n
         :return:
         """
+        if self._attribute.player_talent is not None:
+            self._gen_equip_pic.run(self._attribute.player_talent)
 
 
 

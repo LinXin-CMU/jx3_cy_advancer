@@ -3,12 +3,12 @@
 """
 生成配装图
 """
-from PIL import Image, ImageFont
+from PIL import Image
 from PIL.ImageDraw import ImageDraw
 from typing import Dict, List, Union
 
 from CustomClasses.TypeHints import Equip
-from Scripts.PictureGeneration.pics_setting import position, size, rgb
+from Scripts.PictureGeneration.pics_setting import position, size, rgb, get_icon, font
 
 
 # 位置
@@ -21,6 +21,7 @@ EQUIP_BACKGROUND_POSITION = position(651, 30)
 EQUIP_ICON_SPACE = 52
 TALENT_ICON_VERTICAL_SPACE = 52
 TALENT_ICON_HORIZONTAL_SPACE = 160
+TALENT_ICON_TEXT_HORIZONTAL_SPACE = 20   # 奇穴图标到奇穴文本间距离
 # 大小
 BACKGROUND_SIZE = size(1280, 720)
 EQUIP_ICON_SIZE = size(36, 36)
@@ -35,6 +36,8 @@ TALENT_BACKGROUND_COLOR = rgb(235, 171, 124)
 EQUIP_BACKGROUND_COLOR = rgb(235, 171, 124)
 # 圆角
 BACKGROUNDS_RADIUS = 10
+# 字号
+TALENT_TEXT_SIZE = 25
 
 BACKGROUNDS = (
     (ATTRIBUTE_BACKGROUND_POSITION, ATTRIBUTE_BACKGROUND_SIZE, ATTRIBUTE_BACKGROUND_COLOR),
@@ -53,14 +56,17 @@ class EquipPictureCreator:
         self._equip_data = equip_data
         # 背景图
         self.background: Union[Image.Image, None] = None
+        # 背景图ImageDraw实例化
+        self._background: ImageDraw | None = None
         # 实例方法装饰器
         self._decorator()
 
-    def run(self):
+    def run(self, talent: List[str]):
         self.background = Image.new('RGB', BACKGROUND_SIZE, BACKGROUND_COLOR)
         self._add_backgrounds()
         self._add_equip_icon([Image.new('RGB', EQUIP_ICON_SIZE, 'white') for _ in range(12)])
-        self._add_talent_icon([Image.new('RGB', TALENT_ICON_SIZE, 'white') for _ in range(12)])
+        self._add_talent_icon(talent)
+        self.background.show()
 
 
     def _check_background(self, func):
@@ -83,7 +89,7 @@ class EquipPictureCreator:
         """
         self._add_backgrounds = self._check_background(self._add_backgrounds)
         self._add_equip_icon = self._check_background(self._add_equip_icon)
-        self._add_talent_icon = self._check_background(self._add_talent_icon)
+        self._add_talent_icon = self._check_background(self._add_talent_info)
 
 
     def _add_backgrounds(self):
@@ -91,11 +97,10 @@ class EquipPictureCreator:
         向背景图添加各部分背景图\n
         :return:
         """
-        _background = ImageDraw(self.background)
+        self._background = ImageDraw(self.background)
         for _position, _size, _color in BACKGROUNDS:
             _right_bottom = position(_position.x + _size.width, _position.y + _size.height)
-            _background.rounded_rectangle((_position, _right_bottom), fill=_color, radius=BACKGROUNDS_RADIUS, width=0)
-
+            self._background.rounded_rectangle((_position, _right_bottom), fill=_color, radius=BACKGROUNDS_RADIUS, width=0)
 
     def _add_equip_icon(self, icons):
         """
@@ -108,17 +113,20 @@ class EquipPictureCreator:
             self.background.paste(icons[index_y], (EQUIP_ICON_POSITION.x, pos_y))
             pos_y += EQUIP_ICON_SPACE
 
-    def _add_talent_icon(self, icons):
+    def _add_talent_info(self, talent_list: List[str]):
         """
-        向背景图添加奇穴图标的方法\n
+        向背景图添加奇穴图标和文本的方法\n
         :param icons:
         :return:
         """
         pos_x = TALENT_ICON_POSITION.x
         pos_y = TALENT_ICON_POSITION.y
+        icons = [get_icon(icon_name=i, icon_size=TALENT_ICON_SIZE) for i in talent_list]
+        font.size = TALENT_TEXT_SIZE
         for index_x in range(3):
             for index_y in range(4):
-                self.background.paste(icons[index_y], (pos_x, pos_y))
+                self.background.paste(icons[index_y + index_x*4], (pos_x, pos_y))
+                self._background.text((pos_x + TALENT_ICON_SIZE.width + TALENT_ICON_TEXT_HORIZONTAL_SPACE, pos_y+3), talent_list[index_y+index_x*4], font=font.font)
                 pos_y += TALENT_ICON_VERTICAL_SPACE
             pos_x += TALENT_ICON_HORIZONTAL_SPACE
             pos_y = TALENT_ICON_POSITION.y
@@ -127,8 +135,8 @@ class EquipPictureCreator:
 
 
 
-
-if __name__ == '__main__':
-    pc = EquipPictureCreator(equip_data=dict())
-    pc.run()
-    pc.background.show()
+#
+# if __name__ == '__main__':
+#     pc = EquipPictureCreator(equip_data=dict())
+#     pc.run()
+#     pc.background.show()

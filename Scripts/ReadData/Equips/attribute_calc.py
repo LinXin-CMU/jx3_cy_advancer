@@ -28,6 +28,7 @@ class Attribute:
         # 玩家心法
         self.player_kungfu = None
         # 玩家奇穴
+        # 在reader_main._get_player_info中被传入
         self.player_talent = None
 
         # 装备名
