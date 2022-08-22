@@ -70,6 +70,8 @@ class Main:
             # 展示信息
         except AttributeError as e:
             print(f"AttributeError: {e} at main.py _sub_calc_equip: 过滤未读取装备时的装备栏设置页面切出情况")
+        except TypeError as e:
+            print(f"TypeError: {e} at main.py _sub_calc_equip: 过滤未读取装备时的装备栏设置页面切出情况")
 
     def _sub_show_skills(self):
         """

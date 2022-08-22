@@ -219,6 +219,13 @@ class Calculator_UI(BaseUi):
             json_dialog.rejected.connect(json_dialog.close)
             json_dialog.show()
 
+    def _get_equip_picture(self):
+        """
+        生成图片格式的配装总览\n
+        :return:
+        """
+
+
 
 
 

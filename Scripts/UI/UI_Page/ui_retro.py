@@ -59,7 +59,7 @@ class Retro_UI(BaseUi):
 
 
         # 设置列宽
-        for item in TABLE_COLUMN_WIDTHS:
+        for item in DATA_TABLE_COLUMN_WIDTHS:
             self.ui.Retro_skill_data_table.setColumnWidth(*item)
         for item in INFO_TABLE_COLUMN_WIDTHS:
             self.ui.Retro_skill_info_table.setColumnWidth(*item)
