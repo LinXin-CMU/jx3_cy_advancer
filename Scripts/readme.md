@@ -8,10 +8,8 @@
 > ### 1. CountSkill    
 >> * skill_data_reshape.py -> 函数库, 用于为表格整理数据  
 > ### 2. GetMark  
->> * used_events.py -> 评分用数据  
-> ### 3. GenPic 
->> * ...  
-> ### 4. ImitationPlayer  
+>> * used_events.py -> 评分用数据
+> ### 3. ImitationPlayer  
 >> * player.py -> 读取buff状态, 记录技能释放时所存在的buff供复盘和评价使用  
 ## 4. ReadData  
 > * reader_main -> jcl读取模块顶层
@@ -35,3 +33,7 @@
 >> * ui_equip_setting.py -> 精炼镶嵌设置页面功能实现
 >> * ui_retro.py -> 复盘页面功能实现
 >> * ui_top.py -> 首页部分功能实现
+## 6. PictureGeneration
+> * pics_setting.py -> 图片生成模块的基础设置和公用变量
+> * pics_equips.py -> 配装图片
+ 

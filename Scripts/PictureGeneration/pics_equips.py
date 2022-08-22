@@ -3,7 +3,8 @@
 """
 生成配装图
 """
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageFont
+from PIL.ImageDraw import ImageDraw
 from typing import Dict, List, Union
 
 from CustomClasses.TypeHints import Equip
@@ -11,9 +12,9 @@ from Scripts.PictureGeneration.pics_setting import position, size, rgb
 
 
 # 位置
-EQUIP_ICON_POSITION = position(677, 54)
-TALENT_ICON_POSITION = position(103, 472)
 ATTRIBUTE_BACKGROUND_POSITION = position(52, 159)
+TALENT_ICON_POSITION = position(103, 472)
+EQUIP_ICON_POSITION = position(677, 54)
 TALENT_BACKGROUND_POSITION = position(52, 435)
 EQUIP_BACKGROUND_POSITION = position(651, 30)
 # 两个图标之间的间距
@@ -32,6 +33,14 @@ BACKGROUND_COLOR = rgb(155, 152, 172)
 ATTRIBUTE_BACKGROUND_COLOR = rgb(235, 171, 124)
 TALENT_BACKGROUND_COLOR = rgb(235, 171, 124)
 EQUIP_BACKGROUND_COLOR = rgb(235, 171, 124)
+# 圆角
+BACKGROUNDS_RADIUS = 10
+
+BACKGROUNDS = (
+    (ATTRIBUTE_BACKGROUND_POSITION, ATTRIBUTE_BACKGROUND_SIZE, ATTRIBUTE_BACKGROUND_COLOR),
+    (EQUIP_BACKGROUND_POSITION, EQUIP_BACKGROUND_SIZE, EQUIP_BACKGROUND_COLOR),
+    (TALENT_BACKGROUND_POSITION, TALENT_BACKGROUND_SIZE, TALENT_BACKGROUND_COLOR)
+)
 
 
 class EquipPictureCreator:
@@ -72,6 +81,7 @@ class EquipPictureCreator:
         给实例方法添加实例装饰器\n
         :return:
         """
+        self._add_backgrounds = self._check_background(self._add_backgrounds)
         self._add_equip_icon = self._check_background(self._add_equip_icon)
         self._add_talent_icon = self._check_background(self._add_talent_icon)
 
@@ -81,6 +91,10 @@ class EquipPictureCreator:
         向背景图添加各部分背景图\n
         :return:
         """
+        _background = ImageDraw(self.background)
+        for _position, _size, _color in BACKGROUNDS:
+            _right_bottom = position(_position.x + _size.width, _position.y + _size.height)
+            _background.rounded_rectangle((_position, _right_bottom), fill=_color, radius=BACKGROUNDS_RADIUS, width=0)
 
 
     def _add_equip_icon(self, icons):
