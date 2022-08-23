@@ -6,7 +6,7 @@ from typing import Literal
 
 from Scripts.UI.UI_Base.ui_base import BaseUi
 from Scripts.UI.UI_Base.ui import Ui_MainWindow
-from Sources.Jx3_Datas.JclData import slot_to_name_dictionary
+from Sources.Jx3_Datas.Files.JclData import slot_to_name_dictionary
 from CustomClasses.TypeHints import Equip
 
 

@@ -1,8 +1,8 @@
 import re
 
-from Sources.Jx3_Datas.Jx3Stone import embedding, stone
-from Sources.Jx3_Datas.Jx3Equip import equip
-from Sources.Jx3_Datas.Jx3Enchant import enchant
+from Sources.Jx3_Datas.Files.Jx3Stone import stone
+from Sources.Jx3_Datas.Files.Jx3Equip import equip
+from Sources.Jx3_Datas.Files.Jx3Enchant import enchant
 from .get_other_data import get_equip_from_jx3box
 
 

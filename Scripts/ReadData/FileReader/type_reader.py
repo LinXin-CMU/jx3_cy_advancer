@@ -2,9 +2,9 @@ from lupa import LuaRuntime
 from functools import reduce
 
 from Scripts.ReadData.Equips.get_other_data import get_buff_or_skill_from_jx3box
-from Sources.Jx3_Datas.JclData import forces, mounts, warn_msgs, dmg_types
-from Sources.Jx3_Datas.Jx3Buff import buff
-from Sources.Jx3_Datas.Jx3Skill import skill
+from Sources.Jx3_Datas.Files.JclData import forces, mounts, warn_msgs, dmg_types
+from Sources.Jx3_Datas.Files.Jx3Buff import buff
+from Sources.Jx3_Datas.Files.Jx3Skill import skill
 
 
 class TypeReader:

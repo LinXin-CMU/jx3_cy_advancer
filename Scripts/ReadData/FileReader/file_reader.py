@@ -9,7 +9,7 @@ from typing import Any, NoReturn
 from datetime import timedelta
 
 from Scripts.ReadData.FileReader.type_reader import TypeReader
-from Sources.Jx3_Datas.JclData import log_type, type_name, type_to_event_type
+from Sources.Jx3_Datas.Files.JclData import log_type, type_name, type_to_event_type
 from CustomClasses.Exceptions import *
 
 
