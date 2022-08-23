@@ -149,10 +149,10 @@ class EquipPictureCreator:
             # 添加边框
             if _equip.strength != _equip.max_strength_level:
                 # 普通装备框
-                border = Image.open(r'Sources/Jx3_Datas/jx3basic_icons/border_min.png', 'r').resize(EQUIP_ICON_SIZE)
+                border = Image.open(r'Sources/Jx3_Datas/Icons/jx3basic_icons/border_min.png', 'r').resize(EQUIP_ICON_SIZE)
             else:
                 # 满精炼框
-                border = Image.open(r'Sources/Jx3_Datas/jx3basic_icons/border_max.png', 'r').resize(EQUIP_ICON_SIZE)
+                border = Image.open(r'Sources/Jx3_Datas/Icons/jx3basic_icons/border_max.png', 'r').resize(EQUIP_ICON_SIZE)
             # 处理透明图像
             _, _, _, alpha = border.split()
             self.background.paste(border, _pos, mask=alpha)
@@ -172,16 +172,16 @@ class EquipPictureCreator:
             # 添加镶嵌
             if _equip.embedding is not None:
                 for index, embedding_lv in enumerate(_equip.embedding.values()):
-                    _img = Image.open(rf'Sources/Jx3_Datas/jx3basic_icons/embedding_{embedding_lv}.png').resize(EQUIP_EMBEDDING_SIZE)
+                    _img = Image.open(rf'Sources/Jx3_Datas/Icons/jx3basic_icons/embedding_{embedding_lv}.png').resize(EQUIP_EMBEDDING_SIZE)
                     _sub_pos = (EQUIP_EMBEDDING_POSITION.x + index * EQUIP_EMBEDDING_ICON_SPACE, EQUIP_EMBEDDING_POSITION.y)
                     self.background.paste(_img, pos_add(_pos, _sub_pos))
             # 添加小附魔
             if _equip.enhance_name is not None:
-                _img = Image.open(r'Sources/Jx3_Datas/jx3basic_icons/enhance.png', 'r').resize(EQUIP_ENCHANT_SIZE)
+                _img = Image.open(r'Sources/Jx3_Datas/Icons/jx3basic_icons/enhance.png', 'r').resize(EQUIP_ENCHANT_SIZE)
                 self.background.paste(_img, pos_add(_pos, EQUIP_ENHANCE_ICON_POSITION))
                 self._background.text(pos_add(_pos, EQUIP_ENHANCE_INFO_POSITION), _equip.enhance_name, font=font.font)
             if _equip.enchant is not None and _equip.enchant != '无大附魔':
-                _img = Image.open(r'Sources/Jx3_Datas/jx3basic_icons/enchant.png', 'r').resize(EQUIP_ENCHANT_SIZE)
+                _img = Image.open(r'Sources/Jx3_Datas/Icons/jx3basic_icons/enchant.png', 'r').resize(EQUIP_ENCHANT_SIZE)
                 self.background.paste(_img, pos_add(_pos, EQUIP_ENCHANT_ICON_POSITION))
                 self._background.text(pos_add(_pos, EQUIP_ENCHANT_INFO_POSITION), _equip.enchant, font=font.font)
 

@@ -52,6 +52,8 @@ class Main:
             self.main_ui.ShowWarningBoxForNoPath(self.main_ui)
         except NotFoundJclFileError:
             self.main_ui.ShowWarningBoxForNoPath(self.main_ui)
+        except NotFoundJclFolderError:
+            self.main_ui.ShowWarningBoxForNotHaveJclFolder(self.main_ui)
 
 
     def _sub_calc_equip(self, current_index=None):

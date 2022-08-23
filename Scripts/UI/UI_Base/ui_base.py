@@ -41,6 +41,10 @@ class BaseUi:
         QMessageBox.warning(parent, '错误!', '未检测到该id的jcl文件夹, 请检查id是否有误!')
 
     @staticmethod
+    def ShowWarningBoxForNotHaveJclFolder(parent):
+        QMessageBox.warning(parent, '错误!', '未检测到该id的jcl文件夹, 请检查id或游戏内设置是否有误!')
+
+    @staticmethod
     def ShowWarningBoxForNoPath(parent):
         QMessageBox.warning(parent, '错误!', '未检测到战斗记录文件, 请重新选择!')
 

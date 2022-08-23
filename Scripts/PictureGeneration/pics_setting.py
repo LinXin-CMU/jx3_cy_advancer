@@ -38,7 +38,7 @@ class MyFont:
 
 
 font = MyFont(r'Sources/UI_Resources/FangZhengYouHei.TTF')
-ICON_PATH = r'Sources/Jx3_Datas/skill_icons'
+ICON_PATH = r'Sources/Jx3_Datas/Icons/skill_icons'
 
 position = namedtuple("position", ['x', 'y'])
 size = namedtuple("size", ['width', 'height'])
@@ -47,7 +47,7 @@ rgba = namedtuple("rgba", ['r', 'g', 'b', 'a'])
 
 
 pool = ThreadPoolExecutor(12)
-equip_icons = [i.replace('.png', '') for i in os.listdir(r'Sources/Jx3_Datas/equip_icons') if i.endswith('.png')]
+equip_icons = [i.replace('.png', '') for i in os.listdir(r'Sources/Jx3_Datas/Icons/equip_icons') if i.endswith('.png')]
 
 
 def pos_add(item1: Tuple[int, int], item2: Tuple[int, int]) -> Tuple:
@@ -73,16 +73,16 @@ def get_equip_icon(*, icon_id: List[int] = None, icon_size: Tuple[int, int] = No
     for future in as_completed(all_tasks):
         try:
             _pic, _id = future.result()
-            with open(rf'Sources/Jx3_Datas/equip_icons/{_id}.png', 'wb') as f:
+            with open(rf'Sources/Jx3_Datas/Icons/equip_icons/{_id}.png', 'wb') as f:
                 f.write(_pic)
         except TypeError as e:
             print(f"TypeError: {e} at Scripts/PictureGeneration/pics_setting.py get_equip_icon: 图标id不存在或网络异常")
     ret = []
     for _id in icon_id:
         try:
-            _icon = Image.open(rf'Sources/Jx3_Datas/equip_icons/{_id}.png', 'r')
+            _icon = Image.open(rf'Sources/Jx3_Datas/Icons/equip_icons/{_id}.png', 'r')
         except FileNotFoundError:
-            _icon = Image.open(r'Sources/Jx3_Datas/equip_icons/Default.png', 'r')
+            _icon = Image.open(r'Sources/Jx3_Datas/Icons/equip_icons/Default.png', 'r')
         if icon_size is not None:
             _icon = _icon.resize(icon_size)
         ret.append(_icon)

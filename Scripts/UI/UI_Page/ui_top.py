@@ -18,7 +18,7 @@ from csv import DictWriter
 from Scripts.UI.UI_Base.ui_base import BaseUi
 from Scripts.UI.UI_Base.ui import Ui_MainWindow
 from Scripts.UI.UI_Base.ui_other import FILES_TABLE_COLUMN_WIDTHS
-from CustomClasses.Exceptions import NotFoundJx3GameError
+from CustomClasses.Exceptions import NotFoundJclFolderError
 
 
 class Top_UI(BaseUi):
@@ -35,6 +35,8 @@ class Top_UI(BaseUi):
         self.game_path = None
         # 目标文件夹路径
         self.folder_path = None
+        # 当前目标文件夹从属
+        self._folder_from = None
         # 目标文件
         self._target_file = None
         # 待筛选的文件序列
@@ -142,6 +144,7 @@ class Top_UI(BaseUi):
         _folders = eval(self.config['jcl_paths'])
         if self.player_name in _folders:
             self.folder_path = _folders[self.player_name]
+            self._folder_from = self.player_name
 
     def _set_nearest_date_combobox(self):
         """
@@ -275,31 +278,32 @@ class Top_UI(BaseUi):
         根据游戏路径寻找到对应jcl文件夹路径的方法\n
         :return:
         """
-        if self.folder_path is None:
-            if self.game_path.endswith("JX3"):
-                _path = self.game_path + r'/Game/JX3/bin/zhcn_hd/interface/MY#DATA'
-                # 遍历MY#DATA，找到与player_name相符的文件夹
-                # 新版客户端适配
-                if not path.exists(_path):
-                    _path = self.game_path + r'/Game/JX3_takeover/bin/zhcn_hd/interface/MY#DATA'
-                for _folder in listdir(_path):
-                    try:
-                        if isinstance(eval(_folder.split('@')[0]), int):
-                            # 找到存放玩家数据的文件夹
-                            if self.player_name in listdir(rf'{_path}/{_folder}'):
-                                _path += rf'/{_folder}/userdata/combat_logs'
-                                self.folder_path = _path
-                                # print(self.folder_path)
-                                self._add_config_jcl_path()
-                                return
-                    except SyntaxError as e:
-                        print(
-                            f"SyntaxError: {e} at Scripts/UI/UI_Page/ui_top.py _get_player_jcl_folder_path: 过滤MY#DATA中非玩家文件夹")
-                        continue
-                self.ShowWarningBoxForIdNotInGamePath(self.widget)
-                self.folder_path = None
-            else:
-                self.ShowWarningBoxForJx3GamePathSelectError(self.widget)
+        # if self.folder_path is None:
+        if self.game_path.endswith("JX3"):
+            _path = self.game_path + r'/Game/JX3/bin/zhcn_hd/interface/MY#DATA'
+            # 遍历MY#DATA，找到与player_name相符的文件夹
+            # 新版客户端适配
+            if not path.exists(_path):
+                _path = self.game_path + r'/Game/JX3_takeover/bin/zhcn_hd/interface/MY#DATA'
+            for _folder in listdir(_path):
+                try:
+                    if isinstance(eval(_folder.split('@')[0]), int):
+                        # 找到存放玩家数据的文件夹
+                        if self.player_name in listdir(rf'{_path}/{_folder}'):
+                            _path += rf'/{_folder}/userdata/combat_logs'
+                            self.folder_path = _path
+                            self._folder_from = self.player_name
+                            # print(self.folder_path)
+                            self._add_config_jcl_path()
+                            return
+                except SyntaxError as e:
+                    print(
+                        f"SyntaxError: {e} at Scripts/UI/UI_Page/ui_top.py _get_player_jcl_folder_path: 过滤MY#DATA中非玩家文件夹")
+                    continue
+            self.ShowWarningBoxForIdNotInGamePath(self.widget)
+            self.folder_path = None
+        else:
+            self.ShowWarningBoxForJx3GamePathSelectError(self.widget)
 
     def _add_config_jcl_path(self):
         """
@@ -384,8 +388,16 @@ class Top_UI(BaseUi):
                 secs = self.lua.eval(_s.decode('gbk'))[3]
                 str_time = str(timedelta(seconds=secs // 1000))
                 return ":".join(str_time.split(':')[1:])
-
-        _files = listdir(self.folder_path)
+        # 新用户名点击的情况
+        if self.folder_path is None:
+            self._get_player_jcl_folder_path()
+        # 使用时更改用户名的情况
+        if self.player_name != self._folder_from:
+            self._get_player_jcl_folder_path()
+        try:
+            _files = listdir(self.folder_path)
+        except FileNotFoundError:
+            raise NotFoundJclFolderError
         pattern = re.compile(
             r'(?P<year>\d{4})-(?P<month>\d{2})-(?P<day>\d{2})-(?P<hour>\d{2})-(?P<minute>\d{2})-(?P<second>\d{2})-(?P<map>.*?)-(?P<boss>.*?)\.jcl')
         _current_zones = eval(self.config['jx3_zones'])
@@ -413,8 +425,8 @@ class Top_UI(BaseUi):
                 _time_filter = self._filter['date']
                 if 'nearest_day' in _time_filter:
                     _limit = datetime.now() - timedelta(days=_time_filter['nearest_day'])
-                    if (_year < _limit.year) or (_month < _limit.month) \
-                            or (_day < _limit.day) or (_hour < _limit.hour) or (_minute < _limit.minute):
+                    _dist = datetime(year=_year, month=_month, day=_day, hour=_hour, minute=_minute, second=int(res.group('second'))) - _limit
+                    if _dist.days < 0:
                         continue
                 else:
                     if (_year != _time_filter['year']) or (_month != _time_filter['month']):
