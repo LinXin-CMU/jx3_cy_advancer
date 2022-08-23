@@ -192,7 +192,7 @@ class EquipPictureCreator:
     def _add_talent_info(self, talent_list: List[str]):
         """
         向背景图添加奇穴图标和文本的方法\n
-        :param icons:
+        :param talent_list:
         :return:
         """
         pos_x = TALENT_ICON_POSITION.x
