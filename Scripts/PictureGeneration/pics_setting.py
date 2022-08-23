@@ -3,6 +3,7 @@
 """
 生成图片的基本设置
 """
+import os
 from collections import namedtuple
 
 import requests
@@ -44,22 +45,40 @@ size = namedtuple("size", ['width', 'height'])
 rgb = namedtuple("rgb", ['r', 'g', 'b'])
 rgba = namedtuple("rgba", ['r', 'g', 'b', 'a'])
 
+
 pool = ThreadPoolExecutor(12)
+equip_icons = [i.replace('.png', '') for i in os.listdir(r'Sources/Jx3_Datas/equip_icons') if i.endswith('.png')]
 
 
-def get_equip_icon(*, icon_id: List[int] = None):
-    global pool
+
+def get_equip_icon(*, icon_id: List[int] = None, icon_size: Tuple[int, int] = None) -> List[Image.Image]:
+    global pool, equip_icons
 
     def task(icon_id):
         resp = requests.get(rf'https://icon.jx3box.com/icon/{icon_id}.png', timeout=3)
         if resp.status_code == 200:
             return resp.content, icon_id
 
-    all_tasks = [pool.submit(task, i) for i in icon_id]
+    all_tasks = [pool.submit(task, i) for i in icon_id if str(i) not in equip_icons]
     for future in as_completed(all_tasks):
-        _pic, _id = future.result()
-        with open(rf'Sources/Jx3_Datas/equip_icons/{_id}.png', 'wb') as f:
-            f.write(_pic)
+        try:
+            _pic, _id = future.result()
+            with open(rf'Sources/Jx3_Datas/equip_icons/{_id}.png', 'wb') as f:
+                f.write(_pic)
+        except TypeError as e:
+            print(f"TypeError: {e} at Scripts/PictureGeneration/pics_setting.py get_equip_icon: 图标id不存在或网络异常")
+    ret = []
+    for _id in icon_id:
+        try:
+            _icon = Image.open(rf'Sources/Jx3_Datas/equip_icons/{_id}.png', 'r')
+        except FileNotFoundError:
+            _icon = Image.open(r'Sources/Jx3_Datas/equip_icons/Default.png', 'r')
+        if icon_size is not None:
+            _icon = _icon.resize(icon_size)
+        ret.append(_icon)
+    return ret
+
+
 
 
 def get_skill_icon(*, icon_name: str = None, icon_id: int = None, icon_size: Tuple[int, int] = None) -> Image.Image | None:

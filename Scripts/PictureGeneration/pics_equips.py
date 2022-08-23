@@ -8,7 +8,7 @@ from PIL.ImageDraw import ImageDraw
 from typing import Dict, List, Union
 
 from CustomClasses.TypeHints import Equip
-from Scripts.PictureGeneration.pics_setting import position, size, rgb, get_skill_icon, font, get_equip_icon
+from Scripts.PictureGeneration.pics_setting import position, size, rgb, rgba, get_skill_icon, font, get_equip_icon
 
 
 # 位置
@@ -30,7 +30,7 @@ ATTRIBUTE_BACKGROUND_SIZE = size(545, 245)
 TALENT_BACKGROUND_SIZE = size(545, 259)
 EQUIP_BACKGROUND_SIZE = size(575, 664)
 # 颜色
-BACKGROUND_COLOR = rgb(155, 152, 172)
+BACKGROUND_COLOR = rgba(155, 152, 172, 255)
 ATTRIBUTE_BACKGROUND_COLOR = rgb(235, 171, 124)
 TALENT_BACKGROUND_COLOR = rgb(235, 171, 124)
 EQUIP_BACKGROUND_COLOR = rgb(235, 171, 124)
@@ -66,9 +66,9 @@ class EquipPictureCreator:
 
     def run(self, talent: List[str]):
         if self._equip_data is not None:
-            self.background = Image.new('RGB', BACKGROUND_SIZE, BACKGROUND_COLOR)
+            self.background = Image.new('RGBA', BACKGROUND_SIZE, BACKGROUND_COLOR)
             self._add_backgrounds()
-            self._add_equip_icon([Image.new('RGB', EQUIP_ICON_SIZE, 'white') for _ in range(12)])
+            self._add_equip_icon()
             self._add_talent_icon(talent)
             self.background.show()
 
@@ -106,16 +106,36 @@ class EquipPictureCreator:
             _right_bottom = position(_position.x + _size.width, _position.y + _size.height)
             self._background.rounded_rectangle((_position, _right_bottom), fill=_color, radius=BACKGROUNDS_RADIUS, width=0)
 
-    def _add_equip_icon(self, icons):
+    def _add_equip_icon(self):
         """
         向背景图添加装备图标的方法\n
         :return:
         """
         pos_y = EQUIP_ICON_POSITION.y
+        icon_ids = []
+        for i in self._equip_data.values():
+            if i is not None:
+                icon_ids.append(i.equip_data['_IconID'])
+            else:
+                icon_ids.append('empty')
+        icons = get_equip_icon(icon_id=icon_ids, icon_size=EQUIP_ICON_SIZE)
+        icon_keys = list(self._equip_data.keys())
         for index_y in range(12):
-            self.background.paste(icons[index_y], (EQUIP_ICON_POSITION.x, pos_y))
+            _pos = (EQUIP_ICON_POSITION.x, pos_y)
+            _equip = self._equip_data[icon_keys[index_y]]
+            self.background.paste(icons[index_y], _pos)
+            # 添加边框
+            if _equip.strength != _equip.max_strength_level:
+                # 普通装备框
+                border = Image.open(r'Sources/Jx3_Datas/jx3basic_icons/border_min.png', 'r').resize(EQUIP_ICON_SIZE)
+            else:
+                # 满精炼框
+                border = Image.open(r'Sources/Jx3_Datas/jx3basic_icons/border_max.png', 'r').resize(EQUIP_ICON_SIZE)
+            # 处理透明图像
+            _, _, _, alpha = border.split()
+            self.background.paste(border, _pos, mask=alpha)
+
             pos_y += EQUIP_ICON_SPACE
-        get_equip_icon(icon_id=[i.equip_data['_IconID'] for i in self._equip_data.values() if i is not None])
 
 
     def _add_talent_info(self, talent_list: List[str]):
