@@ -177,7 +177,7 @@ type_to_event_type = {
 }
 
 slot_to_name_dictionary = {
-      'atPhysicsShieldBase': '外防等级'
+    'atPhysicsShieldBase': '外防等级'
     , 'atMagicShield': '内防等级'
     , 'atMeleeWeaponDamageBase': '武器伤害'
     , 'atMeleeWeaponDamageRand': '武器伤害浮动'
@@ -293,4 +293,33 @@ slot_to_name_dictionary = {
     , 'atPhysicsCriticalDamagePowerBase': '外功会心效果'
     , 'atPhysicsCriticalDamagePowerPercent': '外功会心效果'
     , 'atSetEquipmentRecipe': '套装效果秘籍'
+}
+
+short_attr_dict = {
+    'PhysicsShield': '外防',
+    'MagicShield': '内防',
+    'Critical': '会心',
+    'CriticalDamage': '会效',
+    'Overcome': '破防',
+    'Strain': '无双',
+    'Surplus': '破招',
+    'Haste': '加速',
+    'Toughness': '御劲',
+    'Parry': '招架',
+    'Dodge': '闪避'
+}
+
+location_dict = {
+    'HAT': '帽子',
+    'JACKET': '上衣',
+    'BELT': '腰带',
+    'WRIST': '护腕',
+    'BOTTOMS': '下装',
+    'SHOES': '鞋子',
+    'NECKLACE': '项链',
+    'PENDANT': '腰坠',
+    'RING_1': '戒指',
+    'RING_2': '戒指',
+    'SECONDARY_WEAPON': '远程武器',
+    'PRIMARY_WEAPON': '近身武器'
 }

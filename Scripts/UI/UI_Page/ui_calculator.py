@@ -233,7 +233,7 @@ class Calculator_UI(BaseUi):
         :return:
         """
         self._gen_equip_pic.set_equip_data(self.equip)
-        if self._attribute.player_talent is not None:
+        if self._attribute is not None:
             self._gen_equip_pic.run(self._attribute.player_talent)
 
 

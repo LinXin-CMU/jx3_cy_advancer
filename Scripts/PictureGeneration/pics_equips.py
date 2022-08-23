@@ -8,15 +8,23 @@ from PIL.ImageDraw import ImageDraw
 from typing import Dict, List, Union
 
 from CustomClasses.TypeHints import Equip
-from Scripts.PictureGeneration.pics_setting import position, size, rgb, rgba, get_skill_icon, font, get_equip_icon
+from Scripts.PictureGeneration.pics_setting import position, size, rgb, rgba, get_skill_icon, font, get_equip_icon, pos_add
+from Sources.Jx3_Datas.JclData import short_attr_dict, location_dict
 
 
 # 位置
 ATTRIBUTE_BACKGROUND_POSITION = position(52, 159)
 TALENT_ICON_POSITION = position(103, 472)
-EQUIP_ICON_POSITION = position(677, 54)
+EQUIP_ICON_POSITION = position(691, 54)
 TALENT_BACKGROUND_POSITION = position(52, 435)
 EQUIP_BACKGROUND_POSITION = position(651, 30)
+# EQUIP_NAME_POSITION = position(741, 52)    # 装备名位置
+# 装备内部的坐标要基于当前装备坐标
+EQUIP_NAME_POSITION = position(50, 2)
+EQUIP_INFO_POSITION = position(50, 24)
+EQUIP_LOCATION_POSITION = position(220, 2)
+EQUIP_EMBEDDING_POSITION = position(220, 18)
+
 # 两个图标之间的间距
 EQUIP_ICON_SPACE = 52
 TALENT_ICON_VERTICAL_SPACE = 52
@@ -29,6 +37,7 @@ TALENT_ICON_SIZE = size(36, 36)
 ATTRIBUTE_BACKGROUND_SIZE = size(545, 245)
 TALENT_BACKGROUND_SIZE = size(545, 259)
 EQUIP_BACKGROUND_SIZE = size(575, 664)
+EQUIP_EMBEDDING_SIZE = size(18, 18)
 # 颜色
 BACKGROUND_COLOR = rgba(155, 152, 172, 255)
 ATTRIBUTE_BACKGROUND_COLOR = rgb(235, 171, 124)
@@ -38,6 +47,8 @@ EQUIP_BACKGROUND_COLOR = rgb(235, 171, 124)
 BACKGROUNDS_RADIUS = 10
 # 字号
 TALENT_TEXT_SIZE = 25
+EQUIP_NAME_TEXT_SIZE = 15
+EQUIP_INFO_TEXT_SIZE = 12
 
 BACKGROUNDS = (
     (ATTRIBUTE_BACKGROUND_POSITION, ATTRIBUTE_BACKGROUND_SIZE, ATTRIBUTE_BACKGROUND_COLOR),
@@ -92,7 +103,7 @@ class EquipPictureCreator:
         :return:
         """
         self._add_backgrounds = self._check_background(self._add_backgrounds)
-        self._add_equip_icon = self._check_background(self._add_equip_icon)
+        self._add_equip_icon = self._check_background(self._add_equip_info)
         self._add_talent_icon = self._check_background(self._add_talent_info)
 
 
@@ -106,9 +117,9 @@ class EquipPictureCreator:
             _right_bottom = position(_position.x + _size.width, _position.y + _size.height)
             self._background.rounded_rectangle((_position, _right_bottom), fill=_color, radius=BACKGROUNDS_RADIUS, width=0)
 
-    def _add_equip_icon(self):
+    def _add_equip_info(self):
         """
-        向背景图添加装备图标的方法\n
+        向背景图添加装备图标和装备信息的方法\n
         :return:
         """
         pos_y = EQUIP_ICON_POSITION.y
@@ -121,9 +132,14 @@ class EquipPictureCreator:
         icons = get_equip_icon(icon_id=icon_ids, icon_size=EQUIP_ICON_SIZE)
         icon_keys = list(self._equip_data.keys())
         for index_y in range(12):
+            # 添加图标
             _pos = (EQUIP_ICON_POSITION.x, pos_y)
             _equip = self._equip_data[icon_keys[index_y]]
             self.background.paste(icons[index_y], _pos)
+            # 过滤无数据装备
+            if _equip is None:
+                pos_y += EQUIP_ICON_SPACE
+                continue
             # 添加边框
             if _equip.strength != _equip.max_strength_level:
                 # 普通装备框
@@ -134,8 +150,28 @@ class EquipPictureCreator:
             # 处理透明图像
             _, _, _, alpha = border.split()
             self.background.paste(border, _pos, mask=alpha)
+            # 添加装备名
+            font.size = EQUIP_NAME_TEXT_SIZE
+            self._background.text(pos_add(_pos, EQUIP_NAME_POSITION), _equip.name, font=font.font)
+            # 添加装备信息
+            font.size = EQUIP_INFO_TEXT_SIZE
+            # 翻译装备介绍
+            brief = ""
+            for slot in _equip.equip_data['_Attrs']:
+                if slot in short_attr_dict:
+                    brief += f"{short_attr_dict[slot]} "
+            self._background.text(pos_add(_pos, EQUIP_INFO_POSITION), f"{_equip.level} {brief}", font=font.font)
+            # 添加部位名称
+            self._background.text(pos_add(_pos, EQUIP_LOCATION_POSITION), location_dict[icon_keys[index_y]], font=font.font)
+            # 添加镶嵌
+            if _equip.embedding is not None:
+                for index, embedding_lv in enumerate(_equip.embedding.values()):
+                    _img = Image.open(rf'Sources/Jx3_Datas/jx3basic_icons/embedding_{embedding_lv}.png').resize(EQUIP_EMBEDDING_SIZE)
+                    _sub_pos = (EQUIP_EMBEDDING_POSITION.x + index*EQUIP_EMBEDDING_SIZE.width + index*2, EQUIP_EMBEDDING_POSITION.y)
+                    self.background.paste(_img, pos_add(_pos, _sub_pos))
 
             pos_y += EQUIP_ICON_SPACE
+
 
 
     def _add_talent_info(self, talent_list: List[str]):

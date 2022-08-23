@@ -9,7 +9,7 @@ from collections import namedtuple
 import requests
 from PIL import Image, ImageFont
 from PIL.ImageFont import FreeTypeFont
-from typing import Tuple, List
+from typing import Tuple, List, Union
 from os import getcwd
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
@@ -19,10 +19,10 @@ class MyFont:
     实现对字体大小的直接设置
     """
 
-    def __init__(self, path):
+    def __init__(self, path, size=None):
         self._path = path
         self._instance = None
-        self.size = None
+        self.size = size
 
     @property
     def font(self):
@@ -31,7 +31,7 @@ class MyFont:
         return self._instance
 
     def __setattr__(self, key, value):
-        if key == 'size' and value is not None:
+        if key == 'size' and value is not None and value != self.size:
             self._instance = ImageFont.truetype(self._path, size=value)
         else:
             super(MyFont, self).__setattr__(key, value)
@@ -48,6 +48,16 @@ rgba = namedtuple("rgba", ['r', 'g', 'b', 'a'])
 
 pool = ThreadPoolExecutor(12)
 equip_icons = [i.replace('.png', '') for i in os.listdir(r'Sources/Jx3_Datas/equip_icons') if i.endswith('.png')]
+
+
+def pos_add(item1: Tuple[int, int], item2: Tuple[int, int]) -> Tuple:
+    """
+    将坐标按位相加
+    :param item1:
+    :param item2:
+    :return:
+    """
+    return (item1[0] + item2[0], item1[1] + item2[1])
 
 
 
