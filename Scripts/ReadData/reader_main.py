@@ -88,8 +88,8 @@ class FileReader:
             'PENDANT': self._equip['PENDANT'],
             'RING_1': self._equip['RING_1'],
             'RING_2': self._equip['RING_2'],
-            'PRIMARY_WEAPON': self._equip['PRIMARY_WEAPON'],
             'SECONDARY_WEAPON': self._equip['SECONDARY_WEAPON'],
+            'PRIMARY_WEAPON': self._equip['PRIMARY_WEAPON'],
         }
 
     @property

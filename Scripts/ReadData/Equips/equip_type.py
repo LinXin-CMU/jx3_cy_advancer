@@ -18,6 +18,7 @@ class _Equip:
         self.max_strength_level = None  # 最大精炼等级
         self.embedding = None  # 镶嵌
         self.enhance = None  # 小附魔
+        self.enhance_name = None
         self.enchant = None  # 大附魔
         self.stone = None  # 五彩石
 
@@ -180,6 +181,7 @@ class _Equip:
                 enhance_data = enchant['enhance'][enhance_id]
                 # 记录小附魔名称
                 self.enhance = enhance_data['AttriName'][:-1]
+                self.enhance_name = enhance_data['Name']
                 # 添加小附魔属性
                 if enhance_data["Attribute1ID"] not in self.changed_attrs['MagicAttrs']:
                     self.changed_attrs['MagicAttrs'][enhance_data["Attribute1ID"]] = max(

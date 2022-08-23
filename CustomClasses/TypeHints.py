@@ -21,7 +21,8 @@ class Equip:
     strength: Any  # 精炼
     max_strength_level: Any     # 最大精炼
     embedding: Any  # 镶嵌
-    enchance: Any  # 小附魔
+    enhance: Any  # 小附魔
+    enhance_name: Any
     enchant: Any  # 大附魔
     stone: Any   # 五彩石
     attrs: Any

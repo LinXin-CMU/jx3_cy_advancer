@@ -17,7 +17,7 @@ class PlayerEquip:
         # self.attributes = None
         # 装备属性名序列
         self._equip_name = ["HAT", "JACKET", "BELT", "WRIST", "BOTTOMS", "SHOES", "NECKLACE", "PENDANT", "RING_1",
-                            "RING_2", "PRIMARY_WEAPON", "SECONDARY_WEAPON"]
+                            "RING_2", "SECONDARY_WEAPON", "PRIMARY_WEAPON"]
 
 
     def __getitem__(self, item) -> Equip | None:

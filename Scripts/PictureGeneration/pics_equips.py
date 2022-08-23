@@ -24,12 +24,17 @@ EQUIP_NAME_POSITION = position(50, 2)
 EQUIP_INFO_POSITION = position(50, 24)
 EQUIP_LOCATION_POSITION = position(220, 2)
 EQUIP_EMBEDDING_POSITION = position(220, 18)
+EQUIP_ENCHANT_ICON_POSITION = position(320, 18)
+EQUIP_ENHANCE_ICON_POSITION = position(320, 0)
+EQUIP_ENCHANT_INFO_POSITION = position(345, 20)
+EQUIP_ENHANCE_INFO_POSITION = position(345, 2)
 
 # 两个图标之间的间距
 EQUIP_ICON_SPACE = 52
 TALENT_ICON_VERTICAL_SPACE = 52
 TALENT_ICON_HORIZONTAL_SPACE = 160
 TALENT_ICON_TEXT_HORIZONTAL_SPACE = 20   # 奇穴图标到奇穴文本间距离
+EQUIP_EMBEDDING_ICON_SPACE = 20
 # 大小
 BACKGROUND_SIZE = size(1280, 720)
 EQUIP_ICON_SIZE = size(36, 36)
@@ -38,6 +43,7 @@ ATTRIBUTE_BACKGROUND_SIZE = size(545, 245)
 TALENT_BACKGROUND_SIZE = size(545, 259)
 EQUIP_BACKGROUND_SIZE = size(575, 664)
 EQUIP_EMBEDDING_SIZE = size(18, 18)
+EQUIP_ENCHANT_SIZE = size(18, 18)
 # 颜色
 BACKGROUND_COLOR = rgba(155, 152, 172, 255)
 ATTRIBUTE_BACKGROUND_COLOR = rgb(235, 171, 124)
@@ -124,11 +130,11 @@ class EquipPictureCreator:
         """
         pos_y = EQUIP_ICON_POSITION.y
         icon_ids = []
-        for i in self._equip_data.values():
-            if i is not None:
-                icon_ids.append(i.equip_data['_IconID'])
+        for key, value in self._equip_data.items():
+            if value is not None:
+                icon_ids.append(value.equip_data['_IconID'])
             else:
-                icon_ids.append('empty')
+                icon_ids.append(key)
         icons = get_equip_icon(icon_id=icon_ids, icon_size=EQUIP_ICON_SIZE)
         icon_keys = list(self._equip_data.keys())
         for index_y in range(12):
@@ -167,8 +173,17 @@ class EquipPictureCreator:
             if _equip.embedding is not None:
                 for index, embedding_lv in enumerate(_equip.embedding.values()):
                     _img = Image.open(rf'Sources/Jx3_Datas/jx3basic_icons/embedding_{embedding_lv}.png').resize(EQUIP_EMBEDDING_SIZE)
-                    _sub_pos = (EQUIP_EMBEDDING_POSITION.x + index*EQUIP_EMBEDDING_SIZE.width + index*2, EQUIP_EMBEDDING_POSITION.y)
+                    _sub_pos = (EQUIP_EMBEDDING_POSITION.x + index * EQUIP_EMBEDDING_ICON_SPACE, EQUIP_EMBEDDING_POSITION.y)
                     self.background.paste(_img, pos_add(_pos, _sub_pos))
+            # 添加小附魔
+            if _equip.enhance_name is not None:
+                _img = Image.open(r'Sources/Jx3_Datas/jx3basic_icons/enhance.png', 'r').resize(EQUIP_ENCHANT_SIZE)
+                self.background.paste(_img, pos_add(_pos, EQUIP_ENHANCE_ICON_POSITION))
+                self._background.text(pos_add(_pos, EQUIP_ENHANCE_INFO_POSITION), _equip.enhance_name, font=font.font)
+            if _equip.enchant is not None and _equip.enchant != '无大附魔':
+                _img = Image.open(r'Sources/Jx3_Datas/jx3basic_icons/enchant.png', 'r').resize(EQUIP_ENCHANT_SIZE)
+                self.background.paste(_img, pos_add(_pos, EQUIP_ENCHANT_ICON_POSITION))
+                self._background.text(pos_add(_pos, EQUIP_ENCHANT_INFO_POSITION), _equip.enchant, font=font.font)
 
             pos_y += EQUIP_ICON_SPACE
 
