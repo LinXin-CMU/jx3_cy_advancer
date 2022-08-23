@@ -5,6 +5,7 @@
 """
 
 from PyQt5.QtWidgets import QMainWindow, QLabel, QInputDialog, QLineEdit
+from PyQt5.QtCore import Qt
 from win32clipboard import OpenClipboard, CloseClipboard, SetClipboardText, EmptyClipboard
 
 from Scripts.UI.UI_Base.ui_base import BaseUi
@@ -104,21 +105,23 @@ class Calculator_UI(BaseUi):
         json_attribute = eval(attribute.json_attributes)
         # 1. 在指定坐标生成QLabel
         attack_y_range = range(66, 290, 30)
-        defense_y_range = range(330, 511, 30)
-        x_pos = 450
+        defense_y_range = range(335, 516, 30)
+        x_pos = 427
         for index, y in enumerate(attack_y_range):
             # 这两种是第一次加载时的情况
             if self._attribute_labels is None:
                 label = QLabel(self.ui.groupBox_13)
                 self._attribute_labels = [label]
                 label.move(x_pos, y)
-                label.resize(120, 16)
+                label.resize(106, 16)
+                label.setAlignment(Qt.AlignRight)
                 label.setStyleSheet("QLabel{color: rgb(236, 99, 65);}")
             elif len(self._attribute_labels) < 15:
                 label = QLabel(self.ui.groupBox_13)
                 self._attribute_labels.append(label)
                 label.move(x_pos, y)
-                label.resize(120, 16)
+                label.resize(106, 16)
+                label.setAlignment(Qt.AlignRight)
                 label.setStyleSheet("QLabel{color: rgb(236, 99, 65);}")
             # 这种是已经生成过label的情况
             else:
@@ -141,19 +144,22 @@ class Calculator_UI(BaseUi):
                 _text += f"({attribute['atHasteBase']})"
             label.setText(_text)
 
+        # 两部分属性间有间隔
         for index, y in enumerate(defense_y_range):
             # 这两种是第一次加载时的情况
             if self._attribute_labels is None:
                 label = QLabel(self.ui.groupBox_13)
                 self._attribute_labels = [label]
                 label.move(x_pos, y)
-                label.resize(120, 16)
+                label.resize(106, 16)
+                label.setAlignment(Qt.AlignRight)
                 label.setStyleSheet("QLabel{color: rgb(236, 99, 65);}")
             elif len(self._attribute_labels) < 15:
                 label = QLabel(self.ui.groupBox_13)
                 self._attribute_labels.append(label)
                 label.move(x_pos, y)
-                label.resize(120, 16)
+                label.resize(106, 16)
+                label.setAlignment(Qt.AlignRight)
                 label.setStyleSheet("QLabel{color: rgb(236, 99, 65);}")
             # 这种是已经生成过label的情况
             else:
@@ -178,20 +184,22 @@ class Calculator_UI(BaseUi):
         # 储存Attribute供生成图片使用
         self._attribute = attribute
         y_range = range(66, 397, 30)
-        x_pos = 620
+        x_pos = 550
         for index, talent in enumerate(attribute.player_talent):
             # 这两种是第一次加载时的情况
             if self._talent_labels is None:
                 label = QLabel(self.ui.groupBox_13)
                 self._talent_labels = [label]
                 label.move(x_pos, y_range[index])
-                label.resize(120, 16)
+                label.resize(81, 16)
+                label.setAlignment(Qt.AlignHCenter)
                 label.setStyleSheet("QLabel{color: rgb(236, 99, 65);}")
             elif len(self._talent_labels) < 12:
                 label = QLabel(self.ui.groupBox_13)
                 self._talent_labels.append(label)
                 label.move(x_pos, y_range[index])
-                label.resize(120, 16)
+                label.resize(81, 16)
+                label.setAlignment(Qt.AlignHCenter)
                 label.setStyleSheet("QLabel{color: rgb(236, 99, 65);}")
             # 这种是已经生成过label的情况
             else:

@@ -2,7 +2,7 @@
 # author: LinXin
 
 from .ImitationPlayer.player import Player
-from .CountSkill.skill_data_reshape import read_origin_skill_data
+from .CheckRecord.skill_data_reshape import read_origin_skill_data
 from CustomClasses.Exceptions import JclTypeError
 from CustomClasses.TypeHints import FileReader
 

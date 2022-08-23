@@ -3,7 +3,7 @@
 > * config.py -> 设置模块
 ## 2. JclAnalysis    
 > * analysis_main.py -> jcl分析模块顶层  
-> ### 1. CountSkill    
+> ### 1. CheckRecord    
 >> * skill_data_reshape.py -> 函数库, 用于为表格整理数据  
 > ### 2. GetMark  
 >> * used_events.py -> 评分用数据
