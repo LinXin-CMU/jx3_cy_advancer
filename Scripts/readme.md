@@ -1,9 +1,7 @@
 # 剑网3苍云助手逻辑结构  
 ## 1. Config
-> * config.py -> 设置模块  
-## 2. GetData  
-> * ...  
-## 3. JclAnalysis    
+> * config.py -> 设置模块
+## 2. JclAnalysis    
 > * analysis_main.py -> jcl分析模块顶层  
 > ### 1. CountSkill    
 >> * skill_data_reshape.py -> 函数库, 用于为表格整理数据  
@@ -11,7 +9,7 @@
 >> * used_events.py -> 评分用数据
 > ### 3. ImitationPlayer  
 >> * player.py -> 读取buff状态, 记录技能释放时所存在的buff供复盘和评价使用  
-## 4. ReadData  
+## 3. ReadData  
 > * reader_main -> jcl读取模块顶层
 > ### 1. Equips
 >> * attribute_calc.py -> 装备属性计算
@@ -21,7 +19,7 @@
 > ### 2. FileReader
 >> * file_reader.py -> 读取jcl文件
 >> * type_reader.py -> 针对jcl文件每行类型进行原始整理
-## 5. UI
+## 4. UI
 > * ui_main.py -> 顶层ui类, 负责ui初始化及下层页面调用
 > ### 1. UI_Base
 >> * ui.py -> .ui文件
@@ -33,7 +31,7 @@
 >> * ui_equip_setting.py -> 精炼镶嵌设置页面功能实现
 >> * ui_retro.py -> 复盘页面功能实现
 >> * ui_top.py -> 首页部分功能实现
-## 6. PictureGeneration
+## 5. PictureGeneration
 > * pics_setting.py -> 图片生成模块的基础设置和公用变量
 > * pics_equips.py -> 配装图片
  
