@@ -40,6 +40,8 @@ benefic_buffs = {
         20938_1: {'szName': '左旋右转', 'nLevel': 1, 'szType': 'player', 'tOriginType': 'buff', 'attrs': {'atSurplusValueBase': 500}},
         23573_1: {'szName': '泠风解怀', 'nLevel': 1, 'szType': 'player', 'tOriginType': 'buff', 'attrs': {'atAllDamageAddPercent': 100}},
         # 特殊武器
+        3098_1: {'szName': '曼舞', 'nLevel': 1, 'szType': 'player', 'tOriginType': 'buff', 'attrs': {'atStrainBase': 2}},
+        3098_2: {'szName': '曼舞', 'nLevel': 2, 'szType': 'player', 'tOriginType': 'buff', 'attrs': {'atStrainBase': 17}},
         16330_1: {'szName': '穿林', 'nLevel': 1, 'szType': 'npc', 'tOriginType': 'buff', 'attrs': {'atPhysicsDamageCoefficient': 20, 'atLunarDamageCoefficient': 20, 'atNeutralDamageCoefficient': 20, 'atPoisonDamageCoefficient': 20, 'atSolarDamageCoefficient': 20}},
         16330_2: {'szName': '穿林', 'nLevel': 2, 'szType': 'npc', 'tOriginType': 'buff', 'attrs': {'atPhysicsDamageCoefficient': 31, 'atLunarDamageCoefficient': 31, 'atNeutralDamageCoefficient': 31, 'atPoisonDamageCoefficient': 31, 'atSolarDamageCoefficient': 31}},
         16330_3: {'szName': '穿林', 'nLevel': 3, 'szType': 'npc', 'tOriginType': 'buff', 'attrs': {'atPhysicsDamageCoefficient': 31, 'atLunarDamageCoefficient': 31, 'atNeutralDamageCoefficient': 31, 'atPoisonDamageCoefficient': 31, 'atSolarDamageCoefficient': 31}},
