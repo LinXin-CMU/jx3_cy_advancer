@@ -25,6 +25,10 @@ class Retro_UI(BaseUi):
         # self._nearest_be_clicked = 0
         # 附表行号和id的对照
         self._target_table_id = []
+        # TabWidget基本设置
+        # self.ui.tabWidget.setLayoutDirection(Qt.RightToLeft)
+        self.ui.tabWidget.setAttribute(Qt.WA_StyledBackground)
+        self.ui.tabWidget.setCurrentIndex(0)
         # pyqtgraph初始化
         self.ui.graphicsView.setBackground((247, 245, 243))
         self.ui.graphicsView.setMenuEnabled(False)
@@ -49,7 +53,7 @@ class Retro_UI(BaseUi):
         # self.target_label.move(760, 550)
         for index, label in enumerate([self.time_label, self.damage_label, self.target_label]):
             label.resize(100, 16)
-            label.move((index+5)*100+57, 550)
+            label.move((index+5)*100+57, 690)
             label.setStyleSheet("QLabel{color: rgb(227, 91, 57);}")
         # 记录当前坐标点的数据，便于展示
         self._points_datas = {}

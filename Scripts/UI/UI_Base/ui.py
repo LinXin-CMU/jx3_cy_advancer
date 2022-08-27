@@ -827,8 +827,74 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.page)
         self.page_1 = QtWidgets.QWidget()
         self.page_1.setObjectName("page_1")
-        self.groupBox_4 = QtWidgets.QGroupBox(self.page_1)
-        self.groupBox_4.setGeometry(QtCore.QRect(20, 50, 861, 741))
+        self.groupBox_12 = QtWidgets.QGroupBox(self.page_1)
+        self.groupBox_12.setGeometry(QtCore.QRect(20, 10, 131, 31))
+        self.groupBox_12.setStyleSheet("QGroupBox{\n"
+"    border-radius:4px;\n"
+"    border:none;\n"
+"    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(77, 92, 115, 255), stop:1 rgba(255, 255, 255, 0));\n"
+"}\n"
+"")
+        self.groupBox_12.setTitle("")
+        self.groupBox_12.setObjectName("groupBox_12")
+        self.label_106 = QtWidgets.QLabel(self.groupBox_12)
+        self.label_106.setGeometry(QtCore.QRect(10, 0, 51, 31))
+        self.label_106.setStyleSheet("QLabel{\n"
+"    font: 12pt \"黑体\";\n"
+"    color: rgb(255, 255, 255);\n"
+"}")
+        self.label_106.setObjectName("label_106")
+        self.tabWidget = QtWidgets.QTabWidget(self.page_1)
+        self.tabWidget.setGeometry(QtCore.QRect(20, 40, 861, 761))
+        self.tabWidget.setAutoFillBackground(False)
+        self.tabWidget.setStyleSheet("QWidget#tab, QWidget#tab_2， QWidget#tab_3{\n"
+"    background-color: rgb(226, 221, 215);\n"
+"    border: none;\n"
+"}\n"
+"QWidget#tabWidget{\n"
+"    border: none;\n"
+"}\n"
+"QTabWidget:tab-bar{\n"
+"    border: none;\n"
+"    top: -10px;\n"
+"}\n"
+"QTabWidget:pane{\n"
+"    margin-bottom: -20px;\n"
+"}\n"
+"QTabBar:tab{\n"
+"    width: 287px;\n"
+"    height: 30px;\n"
+"    font-size: 12pt;\n"
+"    font-family: \"SimHei\";\n"
+"    font-weight: 400;\n"
+"    color: rgb(170, 128, 128);\n"
+"    background-color: rgb(226, 221, 215);\n"
+"}\n"
+"QTabBar:tab:first{\n"
+"    border-bottom-left-radius:5px;\n"
+"}\n"
+"QTabBar:tab:last{\n"
+"    border-bottom-right-radius:5px;\n"
+"}\n"
+"QTabBar:tab:selected{\n"
+"    background-color: rgb(247, 245, 243);\n"
+"    border-bottom-right-radius:5px;\n"
+"    border-bottom-left-radius:5px;\n"
+"    color: rgb(236, 149, 120);\n"
+"    font-size: 13pt;\n"
+"}\n"
+"")
+        self.tabWidget.setTabPosition(QtWidgets.QTabWidget.South)
+        self.tabWidget.setTabShape(QtWidgets.QTabWidget.Rounded)
+        self.tabWidget.setUsesScrollButtons(True)
+        self.tabWidget.setDocumentMode(True)
+        self.tabWidget.setTabsClosable(False)
+        self.tabWidget.setTabBarAutoHide(True)
+        self.tabWidget.setObjectName("tabWidget")
+        self.tab = QtWidgets.QWidget()
+        self.tab.setObjectName("tab")
+        self.groupBox_4 = QtWidgets.QGroupBox(self.tab)
+        self.groupBox_4.setGeometry(QtCore.QRect(0, 10, 861, 711))
         self.groupBox_4.setStyleSheet("QLabel{\n"
 "    font-size:10pt;\n"
 "    font-family:\"黑体\";\n"
@@ -837,6 +903,9 @@ class Ui_MainWindow(object):
 "QGroupBox{\n"
 "    border:none;\n"
 "    background-color: rgb(247, 245, 243);\n"
+"    border-radius: 0px;\n"
+"    border-top-left-radius: 5px;\n"
+"    border-top-right-radius: 5px;\n"
 "    \n"
 "}\n"
 "QGroupBox#groupBox_3{\n"
@@ -871,7 +940,7 @@ class Ui_MainWindow(object):
         self.SummaryLabel_Bossname.setText("")
         self.SummaryLabel_Bossname.setObjectName("SummaryLabel_Bossname")
         self.Retro_skill_data_table = QtWidgets.QTableWidget(self.groupBox_4)
-        self.Retro_skill_data_table.setGeometry(QtCore.QRect(20, 20, 470, 391))
+        self.Retro_skill_data_table.setGeometry(QtCore.QRect(20, 20, 470, 491))
         self.Retro_skill_data_table.setStyleSheet("QHeaderView {\n"
 "    width: 20px;\n"
 "}")
@@ -931,14 +1000,8 @@ class Ui_MainWindow(object):
         self.Retro_skill_info_table.verticalHeader().setVisible(False)
         self.Retro_skill_info_table.verticalHeader().setDefaultSectionSize(20)
         self.Retro_skill_info_table.verticalHeader().setMinimumSectionSize(10)
-        self.groupBox_5 = QtWidgets.QGroupBox(self.groupBox_4)
-        self.groupBox_5.setGeometry(QtCore.QRect(20, 590, 821, 131))
-        self.groupBox_5.setStyleSheet("QGroupBox{\n"
-"    background-color: rgb(85, 170, 255);\n"
-"}")
-        self.groupBox_5.setObjectName("groupBox_5")
         self.Retro_skill_target_table = QtWidgets.QTableWidget(self.groupBox_4)
-        self.Retro_skill_target_table.setGeometry(QtCore.QRect(20, 430, 470, 141))
+        self.Retro_skill_target_table.setGeometry(QtCore.QRect(20, 540, 470, 151))
         self.Retro_skill_target_table.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
         self.Retro_skill_target_table.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.Retro_skill_target_table.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
@@ -963,13 +1026,13 @@ class Ui_MainWindow(object):
         self.Retro_skill_target_table.verticalHeader().setDefaultSectionSize(15)
         self.Retro_skill_target_table.verticalHeader().setMinimumSectionSize(0)
         self.graphicsView = PlotWidget(self.groupBox_4)
-        self.graphicsView.setGeometry(QtCore.QRect(510, 140, 331, 391))
+        self.graphicsView.setGeometry(QtCore.QRect(510, 150, 331, 511))
         self.graphicsView.setStyleSheet("PlotWidget{\n"
 "    border-radius: 8px;\n"
 "}")
         self.graphicsView.setObjectName("graphicsView")
         self.groupBox_17 = QtWidgets.QGroupBox(self.groupBox_4)
-        self.groupBox_17.setGeometry(QtCore.QRect(550, 110, 261, 21))
+        self.groupBox_17.setGeometry(QtCore.QRect(550, 120, 261, 21))
         self.groupBox_17.setStyleSheet("QLabel{\n"
 "    \n"
 "    font: 10pt \"黑体\";\n"
@@ -1001,37 +1064,45 @@ class Ui_MainWindow(object):
         self.label_9.setGeometry(QtCore.QRect(70, 7, 31, 16))
         self.label_9.setObjectName("label_9")
         self.line = QtWidgets.QFrame(self.groupBox_4)
-        self.line.setGeometry(QtCore.QRect(510, 562, 331, 16))
+        self.line.setGeometry(QtCore.QRect(510, 680, 331, 16))
         self.line.setFrameShape(QtWidgets.QFrame.HLine)
         self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line.setObjectName("line")
         self.label_10 = QtWidgets.QLabel(self.groupBox_4)
-        self.label_10.setGeometry(QtCore.QRect(520, 550, 41, 16))
+        self.label_10.setGeometry(QtCore.QRect(520, 668, 41, 16))
         self.label_10.setStyleSheet("")
         self.label_10.setObjectName("label_10")
         self.label_11 = QtWidgets.QLabel(self.groupBox_4)
-        self.label_11.setGeometry(QtCore.QRect(620, 550, 71, 16))
+        self.label_11.setGeometry(QtCore.QRect(620, 668, 71, 16))
         self.label_11.setObjectName("label_11")
         self.label_46 = QtWidgets.QLabel(self.groupBox_4)
-        self.label_46.setGeometry(QtCore.QRect(720, 550, 71, 16))
+        self.label_46.setGeometry(QtCore.QRect(720, 668, 71, 16))
         self.label_46.setObjectName("label_46")
-        self.groupBox_12 = QtWidgets.QGroupBox(self.page_1)
-        self.groupBox_12.setGeometry(QtCore.QRect(20, 10, 131, 31))
-        self.groupBox_12.setStyleSheet("QGroupBox{\n"
-"    border-radius:4px;\n"
-"    border:none;\n"
-"    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(77, 92, 115, 255), stop:1 rgba(255, 255, 255, 0));\n"
-"}\n"
-"")
-        self.groupBox_12.setTitle("")
-        self.groupBox_12.setObjectName("groupBox_12")
-        self.label_106 = QtWidgets.QLabel(self.groupBox_12)
-        self.label_106.setGeometry(QtCore.QRect(10, 0, 51, 31))
-        self.label_106.setStyleSheet("QLabel{\n"
-"    font: 12pt \"黑体\";\n"
-"    color: rgb(255, 255, 255);\n"
+        self.tabWidget.addTab(self.tab, "")
+        self.tab_2 = QtWidgets.QWidget()
+        self.tab_2.setObjectName("tab_2")
+        self.groupBox_5 = QtWidgets.QGroupBox(self.tab_2)
+        self.groupBox_5.setGeometry(QtCore.QRect(0, 10, 861, 711))
+        self.groupBox_5.setStyleSheet("QGroupBox{\n"
+"    border-radius: 0px;\n"
+"    border-top-left-radius: 5px;\n"
+"    border-top-right-radius: 5px;\n"
 "}")
-        self.label_106.setObjectName("label_106")
+        self.groupBox_5.setTitle("")
+        self.groupBox_5.setObjectName("groupBox_5")
+        self.tabWidget.addTab(self.tab_2, "")
+        self.tab_3 = QtWidgets.QWidget()
+        self.tab_3.setObjectName("tab_3")
+        self.groupBox_10 = QtWidgets.QGroupBox(self.tab_3)
+        self.groupBox_10.setGeometry(QtCore.QRect(0, 10, 861, 711))
+        self.groupBox_10.setStyleSheet("QGroupBox{\n"
+"    border-radius: 0px;\n"
+"    border-top-left-radius: 5px;\n"
+"    border-top-right-radius: 5px;\n"
+"}")
+        self.groupBox_10.setTitle("")
+        self.groupBox_10.setObjectName("groupBox_10")
+        self.tabWidget.addTab(self.tab_3, "")
         self.stackedWidget.addWidget(self.page_1)
         self.page_2 = QtWidgets.QWidget()
         self.page_2.setObjectName("page_2")
@@ -3615,7 +3686,8 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(2)
+        self.stackedWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -3700,6 +3772,7 @@ class Ui_MainWindow(object):
         self.label_23.setText(_translate("MainWindow", "有"))
         self.EquipInfoButton.setText(_translate("MainWindow", "查看详细信息"))
         self.export_excel_button.setText(_translate("MainWindow", "导出为Excel"))
+        self.label_106.setText(_translate("MainWindow", "·复盘"))
         item = self.Retro_skill_data_table.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "#"))
         item = self.Retro_skill_data_table.horizontalHeaderItem(2)
@@ -3733,7 +3806,6 @@ class Ui_MainWindow(object):
         item = self.Retro_skill_info_table.item(2, 0)
         item.setText(_translate("MainWindow", "偏离"))
         self.Retro_skill_info_table.setSortingEnabled(__sortingEnabled)
-        self.groupBox_5.setTitle(_translate("MainWindow", "GroupBox"))
         item = self.Retro_skill_target_table.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "#"))
         item = self.Retro_skill_target_table.horizontalHeaderItem(2)
@@ -3751,7 +3823,9 @@ class Ui_MainWindow(object):
         self.label_10.setText(_translate("MainWindow", "时间："))
         self.label_11.setText(_translate("MainWindow", "伤害："))
         self.label_46.setText(_translate("MainWindow", "目标："))
-        self.label_106.setText(_translate("MainWindow", "·复盘"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "技 能"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "循 环"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), _translate("MainWindow", "增 益"))
         self.label_97.setText(_translate("MainWindow", "帽子"))
         self.equip_hat_name.setText(_translate("MainWindow", "无"))
         self.equip_hat_enchance.setText(_translate("MainWindow", "无"))

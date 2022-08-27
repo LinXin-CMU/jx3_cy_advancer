@@ -47,7 +47,9 @@ class Player:
     def skill_events_by_time(self):
         return self._skill_event_by_time_and_target
 
-
+    @property
+    def skill_events_by_id(self):
+        return self._skill_event_by_id
 
     def update(self, data: Dict[int, Dict], player_id: int, npc_id: List):
         """
@@ -71,6 +73,7 @@ class Player:
             item: Dict[str, Union[int, str, Dict]]
             self._type_update(item)
         # print(*[f"{i}: {j}\n" for i, j in self._skill.items()])
+        pass
 
     def _type_update(self, item: Dict[str, Union[int, str, Dict]]):
         """
@@ -147,21 +150,26 @@ class Player:
             else:
                 old_buff = self._waiting_buffs.pop(new_buff_id)
                 if new_buff_id in self._buff:
-                    self._buff[new_buff_id][old_buff[0]] = (msec, old_buff[1], old_buff[2])
+                    self._buff[new_buff_id][old_buff[0]] = (msec, old_buff[1], old_buff[2], old_buff[3])
+                    # [add_time] = (del_time, nLevel, nStackNum, dwSkillSrcID)
                 else:
-                    self._buff[new_buff_id] = {old_buff[0]: (msec, old_buff[1], old_buff[2])}
+                    self._buff[new_buff_id] = {old_buff[0]: (msec, old_buff[1], old_buff[2], old_buff[3])}
         else:
+            # 判断来源id
+            src_id = data['dwSkillSrcID']
+            if src_id == 0:
+                src_id = data['dwPlayerID']
             # 添加该buff的情况
             if new_buff_id in self._waiting_buffs:
                 # 判断等级
                 if data['nLevel'] >= self._waiting_buffs[new_buff_id][1]:
                     # 添加新buff
-                    self._waiting_buffs[new_buff_id] = (msec, data['nLevel'], data['nStackNum'])
+                    self._waiting_buffs[new_buff_id] = (msec, data['nLevel'], data['nStackNum'], src_id)
                 else:
                     return
             else:
                 # 直接添加
-                self._waiting_buffs[new_buff_id] = (msec, data['nLevel'], data['nStackNum'])
+                self._waiting_buffs[new_buff_id] = (msec, data['nLevel'], data['nStackNum'], src_id)
 
     def _cast_skill(self, msec: int, data: Dict[str, Union[int, str, Dict]], *, status: Literal["dodge"] | None = None):
         """
@@ -228,6 +236,7 @@ class Player:
                     "bCritical": data['bCriticalStrike'],
                     "tResult": data['tResultCount'],
                     "tBuffs": {buff_id: (buff_data[1], buff_data[2]) for buff_id, buff_data in self._waiting_buffs.items()}
+                    #                   (level, layer)
                 }
             else:
                 self._skill_event_by_time_and_target[_target] = {msec: {
@@ -244,15 +253,15 @@ class Player:
             write_data = {
                 "bCritical": data['bCriticalStrike'],
                 "tResult": data['tResultCount'],
-                "tBuffs": {buff_id: (buff_data[1], buff_data[2]) for buff_id, buff_data in self._waiting_buffs.items()}
+                "tBuffs": {buff_id: (buff_data[1], buff_data[2], buff_data[3]) for buff_id, buff_data in self._waiting_buffs.items()}
             }
             if skill_id in self._skill_event_by_id:
                 if skill_level in self._skill_event_by_id[skill_id]:
                     self._skill_event_by_id[skill_id][skill_level].update({msec: write_data})
                 else:
-                    self._skill_event_by_id[skill_id][skill_level] = {msec: write_data}
+                    self._skill_event_by_id[skill_id][skill_level] = {"szName": data['szName'], msec: write_data}
             else:
-                self._skill_event_by_id[skill_id] = {skill_level: {msec: write_data}}
+                self._skill_event_by_id[skill_id] = {skill_level: {"szName": data['szName'], msec: write_data}}
 
 
 

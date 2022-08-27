@@ -6,7 +6,7 @@ from numpy import mean
 total_damage = 0
 
 
-def _check_damages(tResult: Dict, new_result: Dict, *, critical=0, msc=None):
+def _check_damages(tResult: Dict, new_result: Dict, *, critical=0, msec=None):
     """
     用于更新技能效果的函数
     :param tResult:
@@ -30,17 +30,17 @@ def _check_damages(tResult: Dict, new_result: Dict, *, critical=0, msc=None):
         if critical:
             if tResult['critical'] is None:
                 tResult['critical'] = [dmg]
-                tResult['critical_time'] = [msc]
+                tResult['critical_time'] = [msec]
             else:
                 tResult['critical'].append(dmg)
-                tResult['critical_time'].append(msc)
+                tResult['critical_time'].append(msec)
         else:
             if tResult['normal'] is None:
                 tResult['normal'] = [dmg]
-                tResult['normal_time'] = [msc]
+                tResult['normal_time'] = [msec]
             else:
                 tResult['normal'].append(dmg)
-                tResult['normal_time'].append(msc)
+                tResult['normal_time'].append(msec)
 
     return tResult
 
@@ -73,8 +73,8 @@ def _reshape_to_table(data: Dict[int, Dict[str, Union[str, int, Dict[str, Union[
     #         },
     #         'tResult': {
     #             伤害类型已s被合并
-    #             'normal': {msc: dmg},
-    #             'critical': {msc: dmg},
+    #             'normal': {msec: dmg},
+    #             'critical': {msec: dmg},
     #         },
     #         'result_final': {
     #             'normal': {
@@ -123,7 +123,7 @@ def _reshape_to_table(data: Dict[int, Dict[str, Union[str, int, Dict[str, Union[
         except KeyError:
             target_name = "未知目标"
 
-        for msc, skill_data in tar_data.items():
+        for msec, skill_data in tar_data.items():
             # 每个技能的dict
             skill_name = skill_data['szName']
             skill_id = skill_data['dwID']
@@ -154,8 +154,8 @@ def _reshape_to_table(data: Dict[int, Dict[str, Union[str, int, Dict[str, Union[
                 # 先存到一个local地址，待当前目标统计完再加入到总记录nDodge
                 _sk['_now_dodge'] += _dodge
                 # 先存到一个local地址，待当前目标统计完再加入到总记录tResult
-                _sk['_now_result'] = _check_damages(_sk['_now_result'], skill_data['tResult'], critical=_critical, msc=msc)
-                _sk['_now_target'].update({msc: target_name})
+                _sk['_now_result'] = _check_damages(_sk['_now_result'], skill_data['tResult'], critical=_critical, msec=msec)
+                _sk['_now_target'].update({msec: target_name})
             else:
                 _skill[skill_name] = {
                     'dwID': {skill_id},
@@ -163,8 +163,8 @@ def _reshape_to_table(data: Dict[int, Dict[str, Union[str, int, Dict[str, Union[
                     'nCritical': _critical,
                     'nDodge': 0,
                     '_now_dodge': _dodge,
-                    '_now_result': _check_damages({}, skill_data['tResult'], critical=_critical, msc=msc),
-                    '_now_target': {msc: target_name},
+                    '_now_result': _check_damages({}, skill_data['tResult'], critical=_critical, msec=msec),
+                    '_now_target': {msec: target_name},
                     'tResult': {'normal': dict(), 'critical': dict()},
                     'targets': dict()
                 }

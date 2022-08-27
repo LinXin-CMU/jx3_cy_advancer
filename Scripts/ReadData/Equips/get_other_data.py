@@ -10,6 +10,7 @@ from typing import Literal
 personal_data = {}
 lock = Lock()
 
+
 def write_in(subtype):
     _subtype = subtype
     def for_subtypes(func):

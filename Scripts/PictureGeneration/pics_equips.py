@@ -9,7 +9,7 @@ from typing import Dict, List, Union
 
 from CustomClasses.TypeHints import Equip
 from Scripts.PictureGeneration.pics_setting import position, size, rgb, rgba, get_skill_icon, font, get_equip_icon, pos_add
-from Sources.Jx3_Datas.Files.JclData import short_attr_dict, location_dict
+from Sources.Jx3_Datas.Files.jcl_data import short_attr_dict, location_dict
 
 
 # 位置

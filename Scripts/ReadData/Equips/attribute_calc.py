@@ -2,8 +2,8 @@
 计算总属性的类, 因多处位置都需要调用属性计算
 """
 from CustomClasses.TypeHints import PlayerEquip, Equip
-from Sources.Jx3_Datas.Files.Jx3Stone import AttribTypeToAttribSlot
-from Sources.Jx3_Datas.Files.JclData import slot_to_name_dictionary
+from Sources.Jx3_Datas.Files.jx3_stone import AttribTypeToAttribSlot
+from Sources.Jx3_Datas.Files.jcl_data import slot_to_name_dictionary
 
 
 from typing import Any
@@ -453,6 +453,9 @@ class Attribute:
 
         try:
             del self._attributes['atPhysicsAttackPowerPercent']
+        except KeyError:
+            pass
+        try:
             del self._attributes['atSkillEventHandler']
         except KeyError:
             pass
