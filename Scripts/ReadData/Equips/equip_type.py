@@ -3,7 +3,7 @@ import re
 from Sources.Jx3_Datas.Files.jx3_stone import stone
 from Sources.Jx3_Datas.Files.jx3_equip import equip
 from Sources.Jx3_Datas.Files.jx3_enchant import enchant
-from .get_other_data import get_equip_from_jx3box
+from Sources.Jx3_Datas.Files.get_other_data import get_equip_from_jx3box
 
 
 class _Equip:

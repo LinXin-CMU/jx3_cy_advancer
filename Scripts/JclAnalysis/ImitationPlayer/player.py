@@ -147,6 +147,9 @@ class Player:
             # 移除该buff的情况
             if new_buff_id not in self._waiting_buffs:
                 return
+            # 绝刀怒气判定buff的保护
+            elif new_buff_id == 9052:
+                return
             else:
                 old_buff = self._waiting_buffs.pop(new_buff_id)
                 if new_buff_id in self._buff:
@@ -162,8 +165,9 @@ class Player:
             # 添加该buff的情况
             if new_buff_id in self._waiting_buffs:
                 # 判断等级
-                if data['nLevel'] >= self._waiting_buffs[new_buff_id][1]:
+                if data['nLevel'] >= self._waiting_buffs[new_buff_id][1] or new_buff_id == 9052:
                     # 添加新buff
+                    # 绝刀怒气判定buff特殊处理
                     self._waiting_buffs[new_buff_id] = (msec, data['nLevel'], data['nStackNum'], src_id)
                 else:
                     return

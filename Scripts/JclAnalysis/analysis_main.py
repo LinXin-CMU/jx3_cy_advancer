@@ -3,8 +3,9 @@
 
 from .ImitationPlayer.player import Player
 from .CheckRecord.skill_data_reshape import read_origin_skill_data
+from Scripts.JclAnalysis.checker_main import MainChecker
 from CustomClasses.Exceptions import JclTypeError
-from CustomClasses.TypeHints import FileReader
+from CustomClasses.TypeHints import FileReader, Attribute
 
 
 class Analysis:
@@ -20,6 +21,9 @@ class Analysis:
         # 玩家对象，储存状态
         self._skill_to_table = None
         # 用于技能统计表的数据
+        self.attribute: Attribute = data_address.attribute
+        # Attribute类
+        self._data_checker = MainChecker(self._player, self._reader)
 
     @property
     def DATA_skill_to_table(self):
@@ -44,6 +48,8 @@ class Analysis:
         # 1. 整理技能至可供表格展示的状态
         self._skill_to_table = read_origin_skill_data(self._player.skill_events_by_time, self._reader.id_to_name)
         # print(*[f"{i}: {j}\n" for i, j in data.items()])
+        # 2. 读取技能轴和增益
+        self._data_checker.run()
 
 
 

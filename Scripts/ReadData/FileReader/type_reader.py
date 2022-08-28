@@ -1,7 +1,7 @@
 from lupa import LuaRuntime
 from functools import reduce
 
-from Scripts.ReadData.Equips.get_other_data import get_buff_or_skill_from_jx3box
+from Sources.Jx3_Datas.Files.get_other_data import get_buff_or_skill_from_jx3box
 from Sources.Jx3_Datas.Files.jcl_data import forces, mounts, warn_msgs, dmg_types
 from Sources.Jx3_Datas.Files.jx3_buff import buff
 from Sources.Jx3_Datas.Files.jx3_skill import skill

@@ -1,7 +1,7 @@
 """
 用于项目中所用到的特殊类型的标注
 """
-from typing import Any
+from typing import Any, Dict
 
 
 class LuaTable:
@@ -78,3 +78,14 @@ class FileReader:
     def attribute(self) -> Attribute: return ...
     @property
     def id_to_name(self) -> dict: return ...
+
+
+class Player:
+    """Scripts/JclAnalysis/ImitationPlayer/player.py"""
+    def __init__(self): ...
+    @property
+    def skill_events_by_time(self) -> Dict: ...
+    @property
+    def skill_events_by_id(self) -> Dict: ...
+    player_id: Any
+    npc_id: Any
