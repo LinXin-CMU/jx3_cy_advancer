@@ -57,7 +57,7 @@ class MajorSkillChecker:
         player_skills = set()
         not_player_skills = set()
         zhenyun_max_layer = int(self.config['zhenyun_max_layer'])
-        zhenyun_overflow = 0
+        zhenyun_overflow = None
         # last_msec = None
         self._major_skills_result = {}
         self._major_skills_list = {}
@@ -88,7 +88,6 @@ class MajorSkillChecker:
                             buff_ret['norm_rage'] = 0
                             buff_ret['cw_rage'] = 0
                             buff_ret['cw'] = False
-                            buff_ret['ZhenYun_Overflow'] = False
                             # 橙武特效标记
                             if 8474 in buff_data:
                                 buff_ret['cw'] = True
@@ -105,7 +104,10 @@ class MajorSkillChecker:
                             # 阵云溢出检测
                             if 22993 in buff_data:
                                 if buff_data[22993][1] >= zhenyun_max_layer:
-                                    zhenyun_overflow += 1
+                                    if zhenyun_overflow is None:
+                                        zhenyun_overflow = [msec]
+                                    else:
+                                        zhenyun_overflow.append(msec)
                             else:
                                 # 绝刀速度太快导致不存在buff的情况
                                 pass
@@ -113,14 +115,20 @@ class MajorSkillChecker:
                         case '血怒':
                             if 22993 in buff_data:
                                 if buff_data[22993][1] >= zhenyun_max_layer:
-                                    zhenyun_overflow += 1
+                                    if zhenyun_overflow is None:
+                                        zhenyun_overflow = [msec]
+                                    else:
+                                        zhenyun_overflow.append(msec)
                         case '阵云结晦':
                             # # 阵云溢出
                             # if 22993 in buff_data:
                             #     if buff_data[22993][1] >= zhenyun_max_layer:
                             #         buff_ret['ZhenYun_Overflow'] = True
-                            buff_ret['ZhenYun_Overflow'] = zhenyun_overflow
-                            zhenyun_overflow = 0
+                            if zhenyun_overflow is None:
+                                buff_ret['ZhenYun_Overflow'] = []
+                            else:
+                                buff_ret['ZhenYun_Overflow'] = zhenyun_overflow
+                                zhenyun_overflow = None
                             pass
                         case '雁门迢递':
                             buff_ret['jueguo'] = 0
@@ -152,6 +160,34 @@ class MajorSkillChecker:
                         not_player_skills.add((skill_id, skill_level))
                 else:
                     self._major_skills_list[msec] = skill_name
+
+    def _check_tie_gu_skill(self):
+        """
+        检查铁骨技能: 盾刀, 盾击, 盾压, 流血, 斩刀, 绝刀, 劫刀, 断马摧城\n
+        :return:
+        """
+        imports = {'盾刀', '盾击', '盾压', '流血', '斩刀', '绝刀', '劫刀', '断马摧城'}
+        player_skills = set()
+        not_player_skills = set()
+        # 返回值
+        self._major_skills_result = {}
+        self._major_skills_list = {}
+        while True:
+            # 获取数据
+            _type, msec, skill_id, skill_level, skill_name, buff_data = yield
+            # 针对重点技能的分析
+            # 这里针对的是伤害子技能
+            if _type == 'damage':
+                if skill_name in imports:
+                    # buff_ret = {}
+                    buff_ret = self._checker_basic_buff(buff_data)
+                    # 记录时间
+                    # 放到外层
+                    # match skill_name:
+                    #     pass
+
+
+
 
     @staticmethod
     def _checker_basic_buff(buff_data):

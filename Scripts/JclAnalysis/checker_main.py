@@ -141,6 +141,7 @@ class MainChecker:
                     'FenYe': [],
                     'XueNu': [],
                     'YuJian': [],
+                    'ZhenYun': []
                 },
                 'Buffs': {
                     # 覆盖率和平均期望
@@ -243,7 +244,9 @@ class MainChecker:
                     elif key == 'jueguo':
                         ret['Special']['jueguo_count'] += value
                     elif key == 'ZhenYun_Overflow':
-                        ret['Special']['zhenyun_overflow'] += value
+                        ret['Special']['zhenyun_overflow'] += len(value)
+                        ret['Miss']['total'] += len(value)
+                        ret['Miss']['ZhenYun'] += value
 
             ret_value[skill_name] = ret
         # 技能豁免事件

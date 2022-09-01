@@ -1144,7 +1144,7 @@ class Ui_MainWindow(object):
         self.label_136.setObjectName("label_136")
         self.groupBox_18 = QtWidgets.QGroupBox(self.groupBox_5)
         self.groupBox_18.setGeometry(QtCore.QRect(460, 20, 381, 281))
-        self.groupBox_18.setStyleSheet("background-color: rgb(221, 219, 218);")
+        self.groupBox_18.setStyleSheet("background-color: rgb(241, 239, 237);")
         self.groupBox_18.setTitle("")
         self.groupBox_18.setObjectName("groupBox_18")
         self.tabWidget_2 = QtWidgets.QTabWidget(self.groupBox_18)
@@ -1153,13 +1153,16 @@ class Ui_MainWindow(object):
 "    height: 0px;\n"
 "}\n"
 "QWidget#tab_4{\n"
-"    background-color: rgb(221, 219, 218);\n"
+"    background-color: rgb(243, 241, 239);\n"
 "        \n"
 "}\n"
 "QTabWidget{\n"
-"    border-radius: 5px\n"
+"    border-radius: 5px;\n"
+"    background-color: rgb(241, 239, 237);\n"
 "}\n"
-"")
+"QWidget{\n"
+"    background-color: rgb(241, 239, 237);\n"
+"}")
         self.tabWidget_2.setUsesScrollButtons(False)
         self.tabWidget_2.setDocumentMode(True)
         self.tabWidget_2.setTabsClosable(False)
@@ -1167,16 +1170,6 @@ class Ui_MainWindow(object):
         self.tabWidget_2.setObjectName("tabWidget_2")
         self.buffs_tab_0 = QtWidgets.QWidget()
         self.buffs_tab_0.setObjectName("buffs_tab_0")
-        self.line_47 = QtWidgets.QFrame(self.buffs_tab_0)
-        self.line_47.setGeometry(QtCore.QRect(270, 70, 20, 61))
-        self.line_47.setFrameShape(QtWidgets.QFrame.VLine)
-        self.line_47.setFrameShadow(QtWidgets.QFrame.Sunken)
-        self.line_47.setObjectName("line_47")
-        self.line_48 = QtWidgets.QFrame(self.buffs_tab_0)
-        self.line_48.setGeometry(QtCore.QRect(110, 90, 20, 61))
-        self.line_48.setFrameShape(QtWidgets.QFrame.VLine)
-        self.line_48.setFrameShadow(QtWidgets.QFrame.Sunken)
-        self.line_48.setObjectName("line_48")
         self.tabWidget_2.addTab(self.buffs_tab_0, "")
         self.buffs_tab_1 = QtWidgets.QWidget()
         self.buffs_tab_1.setObjectName("buffs_tab_1")

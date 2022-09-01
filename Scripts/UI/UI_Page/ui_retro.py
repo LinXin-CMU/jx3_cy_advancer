@@ -1,8 +1,10 @@
+import datetime
 import random
 from typing import Dict, List, Literal
 from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem, QAbstractItemView, QLabel, QPushButton, QHBoxLayout, \
-    QVBoxLayout, QWidget, QFrame, QTableWidget
+    QVBoxLayout, QWidget, QFrame, QTableWidget, QHeaderView
 from PyQt5.QtCore import Qt, QPointF, QSize
+from PyQt5.Qt import QFont
 from PIL import Image
 import pyqtgraph as pg
 import numpy as np
@@ -10,7 +12,7 @@ import numpy as np
 from Scripts.UI.UI_Base.ui_base import BaseUi
 from Scripts.UI.UI_Base.ui import Ui_MainWindow
 from Scripts.UI.UI_Base.ui_other import DATA_TABLE_COLUMN_WIDTHS, INFO_TABLE_COLUMN_WIDTHS, TARGET_TABLE_COLUMN_WIDTHS, \
-    set_page, available_buffs, available_specials, buff_icons, buff_to_name, special_to_name, special_to_type
+    set_page, available_buffs, available_specials, buff_icons, buff_to_name, special_to_name, special_to_type, miss_to_name
 from CustomClasses.Exceptions import SourceNotFoundError
 from CustomClasses.jx3_collections import position, size
 
@@ -79,7 +81,11 @@ class Retro_UI(BaseUi):
             self.ui.Retro_skill_target_table.setColumnWidth(*item)
         # 不可改变
         self.ui.Retro_skill_data_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.ui.Retro_skill_data_table.horizontalHeader().setSectionResizeMode(QHeaderView.Fixed)
         self.ui.Retro_skill_info_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.ui.Retro_skill_info_table.horizontalHeader().setSectionResizeMode(QHeaderView.Fixed)
+        self.ui.Retro_skill_target_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.ui.Retro_skill_target_table.horizontalHeader().setSectionResizeMode(QHeaderView.Fixed)
         # 绑定触发
         self.ui.Retro_skill_data_table.itemSelectionChanged.connect(lambda: self.set_skill_info_table('by_skill'))
         self.ui.Retro_skill_data_table.itemSelectionChanged.connect(self.set_skill_target_table)
@@ -514,7 +520,7 @@ class Retro_UI(BaseUi):
                 _line = QFrame(widget)
                 _line.setFrameStyle(QFrame.VLine | QFrame.Sunken)
                 _line.resize(20, 231)
-                _line.move(270, 40)
+                _line.move(250, 40)
                 # 标题
                 name_label = QLabel(widget)
                 name_label.move(10, 10)
@@ -528,10 +534,10 @@ class Retro_UI(BaseUi):
                 _lb.setAlignment(Qt.AlignHCenter)
                 _lb = QLabel("覆盖率", widget)
                 _lb.move(140, 40)
-                _lb.resize(131, 16)
+                _lb.resize(111, 16)
                 _lb.setAlignment(Qt.AlignHCenter)
                 _lb = QLabel("失误时间", widget)
-                _lb.move(295, 40)
+                _lb.move(285, 40)
                 _lb.resize(71, 16)
                 _lb.setAlignment(Qt.AlignHCenter)
                 # 信息
@@ -550,8 +556,18 @@ class Retro_UI(BaseUi):
 
                 # 表格
                 time_table = QTableWidget(widget)
-                time_table.move(295, 70)
-                time_table.resize(71, 181)
+                time_table.move(275, 70)
+                time_table.resize(91, 181)
+                time_table.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+                time_table.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+                time_table.setColumnCount(2)
+                time_table.setColumnWidth(0, 37)
+                time_table.setColumnWidth(1, 32)
+                time_table.horizontalHeader().setSectionResizeMode(QHeaderView.Fixed)
+                time_table.horizontalHeader().setVisible(False)
+                time_table.verticalHeader().setVisible(False)
+                time_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
+                time_table.setSelectionBehavior(QAbstractItemView.SelectRows)
                 # 每一组
                 _lbs = {}
                 for _bf_label_count in range(7):
@@ -659,7 +675,7 @@ class Retro_UI(BaseUi):
                     bf_labels[1].setVisible(True)
                     # 设置对应值
                     bf_labels[2].setText(f"{bf_data:.2f}")
-                    bf_labels[2].move(210, bf_y)
+                    bf_labels[2].move(190, bf_y)
                     bf_labels[2].setVisible(True)
                 else:
                     for label in bf_labels:
@@ -699,5 +715,25 @@ class Retro_UI(BaseUi):
                     for label in info_labels:
                         label.setVisible(False)
 
+            # 开始填入右侧表格内容
+            tb = labels['timetable']
 
-
+            for miss_name, miss_times in skill_analysis[sk_name]['Miss'].items():
+                if miss_name == 'total':
+                    continue
+                if miss_name in miss_to_name:
+                    name = miss_to_name[miss_name]
+                else:
+                    name = ""
+                if len(miss_times) > 0:
+                    for time in miss_times:
+                        _, mm, _s = datetime.timedelta(seconds=time/1000).__str__().split(':')
+                        ss, ms = _s.split(".")
+                        time_item = QTableWidgetItem(f"{mm}:{ss}")
+                        time_item.setFont(QFont("SimHei", 8, QFont.Normal))
+                        name_item = QTableWidgetItem(name)
+                        name_item.setFont(QFont("SimHei", 8, QFont.Normal))
+                        name_item.setTextAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
+                        tb.insertRow(tb.rowCount())
+                        tb.setItem(tb.rowCount()-1, 0, time_item)
+                        tb.setItem(tb.rowCount()-1, 1, name_item)

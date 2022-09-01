@@ -122,7 +122,13 @@ special_to_type = {
     'yujian_rate': 'float'
 }
 
-
+miss_to_name = {
+    'DaoHun': '刀魂',
+    'FenYe': '分野',
+    'XueNu': '血怒',
+    'YuJian': '玉简',
+    'ZhenYun': '阵云'
+}
 
 
 
