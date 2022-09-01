@@ -29,6 +29,8 @@ class Player:
         self._waiting_buffs = None
         # {buff_id: (start, level, layer)}
         # 未被结束的buff
+        # self._dunfei_time = None
+        # 盾飞buff持续时间
 
     # def __str__(self):
     #     pass
@@ -50,6 +52,17 @@ class Player:
     @property
     def skill_events_by_id(self):
         return self._skill_event_by_id
+
+    @property
+    def dunfei_time_and_count(self):
+        if 8391 not in self._buff:
+            return 0
+        else:
+            _t = 0
+            for start_time, val in self._buff[8391].items():
+                end_time = val[0]
+                _t += end_time - start_time
+            return _t, len(self._buff[8391])
 
     def update(self, data: Dict[int, Dict], player_id: int, npc_id: List):
         """

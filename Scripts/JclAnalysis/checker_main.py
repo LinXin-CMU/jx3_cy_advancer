@@ -3,6 +3,8 @@
 # 从skill_event_by_id中提取技能轴和增益数据, 并将技能轴数据提交给评分模块
 
 from typing import Dict
+
+import numpy as np
 from numpy import mean
 
 from .CheckRecord.major_skill_check import MajorSkillChecker
@@ -97,14 +99,27 @@ class MainChecker:
                 times += [(msec, skill_name)]
         del msec, skill_name
         times = sorted(times, key=lambda i: i[0])
+        # 用于豁免第一个斩刀和绝刀
+        rel_zd = True
+        rel_jd = True
+        # 用于计算刀魂盾击比例
+        dunhui_count = 0
         for index, tm in enumerate(times):
             if index == 0:
                 # 全部豁免权
                 release[tm[1]] = {tm[0]: {'DaoHun', 'FenYe', 'XueNu', 'YuJian'}}
+            elif rel_jd and tm[1] == '绝刀':
+                release[tm[1]] = {tm[0]: {'FenYe'}}
+                rel_jd = False
+            elif rel_zd and tm[1] == '斩刀':
+                release[tm[1]] = {tm[0]: {'FenYe'}}
+                rel_zd = False
             elif tm[1] in {'盾击', '盾压'}:
                 # 刀魂玉简部分豁免
                 if times[index-1][1] == '盾回':
                     _rel = {'YuJian'}
+                    # 保证盾回后必须有技能
+                    dunhui_count += 1
                 elif times[min(index+2, len(times)-1)][1] not in {'盾击', '盾压'} and times[index+1][1] == '盾飞' or times[index-1][1] == '盾飞':
                     _rel = {'DaoHun'}
                 else:
@@ -113,7 +128,7 @@ class MainChecker:
                     release[tm[1]].update({tm[0]: _rel})
                 else:
                     release[tm[1]] = {tm[0]: _rel}
-        del index, tm, _rel
+        del index, tm, _rel, rel_jd, rel_zd
 
         # 计算其余
         for skill_name, d in skills_data.items():
@@ -142,6 +157,7 @@ class MainChecker:
                     'HanJia': 0,
                     'JianTie': 0,
                     'YuJian': 0,
+                    'CanJuan': 0,
                     'DunDang': 0,
                     'Enchant_Belt': 0,
                 },
@@ -151,7 +167,11 @@ class MainChecker:
                     'cw_rage': [],       # 特效绝刀怒气
                     'cw_count': 0,      # 特效绝刀数量
                     'jueguo_count': 0,  # 绝国数量
-                    'delay': 0          # gcd时间
+                    'dunfei_rate': 0,   # 盾飞数量/时间
+                    'zhenyun_overflow': 0,  # 阵云溢出层数
+                    'delay': 0,          # gcd时间
+                    'daohun_rate': 0,   # 刀魂盾击占盾回盾击比例
+                    'yujian_rate': 0,   # 玉简盾压占盾压比例
                 },
             }
             if not skill_name == '盾飞' and skill_name in delays:
@@ -179,15 +199,17 @@ class MainChecker:
                             if not value:
                                 ret['Miss']['total'] += 1
                                 ret['Miss']['DaoHun'].append(time)
+                            if skill_name == '盾击' and value:
+                                ret['Special']['daohun_rate'] += 1
                         elif key == 'FenYe':
                             if not value:
                                 ret['Miss']['total'] += 1
                                 ret['Miss']['FenYe'].append(time)
-                        elif key == 'XueNu_ly':
+                        elif key == 'XueNu':
                             if value < 2:
                                 ret['Miss']['total'] += 1
                                 ret['Miss']['XueNu'].append(time)
-                        elif key == 'YuJian_ly' and has_yujian:
+                        elif key == 'YuJian' and has_yujian:
                             if skill_name in {'盾击', '盾压'}:
                                 # 飞击飞压
                                 if value < 6:
@@ -218,8 +240,10 @@ class MainChecker:
                     elif key == 'cw':
                         if value:
                             ret['Special']['cw_count'] += 1
-                    elif key == 'jueguo_count':
+                    elif key == 'jueguo':
                         ret['Special']['jueguo_count'] += value
+                    elif key == 'ZhenYun_Overflow':
+                        ret['Special']['zhenyun_overflow'] += value
 
             ret_value[skill_name] = ret
         # 技能豁免事件
@@ -251,8 +275,31 @@ class MainChecker:
         # 计算覆盖率
         for sk, d in ret_value.items():
             _n = d['Buffs'].pop('nCount')
+            ret_value[sk]['Special']['count'] = _n
+            if _n <= 0:
+                continue
             for k, v in d['Buffs'].items():
                 ret_value[sk]['Buffs'][k] = v / _n
+            # 计算特殊数据平均值
+            if sk == '绝刀':
+                ret_value[sk]['Special']['norm_rage'] = np.mean(ret_value[sk]['Special']['norm_rage'])
+                ret_value[sk]['Special']['cw_rage'] = np.mean(ret_value[sk]['Special']['cw_rage'])
+            # elif sk == '阵云结晦':
+            #     ret_value[sk]['Special']['']
+            elif sk == '盾飞':
+                df_t, df_c = self._player.dunfei_time_and_count
+                if df_t > 0:
+                    # 每次盾飞减去一次盾飞次数计数
+                    ret_value[sk]['Special']['dunfei_rate'] = (_n - df_c) / (df_t / 1000)
+                else:
+                    pass
+            elif sk == '雁门迢递':
+                ret_value[sk]['Special']['jueguo_count'] = ret_value[sk]['Special']['jueguo_count'] / _n
+            elif sk == '盾击':
+                if dunhui_count > 0:
+                    ret_value[sk]['Special']['daohun_rate'] = ret_value[sk]['Special']['daohun_rate'] / dunhui_count
+            elif sk == '盾压':
+                ret_value[sk]['Special']['yujian_rate'] = ret_value[sk]['Buffs']['YuJian'] / 6
 
         return ret_value
 

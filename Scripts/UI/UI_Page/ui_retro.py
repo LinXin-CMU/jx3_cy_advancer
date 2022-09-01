@@ -9,7 +9,8 @@ import numpy as np
 
 from Scripts.UI.UI_Base.ui_base import BaseUi
 from Scripts.UI.UI_Base.ui import Ui_MainWindow
-from Scripts.UI.UI_Base.ui_other import DATA_TABLE_COLUMN_WIDTHS, INFO_TABLE_COLUMN_WIDTHS, TARGET_TABLE_COLUMN_WIDTHS, set_page, available_buffs
+from Scripts.UI.UI_Base.ui_other import DATA_TABLE_COLUMN_WIDTHS, INFO_TABLE_COLUMN_WIDTHS, TARGET_TABLE_COLUMN_WIDTHS, \
+    set_page, available_buffs, available_specials, buff_icons, buff_to_name, special_to_name, special_to_type
 from CustomClasses.Exceptions import SourceNotFoundError
 from CustomClasses.jx3_collections import position, size
 
@@ -396,7 +397,7 @@ class Retro_UI(BaseUi):
         except FileNotFoundError:
             raise SourceNotFoundError("border_qx.png")
 
-        # 左侧labels
+        # 生成左侧labels
         if self._major_skill_icon_labels is None or len(self._major_skill_icon_labels) != 8:
             self._major_skill_icon_labels = None
             for index in range(len(data['major_skill_list'])):
@@ -500,6 +501,7 @@ class Retro_UI(BaseUi):
         # print(skill_analysis)
         # print(operate_list)
         # 开始设置右侧
+        # 先生成labels
         # 坐标直接写了
         if self._major_buff_labels is None or len(self._major_buff_labels) != 8:
             for index in range(len((data['major_skill_list']))):
@@ -532,13 +534,27 @@ class Retro_UI(BaseUi):
                 _lb.move(295, 40)
                 _lb.resize(71, 16)
                 _lb.setAlignment(Qt.AlignHCenter)
+                # 信息
+                _infos = {}
+                for idx in range(4):
+                    _name_lb = QLabel(widget)
+                    _name_lb.resize(71, 18)
+                    _name_lb.setVisible(False)
+                    _name_lb.setStyleSheet("font-size:9pt;")
+                    _data_lb = QLabel(widget)
+                    _data_lb.resize(31, 18)
+                    _data_lb.setVisible(False)
+                    _data_lb.setStyleSheet("font-size: 9pt; color: rgb(236, 99, 65)")
+                    _data_lb.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                    _infos[idx] = [_name_lb, _data_lb]
+
                 # 表格
                 time_table = QTableWidget(widget)
                 time_table.move(295, 70)
                 time_table.resize(71, 181)
                 # 每一组
                 _lbs = {}
-                for _ in range(7):
+                for _bf_label_count in range(7):
                     icon_label = QLabel(widget)
                     icon_label.resize(18, 18)
                     icon_label.setVisible(False)
@@ -548,13 +564,14 @@ class Retro_UI(BaseUi):
                     buff_data_label = QLabel(widget)
                     buff_data_label.resize(61, 18)
                     buff_data_label.setStyleSheet("color: rgb(236, 99, 65)")
+                    buff_data_label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
                     buff_data_label.setVisible(False)
-                    _lbs[index] = [icon_label, buff_name_label, buff_data_label]
-
+                    _lbs[_bf_label_count] = [icon_label, buff_name_label, buff_data_label]
 
                 if self._major_buff_labels is None:
                     self._major_buff_labels = [{
                         'name': name_label,
+                        'info': _infos,
                         'buffs': _lbs,
                         'widget': widget,
                         'timetable': time_table,
@@ -563,6 +580,7 @@ class Retro_UI(BaseUi):
                 else:
                     self._major_buff_labels.append({
                         'name': name_label,
+                        'info': _infos,
                         'buffs': _lbs,
                         'widget': widget,
                         'timetable': time_table,
@@ -577,6 +595,7 @@ class Retro_UI(BaseUi):
         # 取出对应buff序列
         if kungfu in available_buffs:
             _available_buff = available_buffs[kungfu]
+            _available_info = available_specials[kungfu]
         else:
             print("未知问题 at Scripts/UI/UI_Page/ui_retro.py line 581")
             return
@@ -586,36 +605,99 @@ class Retro_UI(BaseUi):
         try:
             # border = Image.open(r'Sources/Jx3_Datas/Icons/jx3basic_icons/border_qx.png')
             border = Image.open(r'Sources/Jx3_Datas/Icons/jx3basic_icons/orange.png')
-            border = border.resize(18, 18)
+            border = border.resize((18, 18))
             _, _, _, border_mask = border.split()
         except FileNotFoundError:
             raise SourceNotFoundError("border_qx.png")
 
-        for index, name in enumerate(data['major_skill_list']):
+        for index, sk_name in enumerate(data['major_skill_list']):
             labels = self._major_buff_labels[index]
             # 填入名称
-            labels['name'].setText(f"{name} 操作细节")
+            labels['name'].setText(f"{sk_name} 操作细节")
             # for idx, bf_label in enumerate(labels['buffs']):
             #     # 填入buff
             #     if idx > _bf_count - 1:
             #         # 清除后续的内容
             #         labels['buffs']
             # 获取到当前技能的所需展示buff
-            if name in _available_buff:
-                _bf_lst = _available_buff[name]
+            if sk_name in _available_buff:
+                _bf_lst = _available_buff[sk_name]
+                _if_lst = _available_info[sk_name]
             else:
                 print("未知问题 at Scripts/UI/UI_Page/ui_retro.py line 596")
                 return
-            # 开始填入内容
-            for idx, bf_labels in enumerate(labels['buffs']):
-                bf_labels[0].setPixmap()
+            # 开始填入右侧中央内容
+            for idx, bf_labels in enumerate(labels['buffs'].values()):
+                # 当前buff名称
+                if idx < len(_bf_lst):
+                    bf_name = _bf_lst[idx]
+                    try:
+                        bf_data = skill_analysis[sk_name]['Buffs'][bf_name]
+                    except KeyError as e:
+                        print(f"KeyError: {e} at Scripts/UI/UI_Page/ui_retro.py set_school_operate_info: 当前技能或buff并不属于要展示的buff")
+                        return
+                    bf_y = 70 + 26 * idx
+                    # 取出对应icon并添加边框
+                    try:
+                        img = buff_icons[bf_name].resize((18, 18))
+                        img.paste(border, mask=border_mask)
+                    except KeyError as e:
+                        print(f"KeyError: {e} at Scripts/UI/UI_Page/ui_retro.py set_school_operate_info: 当前buff并不属于要展示的buff")
+                        return
+                    # 设置对应icon
+                    bf_labels[0].setPixmap(img.toqpixmap())
+                    bf_labels[0].move(135, bf_y)
+                    bf_labels[0].setVisible(True)
+                    # 设置icon名称
+                    try:
+                        _name = buff_to_name[bf_name]
+                    except KeyError as e:
+                        print(f"KeyError: {e} at Scripts/UI/UI_Page/ui_retro.py set_school_operate_info: 当前buff并不属于要展示的buff")
+                        return
+                    bf_labels[1].setText(_name)
+                    bf_labels[1].move(160, bf_y)
+                    bf_labels[1].setVisible(True)
+                    # 设置对应值
+                    bf_labels[2].setText(f"{bf_data:.2f}")
+                    bf_labels[2].move(210, bf_y)
+                    bf_labels[2].setVisible(True)
+                else:
+                    for label in bf_labels:
+                        label.setVisible(False)
 
+            # 开始填入右侧左侧内容
+            for idx, info_labels in enumerate(labels['info'].values()):
+                if idx < len(_if_lst):
+                    info_name = _if_lst[idx]
+                    try:
+                        info_data = skill_analysis[sk_name]['Special'][info_name]
+                    except KeyError as e:
+                        print(
+                            f"KeyError: {e} at Scripts/UI/UI_Page/ui_retro.py set_school_operate_info: 当前技能或buff并不属于要展示的buff")
+                        return
+                    info_y = 70 + 26 * idx
 
-
-
-
-
-
+                    # 设置icon名称
+                    try:
+                        _name = special_to_name[info_name]
+                        _value_type = special_to_type[info_name]
+                    except KeyError as e:
+                        print(
+                            f"KeyError: {e} at Scripts/UI/UI_Page/ui_retro.py set_school_operate_info: 当前buff并不属于要展示的buff")
+                        return
+                    info_labels[0].setText(_name)
+                    info_labels[0].move(7, info_y)
+                    info_labels[0].setVisible(True)
+                    # 设置对应值
+                    if _value_type == 'float':
+                        info_labels[1].setText(f"{info_data:.2f}")
+                    else:
+                        info_labels[1].setText(f"{int(info_data)}")
+                    info_labels[1].move(80, info_y)
+                    info_labels[1].setVisible(True)
+                else:
+                    for label in info_labels:
+                        label.setVisible(False)
 
 
 

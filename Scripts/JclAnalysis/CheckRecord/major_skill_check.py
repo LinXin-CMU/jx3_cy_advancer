@@ -57,6 +57,7 @@ class MajorSkillChecker:
         player_skills = set()
         not_player_skills = set()
         zhenyun_max_layer = int(self.config['zhenyun_max_layer'])
+        zhenyun_overflow = 0
         # last_msec = None
         self._major_skills_result = {}
         self._major_skills_list = {}
@@ -73,8 +74,10 @@ class MajorSkillChecker:
             # 针对重点技能的分析
             # 这里针对的是伤害子技能
             if _type == 'damage':
-                if skill_name in imports:
-                    buff_ret = self._checker_basic_buff(buff_data)
+                if skill_name in imports or skill_id == 13040:
+                    buff_ret = {}
+                    if not skill_id == 13040:
+                        buff_ret = self._checker_basic_buff(buff_data)
                     # 记录时间
                     # 放到外层
                     # if last_msec is not None:
@@ -99,14 +102,26 @@ class MajorSkillChecker:
                                     buff_ret['cw_rage'] = (_lv + 1) * 10
                                 else:
                                     buff_ret['norm_rage'] = (_lv + 1) * 10
+                            # 阵云溢出检测
+                            if 22993 in buff_data:
+                                if buff_data[22993][1] >= zhenyun_max_layer:
+                                    zhenyun_overflow += 1
                             else:
                                 # 绝刀速度太快导致不存在buff的情况
                                 pass
                                 # 暂无好的处理方案
-                            # 阵云溢出
+                        case '血怒':
                             if 22993 in buff_data:
                                 if buff_data[22993][1] >= zhenyun_max_layer:
-                                    buff_ret['ZhenYun_Overflow'] = True
+                                    zhenyun_overflow += 1
+                        case '阵云结晦':
+                            # # 阵云溢出
+                            # if 22993 in buff_data:
+                            #     if buff_data[22993][1] >= zhenyun_max_layer:
+                            #         buff_ret['ZhenYun_Overflow'] = True
+                            buff_ret['ZhenYun_Overflow'] = zhenyun_overflow
+                            zhenyun_overflow = 0
+                            pass
                         case '雁门迢递':
                             buff_ret['jueguo'] = 0
                             if 22979 in buff_data:
@@ -148,13 +163,14 @@ class MajorSkillChecker:
             'ChongYun': False,
             'JunXiao': False,
             'Enchant_Hat': False,
-            'XueNu_ly': 0,
-            'LianZhan_ly': 0,
-            'HanJia_ly': 0,
-            'JianTie_ly': 0,
-            'YuJian_ly': 0,
-            'DunDang_lv': 0,
-            'Enchant_Belt_lv': 0,
+            'XueNu': 0,
+            'LianZhan': 0,
+            'HanJia': 0,
+            'JianTie': 0,
+            'YuJian': 0,
+            'CanJuan': 0,
+            'DunDang': 0,
+            'Enchant_Belt': 0,
             }
         _ishave_mapping = {
             8627: 'DaoHun',
@@ -166,17 +182,18 @@ class MajorSkillChecker:
             15413: 'Enchant_Hat'
         }
         _islayer_mapping = {
-            8244: 'XueNu_ly',
-            8385: 'XueNu_ly',
-            8386: 'XueNu_ly',
-            8267: 'LianZhan_ly',
-            8271: 'HanJia_ly',
-            8272: 'JianTie_ly',
-            21648: 'YuJian_ly'
+            8244: 'XueNu',
+            8385: 'XueNu',
+            8386: 'XueNu',
+            8267: 'LianZhan',
+            8271: 'HanJia',
+            8272: 'JianTie',
+            21648: 'YuJian',
+            21651: 'CanJuan'
         }
         _islevel_mapping = {
-            8448: 'DunDang_lv',
-            15455: 'Enchant_Belt_lv'
+            8448: 'DunDang',
+            15455: 'Enchant_Belt'
         }
 
         for _id, _key in _ishave_mapping.items():
@@ -191,7 +208,7 @@ class MajorSkillChecker:
 
         # 大寒甲特殊处理
         if 17772 in buff_data:
-            ret['HanJia_ly'] += buff_data[17772][1] * 100
+            ret['HanJia'] += buff_data[17772][1] * 100
 
         return ret
 

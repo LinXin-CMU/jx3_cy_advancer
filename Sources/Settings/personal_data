@@ -99,3 +99,5 @@
 ['skill', 2516, {1: {'Remark': None, 'Name': None, 'SkillName': '宠物判断可否攻击', 'Desc': None, 'BelongKungfu': '10191'}}]
 ['skill', 13048, {16: {'Remark': '(13048) 盾舞', 'Name': '盾舞', 'SkillName': '盾舞', 'Desc': '每0.5秒对半径8尺内的最多6个敌对目标造成100%的武器伤害外加<SUB 13276 0>外功伤害，持续5秒。“擎盾”姿态下施展，每命中一个目标回复1点怒气。“盾墙”姿态下不回复怒气，但可移动施展。<TALENT 14849 1 调息时间增加至30秒，强制目标攻击自身并使自身受到的所有伤害降低30%><TALENT 13360 1 作用目标提高2个，造成的威胁值提高50%><TALENT 13278 1 盾墙姿态下施展时可触发二段技能，施展“盾舞·强化”击退周围8尺内最多6个目标>', 'BelongKungfu': '10385'}}]
 ['skill', 109, {1: {'Remark': None, 'Name': None, 'SkillName': '万花治疗阵法第六重', 'Desc': None, 'BelongKungfu': '10036'}}]
+['skill', 29816, {1: {'Remark': '(29816) 战斗管家_山寨贪魔体', 'Name': '贪魔体', 'SkillName': '战斗管家_山寨贪魔体', 'Desc': '使自身<BUFF 21929 0 desc>，持续5秒。期间无法跳跃，无法施展招式，且持续强制附近目标攻击自身。', 'BelongKungfu': '23768'}}]
+['skill', 31950, {1: {'Remark': None, 'Name': None, 'SkillName': '战斗管家_山寨贪魔体群嘲', 'Desc': None, 'BelongKungfu': '23768'}}]
