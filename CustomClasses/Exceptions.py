@@ -10,3 +10,4 @@ class NotFoundJx3GameError(Exception): """未能读取到游戏路径，请手�
 class NotFoundJclFileError(Exception): """未能读取到Jcl文件，请手动选择！"""
 class NotFoundJclFolderError(Exception): """未能读取到Jcl文件夹，请检查设置！"""
 class JclFileTypeError(Exception): """当前文件并非jcl文件"""
+class SourceNotFoundError(Exception): """未查询到复盘所需资源"""

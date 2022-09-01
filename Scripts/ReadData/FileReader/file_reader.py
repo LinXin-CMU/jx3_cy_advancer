@@ -147,14 +147,17 @@ class JclReader:
         :param:
         :return:
         """
+        # 清除数据
+        self._csv_data = None
         # 对原始数据做有序遍历
         for i in sorted(list(self._data.keys())):
             row = self._data[i]
             row['type'] = log_type[row['type']]
             # 过滤掉技能释放失败事件
             if row['type'] == 'SYS_MSG_UI_OME_SKILL_CAST_RESPOND_LOG':
-                del self._data[i]
-                continue
+                # del self._data[i]
+                # continue
+                pass
             # 翻译事件名称
             row['type_name'] = type_name[row['type']]
             if row['type_name'] == 13:

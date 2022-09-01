@@ -44,6 +44,8 @@ class Main:
             self.analyzer.run()
             # 设置技能统计
             self._sub_show_skills()
+            # 展示复盘页
+            self._sub_show_operate()
         except JclFileEncodeError:
             self.main_ui.ShowWarningBoxForFileEncodeError(self.main_ui)
         except NotFoundPlayerIDFromName:
@@ -81,6 +83,13 @@ class Main:
         :return:
         """
         self.main_ui.page_retro.set_skill_data_table(self.analyzer.DATA_skill_to_table)
+
+    def _sub_show_operate(self):
+        """
+        用于展示复盘模块的循环页\n
+        :return:
+        """
+        self.main_ui.page_retro.set_school_operate_info(self.analyzer.skill_analysis_data)
 
 
     def _button_connection(self):

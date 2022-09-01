@@ -217,18 +217,41 @@ class Player:
             data['bReact'] = False
 
         if not data['dwCaster'] in self.id_list:
-            # 自身及自身的npc释放
+            # 非自身及自身的npc释放
             return
         if data['bReact']:
             # 吸血事件
             return
+
         dmg_sum = sum(data['tResultCount'].values())
+        # 按技能分类
+        # 用于查询某技能的所有释放时刻状态
+        # 放在前面以防止部分技能的释放时刻事件被过滤掉
+        skill_id = data['dwID']
+        skill_level = data['dwLevel']
+        if dmg_sum > 0:
+            _type = 'damage'
+        else:
+            _type = 'cast'
+        write_data = {
+            "nType": _type,
+            "bCritical": data['bCriticalStrike'],
+            "tResult": data['tResultCount'],
+            "tBuffs": {buff_id: (buff_data[1], buff_data[2], buff_data[3]) for buff_id, buff_data in
+                       self._waiting_buffs.items()}
+        }
+        if skill_id in self._skill_event_by_id:
+            if skill_level in self._skill_event_by_id[skill_id]:
+                self._skill_event_by_id[skill_id][skill_level].update({msec: write_data})
+            else:
+                self._skill_event_by_id[skill_id][skill_level] = {"szName": data['szName'], msec: write_data}
+        else:
+            self._skill_event_by_id[skill_id] = {skill_level: {"szName": data['szName'], msec: write_data}}
+
         if dmg_sum == 0 and not status == 'dodge':
             # 无伤害子技能
             return
         else:
-            skill_id = data['dwID']
-            skill_level = data['dwLevel']
             # 按目标再按时间分类
             # 用于进一步分析，得到表格内展示数据
             _target = data['dwTarget']
@@ -252,22 +275,6 @@ class Player:
                     "tBuffs": {buff_id: (buff_data[1], buff_data[2]) for buff_id, buff_data in
                                self._waiting_buffs.items()}
                 }}
-            # 按技能分类
-            # 用于查询某技能的所有释放时刻状态
-            write_data = {
-                "bCritical": data['bCriticalStrike'],
-                "tResult": data['tResultCount'],
-                "tBuffs": {buff_id: (buff_data[1], buff_data[2], buff_data[3]) for buff_id, buff_data in self._waiting_buffs.items()}
-            }
-            if skill_id in self._skill_event_by_id:
-                if skill_level in self._skill_event_by_id[skill_id]:
-                    self._skill_event_by_id[skill_id][skill_level].update({msec: write_data})
-                else:
-                    self._skill_event_by_id[skill_id][skill_level] = {"szName": data['szName'], msec: write_data}
-            else:
-                self._skill_event_by_id[skill_id] = {skill_level: {"szName": data['szName'], msec: write_data}}
-
-
 
 
 

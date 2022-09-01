@@ -30,6 +30,8 @@ class Attribute:
         # 玩家奇穴
         # 在reader_main._get_player_info中被传入
         self.player_talent = None
+        # 玉简附魔
+        # self._yunshan_enchant = None
 
         # 装备名
         self._EQUIP_NAME = ["HAT", "JACKET", "BELT", "WRIST", "BOTTOMS", "SHOES", "NECKLACE", "PENDANT", "RING_1",
@@ -54,6 +56,13 @@ class Attribute:
             return self._attributes[item]
         return "0"
 
+    @property
+    def yunshan_enchant(self) -> bool:
+        _bottom = self.equip['BOTTOM']
+        if _bottom is not None:
+            if _bottom.enchant is not None and '玉简' in _bottom.enchant:
+                return True
+        return False
 
     def calc_attribute(self):
         """

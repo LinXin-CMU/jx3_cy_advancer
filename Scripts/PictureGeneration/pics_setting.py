@@ -38,13 +38,7 @@ class MyFont:
 
 
 font = MyFont(r'Sources/UI_Resources/FangZhengYouHei.TTF')
-ICON_PATH = r'Sources/Jx3_Datas/Icons/skill_icons'
-
-position = namedtuple("position", ['x', 'y'])
-size = namedtuple("size", ['width', 'height'])
-rgb = namedtuple("rgb", ['r', 'g', 'b'])
-rgba = namedtuple("rgba", ['r', 'g', 'b', 'a'])
-
+ICON_PATH = r'Sources/Jx3_Datas/Icons/talent_icons'
 
 pool = ThreadPoolExecutor(12)
 equip_icons = [i.replace('.png', '') for i in os.listdir(r'Sources/Jx3_Datas/Icons/equip_icons') if i.endswith('.png')]

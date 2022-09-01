@@ -352,16 +352,19 @@ class Top_UI(BaseUi):
         else:
             workpath = QFileDialog.getExistingDirectory(self.widget, "请选择想要保存到的目录", os.getcwd())
             csv_name = self._target_file.replace(".jcl", ".csv")
-            with open(f"{workpath}/{csv_name}", 'w', encoding='gbk', newline='') as f:
-                csv_writer = DictWriter(f, fieldnames=["frame", "timestamp", "msec", "event_type", 'buff_type',
-                                                       'event_level', 'event_layer', 'effect_damage', 'effect_health',
-                                                       'caster_name', 'caster_id', 'target_name', 'target_id',
-                                                       'type_name', 'type', 'event_name', 'event_id', 'iscritical',
-                                                       "data"])
-                csv_writer.writeheader()
-                for item in data:
-                    csv_writer.writerow(data[item])
-            self.ShowInfoBoxForExportSuccess(self.widget, 'Excel')
+            try:
+                with open(f"{workpath}/{csv_name}", 'w', encoding='gbk', newline='') as f:
+                    csv_writer = DictWriter(f, fieldnames=["frame", "timestamp", "msec", "event_type", 'buff_type',
+                                                           'event_level', 'event_layer', 'effect_damage', 'effect_health',
+                                                           'caster_name', 'caster_id', 'target_name', 'target_id',
+                                                           'type_name', 'type', 'event_name', 'event_id', 'iscritical',
+                                                           "data"])
+                    csv_writer.writeheader()
+                    for item in data:
+                        csv_writer.writerow(data[item])
+                self.ShowInfoBoxForExportSuccess(self.widget, 'Excel')
+            except PermissionError as e:
+                print(f"Permission Error: {e} at Scripts/UI/UI_Page/ui_top.py export_csv_data: 目标文件已被打开")
 
     def _get_all_jcl_files_from_folder(self):
         """

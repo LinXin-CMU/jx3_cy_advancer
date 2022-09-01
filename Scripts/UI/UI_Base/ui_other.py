@@ -27,3 +27,27 @@ DATA_TABLE_COLUMN_WIDTHS = ((0, 30), (1, 150), (2, 70), (3, 150), (4, 49))
 INFO_TABLE_COLUMN_WIDTHS = ((0, 32), (1, 68), (2, 68), (3, 68), (4, 40), (5, 52))
 TARGET_TABLE_COLUMN_WIDTHS = ((0, 30), (1, 113), (2, 110), (3, 49), (4, 49), (5, 49), (6, 49))
 FILES_TABLE_COLUMN_WIDTHS = ((0, 55), (1, 38), (2, 110), (3, 92), (4, 40), (5, 12))
+
+# 复盘模块循环页各技能显示内容
+available_buffs = {
+    '分山劲': {
+        '盾压': ['FenYe', 'XueNu', 'YuJian', 'JunXiao', 'CongRong', 'LianZhan'],
+        '盾击': ['DaoHun', 'FenYe', 'XueNu', 'YuJian', 'JunXiao', 'CongRong', 'LianZhan'],
+        '盾飞': ['DaoHun', 'FenYe', 'XueNu', 'YuJian', 'JunXiao', 'CongRong', 'LianZhan'],
+        '斩刀': ['DaoHun', 'FenYe', 'XueNu', 'YuJian', 'JunXiao', 'CongRong', 'LianZhan'],
+        '绝刀': ['FenYe', 'XueNu', 'YuJian', 'JunXiao', 'CongRong', 'LianZhan'],
+        '阵云结晦': ['DaoHun', 'FenYe', 'XueNu', 'YuJian', 'JunXiao', 'CongRong', 'LianZhan'],
+        '月照连营': ['FenYe', 'XueNu', 'YuJian', 'JunXiao', 'CongRong', 'LianZhan'],
+        '雁门迢递': ['FenYe', 'XueNu', 'YuJian', 'JunXiao', 'CongRong', 'LianZhan']
+    },
+}
+
+
+
+
+
+
+
+
+
+

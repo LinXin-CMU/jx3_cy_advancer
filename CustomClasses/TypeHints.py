@@ -51,6 +51,8 @@ class Attribute:
     embedding_count: Any
     player_kungfu: Any
     player_talent: list
+    @property
+    def yunshan_enchant(self) -> bool: ...
 
 # class ConfigSetting:
 #     """Scripts/Config/config.py"""

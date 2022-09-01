@@ -309,12 +309,14 @@ class TypeReader:
         if luadata is not None:
             for i in range(12):
                 qx = luadata[i + 1]
-                lv = qx[1]
-                sk_id = qx[2]
-                if talent is None:
-                    talent = [self._get_skill(sk_id=sk_id, level=lv)['Name']]
-                else:
-                    talent.append(self._get_skill(sk_id=sk_id, level=lv)['Name'])
+                if qx is not None:
+                    # 22/08/30
+                    lv = qx[1]
+                    sk_id = qx[2]
+                    if talent is None:
+                        talent = [self._get_skill(sk_id=sk_id, level=lv)['Name']]
+                    else:
+                        talent.append(self._get_skill(sk_id=sk_id, level=lv)['Name'])
         return talent
 
     def _get_item_name(self, luadata) -> str:

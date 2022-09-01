@@ -33,6 +33,18 @@ class Analysis:
         """
         return self._skill_to_table
 
+    @property
+    def skill_analysis_data(self):
+        """
+        用于循环页上半部分的数据\n
+        :return: Dict{'major_skill_list', 'analysis', 'operate_list'}
+        """
+        return {
+            "major_skill_list": self._data_checker.current_kungfu_skills,
+            "analysis": self._data_checker.major_skill_analysis,
+            "operate_list": self._data_checker.operate_skill_list
+        }
+
 
     def run(self):
         self.data = self._reader.data
