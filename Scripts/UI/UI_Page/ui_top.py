@@ -397,8 +397,13 @@ class Top_UI(BaseUi):
         if self.folder_path is None:
             self._get_player_jcl_folder_path()
         # 使用时更改用户名的情况
-        if self.player_name != self._folder_from:
+        # 与上文不同时出现
+        elif self.player_name != self._folder_from:
             self._get_player_jcl_folder_path()
+        # 判断路径是否为None, 防止os.getcwd()的问题
+        if self.folder_path is None:
+            return
+        # 路径不为None的情况下
         try:
             _files = listdir(self.folder_path)
         except FileNotFoundError:
