@@ -243,7 +243,9 @@ class Top_UI(BaseUi):
                 QFileDialog.getOpenFileName(self.widget, '请选择想要复盘的文件', f'{self.folder_path}', 'Jcl战斗记录文件(*.jcl)')[0]
             self.ui.FileLineEdit.setText(_target_file)
         else:
-            return
+            _target_file = \
+                QFileDialog.getOpenFileName(self.widget, '请选择想要复盘的文件', f'{os.getcwd()}', 'Jcl战斗记录文件(*.jcl)')[0]
+            self.ui.FileLineEdit.setText(_target_file)
 
     def _table_inside_button_func(self, row: int, column: int):
         """

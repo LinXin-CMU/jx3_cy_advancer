@@ -44,6 +44,16 @@ available_buffs = {
         '月照连营': ['FenYe', 'XueNu', 'YuJian', 'JunXiao', 'CongRong', 'LianZhan'],
         '雁门迢递': ['FenYe', 'XueNu', 'YuJian', 'JunXiao', 'CongRong', 'LianZhan']
     },
+    '铁骨衣': {
+        '盾刀': ['HanJia', 'LianZhan', 'DunDang', 'ChongYun', 'JianTie', 'Enchant_Belt', 'Enchant_Hat'],
+        '盾击': ['HanJia', 'LianZhan', 'DunDang', 'ChongYun', 'JianTie', 'Enchant_Belt', 'Enchant_Hat'],
+        '盾压': ['HanJia', 'LianZhan', 'DunDang', 'ChongYun', 'Enchant_Belt', 'Enchant_Hat'],
+        '盾飞': ['HanJia', 'LianZhan', 'DunDang', 'ChongYun', 'Enchant_Belt', 'Enchant_Hat'],
+        '斩刀': ['HanJia', 'LianZhan', 'DunDang', 'ChongYun', 'Enchant_Belt', 'Enchant_Hat'],
+        '绝刀': ['HanJia', 'LianZhan', 'DunDang', 'ChongYun', 'Enchant_Belt', 'Enchant_Hat'],
+        '盾挡': ['HanJia', 'LianZhan', 'DunDang', 'ChongYun', 'Enchant_Belt', 'Enchant_Hat'],
+        '断马摧城': ['HanJia', 'LianZhan', 'DunDang', 'ChongYun', 'Enchant_Belt', 'Enchant_Hat'],
+    }
 }
 
 available_specials = {
@@ -57,6 +67,16 @@ available_specials = {
         '月照连营': ['count'],
         '雁门迢递': ['count', 'jueguo_count']
     },
+    '铁骨衣': {
+        '盾刀': ['count', 'hanjia_layer'],
+        '盾击': ['count', 'hanjia_layer'],
+        '盾压': ['count', 'hanjia_layer'],
+        '盾飞': ['count', 'hanjia_layer'],
+        '斩刀': ['count', 'hanjia_layer'],
+        '绝刀': ['count', 'hanjia_layer'],
+        '盾挡': ['count'],
+        '断马摧城': ['count', 'hanjia_layer'],
+    }
 }
 
 try:
@@ -108,6 +128,7 @@ special_to_name = {
     'zhenyun_overflow': '阵云溢出层数',  # 阵云溢出层数
     'daohun_rate': '刀魂盾击比例',    # 刀魂盾击占盾回盾击比例
     'yujian_rate': '玉简盾压比例',    # 玉简盾压占总盾压比例
+    'hanjia_layer': '寒甲平均层数',
 }
 
 special_to_type = {
@@ -119,7 +140,8 @@ special_to_type = {
     'dunfei_rate': 'float',  # 盾飞数量/时间
     'zhenyun_overflow': 'int',  # 阵云溢出层数
     'daohun_rate': 'float',     # 刀魂盾击比例
-    'yujian_rate': 'float'
+    'yujian_rate': 'float',
+    'hanjia_layer': 'int',
 }
 
 miss_to_name = {

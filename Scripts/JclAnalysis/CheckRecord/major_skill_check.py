@@ -43,8 +43,10 @@ class MajorSkillChecker:
             gen = self._check_fen_shan_skill()
             self._current_kungfu_skills = ['阵云结晦', '月照连营', '雁门迢递', '盾飞', '斩刀', '绝刀', '盾击', '盾压']
         elif kungfu == '铁骨衣':
-            # 盾刀, 盾击, 盾压, 流血, 斩刀, 绝刀, 劫刀, 断马
-            self._current_kungfu_skills = ['盾刀', '盾击', '盾压', '流血', '斩刀', '绝刀', '劫刀', '断马摧城']
+            gen = self._check_tie_gu_skill()
+            self._current_kungfu_skills = ['盾刀', '盾击', '盾压', '盾飞', '斩刀', '绝刀', '盾挡', '断马摧城']
+        else:
+            return None
         gen.send(None)
         return gen
 
@@ -166,9 +168,16 @@ class MajorSkillChecker:
         检查铁骨技能: 盾刀, 盾击, 盾压, 流血, 斩刀, 绝刀, 劫刀, 断马摧城\n
         :return:
         """
-        imports = {'盾刀', '盾击', '盾压', '流血', '斩刀', '绝刀', '劫刀', '断马摧城'}
+        imports = {'盾刀', '盾击', '盾压', '盾飞', '斩刀', '绝刀', '盾挡', '断马摧城'}
         player_skills = set()
         not_player_skills = set()
+        # 盾刀id
+        dundao_id = {
+            13044: 1,
+            13059: 2,
+            13060: 3,
+            13119: 4
+        }
         # 返回值
         self._major_skills_result = {}
         self._major_skills_list = {}
@@ -177,15 +186,83 @@ class MajorSkillChecker:
             _type, msec, skill_id, skill_level, skill_name, buff_data = yield
             # 针对重点技能的分析
             # 这里针对的是伤害子技能
-            if _type == 'damage':
+            if _type == 'damage' or skill_id == 13391:
                 if skill_name in imports:
                     # buff_ret = {}
                     buff_ret = self._checker_basic_buff(buff_data)
                     # 记录时间
                     # 放到外层
-                    # match skill_name:
-                    #     pass
+                    match skill_name:
+                        case '盾刀':
+                            buff_ret['stage'] = 0
+                            if skill_id in dundao_id:
+                                buff_ret['stage'] = dundao_id[skill_id]
+                            # 盾刀段数1-4
+                            # 寒甲平均层数
+                        case '盾击':
+                            pass
+                            # cd利用率
+                            # 寒甲平均层数
+                        case '盾压':
+                            # 重置率
+                            # 寒甲平均层数
+                            pass
+                        case '盾飞':
+                            # 时间比例
+                            # 寒甲平均层数
+                            pass
+                        case '斩刀':
+                            # 寒甲平均层数
+                            pass
+                        case '绝刀':
+                            # 非特效平均怒气
+                            buff_ret['norm_rage'] = 0
+                            buff_ret['cw'] = False
+                            # 橙武特效标记
+                            if 8474 in buff_data:
+                                buff_ret['cw'] = True
+                                # 绝刀怒气
+                            if 9052 in buff_data:
+                                # 存在绝刀怒气判定buff的情况
+                                _lv = buff_data[9052][0]
+                                if _lv > 4:
+                                    _lv = _lv - 4
+                                if not buff_ret['cw']:
+                                    buff_ret['norm_rage'] = (_lv + 1) * 10
+                            # 特效绝刀数量
+                            # 寒甲平均层数
+                            pass
+                        case '盾挡':
+                            # 卡gcd释放占比
+                            # 平均怒气
+                            pass
+                        case '断马摧城':
+                            # print(skill_level)  # level=1-12
+                            # 寒甲平均层数
+                            # 平均怒气
+                            buff_ret['rage'] = (skill_level - 1) * 10
+                            # 卡gcd释放占比
+                            pass
+                    if skill_name not in self._major_skills_result:
+                        self._major_skills_result[skill_name] = {msec: buff_ret}
+                    else:
+                        self._major_skills_result[skill_name][msec] = buff_ret
 
+            if (skill_id, skill_level) not in not_player_skills:
+                if (skill_id, skill_level) not in player_skills:
+                    # 查询
+                    try:
+                        _kf = skill[skill_id][skill_level]['BelongKungfu']
+                    except KeyError:
+                        _kf = get_buff_or_skill_from_jx3box('skill', skill_id, skill_level)['BelongKungfu']
+                    if _kf in {'10385', '10386', '10384', '10383', '24785'} and skill_name not in {'破招外功伤害子技能（母）'}:
+                        # 苍云套路+破招
+                        player_skills.add((skill_id, skill_level))
+                        self._major_skills_list[msec] = skill_name
+                    else:
+                        not_player_skills.add((skill_id, skill_level))
+                else:
+                    self._major_skills_list[msec] = skill_name
 
 
 

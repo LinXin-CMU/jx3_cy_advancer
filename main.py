@@ -1,3 +1,4 @@
+import requests.exceptions
 from PyQt5.QtWidgets import QApplication, QPushButton
 
 from Scripts.UI.ui_main import MainUi
@@ -56,6 +57,8 @@ class Main:
             self.main_ui.ShowWarningBoxForNoPath(self.main_ui)
         except NotFoundJclFolderError:
             self.main_ui.ShowWarningBoxForNotHaveJclFolder(self.main_ui)
+        except requests.exceptions.SSLError:
+            self.main_ui.ShowWarningBoxForSSLError(self.main_ui)
 
 
     def _sub_calc_equip(self, current_index=None):

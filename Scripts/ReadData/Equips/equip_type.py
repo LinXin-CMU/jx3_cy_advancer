@@ -67,25 +67,41 @@ class _Equip:
             stone_id = self.data[5][0][2]
             try:
                 if not stone_id == 0 and stone_id is not None:
-                    stone_info = stone[stone_id]
-                    stone_name = ''
-                    stone_lv = None
-                    for index, attr_info in enumerate(stone_info):
-                        if index == 0:
-                            if attr_info[4] == '11':
-                                stone_lv = '(肆)'
-                            elif attr_info[4] == '13':
-                                stone_lv = '(伍)'
-                            elif attr_info[4] == '14':
-                                stone_lv = '(陆)'
-                        if len(attr_info[0]) == 5:
-                            stone_name += attr_info[0][3:]
-                        elif attr_info[0] == '武器伤害':
-                            stone_name += "武伤"
-                        else:
-                            stone_name += attr_info[0]
-                        stone_name += '·'
-                    stone_name = stone_name[:-1] + stone_lv
+                    try:
+                        stone_info = stone[stone_id]
+                    except KeyError:
+                        stone_info = None
+                        stone_name = '五彩石等级过低'
+                    else:
+                        stone_name = ''
+                        stone_lv = None
+                        for index, attr_info in enumerate(stone_info):
+                            if len(stone_info) == 3:
+                                # 常规五彩石
+                                if index == 0:
+                                    if attr_info[4] == '11':
+                                        stone_lv = '(肆)'
+                                    elif attr_info[4] == '13':
+                                        stone_lv = '(伍)'
+                                    elif attr_info[4] == '14':
+                                        stone_lv = '(陆)'
+                            elif len(stone_info) == 2:
+                                # 精简五彩石
+                                if index == 0:
+                                    if attr_info[4] == '12':
+                                        stone_lv = '(肆)'
+                                    elif attr_info[4] == '14':
+                                        stone_lv = '(伍)'
+                                    elif attr_info[4] == '16':
+                                        stone_lv = '(陆)'
+                            if len(attr_info[0]) == 5:
+                                stone_name += attr_info[0][3:]
+                            elif attr_info[0] == '武器伤害':
+                                stone_name += "武伤"
+                            else:
+                                stone_name += attr_info[0]
+                            stone_name += '·'
+                        stone_name = stone_name[:-1] + stone_lv
                 else:
                     stone_info = None
                     stone_name = '无五彩石'

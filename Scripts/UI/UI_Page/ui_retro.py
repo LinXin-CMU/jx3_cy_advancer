@@ -394,6 +394,20 @@ class Retro_UI(BaseUi):
 
         ICON_PATH = r'Sources/Jx3_Datas/Icons/skill_icons'
 
+        # 清除图标内容
+        if self._major_buff_labels is not None:
+            if 'name' in self._major_buff_labels:
+                self._major_buff_labels['name'].setVisible(False)
+            if 'info' in self._major_buff_labels:
+                for label in self._major_buff_labels['info'].values():
+                    label.setVisible(False)
+            if 'buffs' in self._major_buff_labels:
+                for label in self._major_buff_labels['buffs'].values():
+                    label.setVisible(False)
+            if 'timetable' in self._major_buff_labels:
+                self._major_buff_labels['timetable'].setRowCount(0)
+
+
         # 左侧技能图标边框
         try:
             # border = Image.open(r'Sources/Jx3_Datas/Icons/jx3basic_icons/border_qx.png')
@@ -613,7 +627,7 @@ class Retro_UI(BaseUi):
             _available_buff = available_buffs[kungfu]
             _available_info = available_specials[kungfu]
         else:
-            print("未知问题 at Scripts/UI/UI_Page/ui_retro.py line 581")
+            print("未知问题 at Scripts/UI/UI_Page/ui_retro.py line 634")
             return
         _bf_count = len(_available_buff)
 
@@ -640,7 +654,7 @@ class Retro_UI(BaseUi):
                 _bf_lst = _available_buff[sk_name]
                 _if_lst = _available_info[sk_name]
             else:
-                print("未知问题 at Scripts/UI/UI_Page/ui_retro.py line 596")
+                print("未知问题 at Scripts/UI/UI_Page/ui_retro.py line 661")
                 return
             # 开始填入右侧中央内容
             for idx, bf_labels in enumerate(labels['buffs'].values()):
@@ -705,10 +719,13 @@ class Retro_UI(BaseUi):
                     info_labels[0].move(7, info_y)
                     info_labels[0].setVisible(True)
                     # 设置对应值
-                    if _value_type == 'float':
-                        info_labels[1].setText(f"{info_data:.2f}")
-                    else:
-                        info_labels[1].setText(f"{int(info_data)}")
+                    try:
+                        if _value_type == 'float':
+                            info_labels[1].setText(f"{info_data:.2f}")
+                        else:
+                            info_labels[1].setText(f"{int(info_data)}")
+                    except TypeError:
+                        info_labels[1].setText("")
                     info_labels[1].move(80, info_y)
                     info_labels[1].setVisible(True)
                 else:
@@ -717,7 +734,7 @@ class Retro_UI(BaseUi):
 
             # 开始填入右侧表格内容
             tb = labels['timetable']
-
+            tb.setRowCount(0)
             for miss_name, miss_times in skill_analysis[sk_name]['Miss'].items():
                 if miss_name == 'total':
                     continue
