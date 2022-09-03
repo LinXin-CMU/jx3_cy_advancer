@@ -67,6 +67,10 @@ class FileReader:
             return self._reader.mark_to_csv_data()
         return None
 
+    @property
+    def record_info(self):
+        return self._reader.record_info
+
     # 测试用
     @property
     def equip(self):

@@ -1,6 +1,7 @@
 """
 零散函数和变量
 """
+import os
 
 from PIL import Image
 
@@ -151,6 +152,18 @@ miss_to_name = {
     'YuJian': '玉简',
     'ZhenYun': '阵云'
 }
+
+skill_icons = {}
+try:
+    files = os.listdir(r'Sources/Jx3_Datas/Icons/skill_icons')
+    for file in files:
+        name, ftype = file.split('.')
+        if ftype == 'png':
+            skill_icons[name] = Image.open(rf'Sources/Jx3_Datas/Icons/skill_icons/{file}', 'r')
+except FileNotFoundError as e:
+    raise SourceNotFoundError(f"Any {e}")
+# print(skill_icons)
+
 
 
 

@@ -367,6 +367,8 @@ class Top_UI(BaseUi):
                 self.ShowInfoBoxForExportSuccess(self.widget, 'Excel')
             except PermissionError as e:
                 print(f"Permission Error: {e} at Scripts/UI/UI_Page/ui_top.py export_csv_data: 目标文件已被打开")
+            finally:
+                f.close()
 
     def _get_all_jcl_files_from_folder(self):
         """

@@ -99,6 +99,7 @@ class JclReader:
                         'timestamp': row['timestamp'],
                         'msec': row['msec']
                     }
+                    self.record_info['fight_time'] = row['data']['nDuring']
 
             # 玩家id， 玩家信息
             case 4 | 8:

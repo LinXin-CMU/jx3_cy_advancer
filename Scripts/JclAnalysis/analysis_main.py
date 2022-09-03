@@ -45,6 +45,15 @@ class Analysis:
             "operate_list": self._data_checker.operate_skill_list
         }
 
+    # @property
+    def get_operate_data(self):
+        """
+        用于循环页下半部分的数据\n
+        :return:
+        """
+        return self._get_all_operate_data()
+
+
 
     def run(self):
         self.data = self._reader.data
@@ -62,6 +71,19 @@ class Analysis:
         # print(*[f"{i}: {j}\n" for i, j in data.items()])
         # 2. 读取技能轴和增益
         self._data_checker.run()
+
+
+    def _get_all_operate_data(self):
+        """
+        提供复盘图片所需的数据
+        :return:
+        """
+        # 战斗时间
+        fight_time = self._reader.record_info['fight_time']
+        # 技能数据
+        skill_data = self._data_checker.all_skill_analysis
+
+        return [fight_time, skill_data]
 
 
 

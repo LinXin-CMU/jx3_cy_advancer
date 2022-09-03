@@ -13,6 +13,7 @@ from Scripts.UI.UI_Base.ui_base import BaseUi
 from Scripts.UI.UI_Base.ui import Ui_MainWindow
 from Scripts.UI.UI_Base.ui_other import DATA_TABLE_COLUMN_WIDTHS, INFO_TABLE_COLUMN_WIDTHS, TARGET_TABLE_COLUMN_WIDTHS, \
     set_page, available_buffs, available_specials, buff_icons, buff_to_name, special_to_name, special_to_type, miss_to_name
+from .ui_paster import OperatePainter
 from CustomClasses.Exceptions import SourceNotFoundError
 from CustomClasses.jx3_collections import position, size
 
@@ -95,6 +96,8 @@ class Retro_UI(BaseUi):
         for i in range(8):
             getattr(self.ui, f"miss_label_{i}").setVisible(False)
             getattr(self.ui, f"time_label_{i}").setVisible(False)
+        # 初始化下方时间轴
+        self._operate_painter = OperatePainter(obj)
 
     # --------------复盘页---------------
 
@@ -377,7 +380,8 @@ class Retro_UI(BaseUi):
         if data['major_skill_list'] is None:
             return
         skill_analysis = data['analysis']
-        operate_list = data['operate_list']
+        # 未用到
+        # operate_list = data['operate_list']
 
         ICON_POS_X = (20, 240)
         ICON_POS_Y = (20, 93, 166, 240)
@@ -754,3 +758,10 @@ class Retro_UI(BaseUi):
                         tb.insertRow(tb.rowCount())
                         tb.setItem(tb.rowCount()-1, 0, time_item)
                         tb.setItem(tb.rowCount()-1, 1, name_item)
+
+    def draw_operate_picture(self, data):
+        """
+        绘制全程复盘图片的入口
+        """
+        self._operate_painter.run(data)
+

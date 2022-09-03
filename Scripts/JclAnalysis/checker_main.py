@@ -25,14 +25,27 @@ class MainChecker:
 
     @property
     def operate_skill_list(self):
+        """
+        技能时间轴数据
+        :return:
+        """
         return self._major_checker.major_skill_list
 
     @property
     def major_skill_analysis(self):
+        """
+        技能buff数据
+        :return:
+        """
         return self._calc_replay_data()
 
     @property
+    def all_skill_analysis(self):
+        return self._calc_all_data()
+
+    @property
     def current_kungfu_skills(self):
+        # 当前心法的重点技能
         return self._major_checker.current_kungfu_skills
 
     def run(self):
@@ -360,6 +373,79 @@ class MainChecker:
 
         return ret_value
 
+    def _calc_all_data(self):
+        """
+        整理all_skills_list: 将时间轴上的技能绑定上buff
+        :return:
+        """
+        data = self._major_checker.all_skill_analysis
+        # 把data里的buff添加到operate_list中
+        operate_list = self.operate_skill_list
+
+        # 破招单独处理
+        _pozhao_lst = None
+
+        # 需要额外删除的技能
+        _del = []
+        # 1. 遍历技能轴，读取并写入非破招的buff
+        for msec, skill_name in operate_list.items():
+            if not skill_name == '破':
+                if skill_name in data:
+                    # 读取出所有该技能的施放时间, 选择最近的一个
+                    _release_times = sorted(data[skill_name].keys())
+                    for _release_time in _release_times:
+                        if (_release_time - msec) < 1000:
+                            buff_data = data[skill_name].pop(_release_time)
+                            # 重写原数据
+                            operate_list[msec] = {'name': skill_name, 'buffs': buff_data}
+                            break
+                    # 未知技能的情况
+                    else:
+                        _del.append(msec)
+                else:
+                    operate_list[msec] = {'name': skill_name, 'buffs': None}
+            else:
+                if _pozhao_lst is None:
+                    _pozhao_lst = [msec]
+                else:
+                    _pozhao_lst.append(msec)
+                _del.append(msec)
+
+        # 2. 替换技能轴中破招数据
+        # 先删除原数据
+        for msec in _del:
+            del operate_list[msec]
+        _total = None
+        _group = []
+        latest_pozhao_time = None
+        for msec in _pozhao_lst:
+            # 分割破招轴
+            # 开始的情况
+            if latest_pozhao_time is None:
+                latest_pozhao_time = msec
+                _group.append(latest_pozhao_time)
+            # 同一个破招的情况
+            elif msec - latest_pozhao_time < 100:
+                _group.append(latest_pozhao_time)
+            # 不同破招的情况
+            else:
+                if _total is None:
+                    _total = [[i for i in _group]]
+                else:
+                    _total.append([i for i in _group])
+                _group.clear()
+        for group in _group:
+            for msec in group:
+                if msec not in operate_list:
+                    operate_list[msec] = {'name': '破', 'buffs': None}
+                    break
+
+        # 3. 排序
+        ret_value = {}
+        for time in sorted(operate_list.keys()):
+            ret_value[time] = operate_list[time]
+
+        return ret_value
 
 
 
