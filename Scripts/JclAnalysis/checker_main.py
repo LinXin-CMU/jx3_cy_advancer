@@ -34,13 +34,17 @@ class MainChecker:
     @property
     def major_skill_analysis(self):
         """
-        技能buff数据
+        重点技能buff覆盖率数据
         :return:
         """
         return self._calc_replay_data()
 
     @property
     def all_skill_analysis(self):
+        """
+        所有技能buff数据
+        :return:
+        """
         return self._calc_all_data()
 
     @property
@@ -446,6 +450,12 @@ class MainChecker:
             ret_value[time] = operate_list[time]
 
         return ret_value
+
+    def run_buff(self):
+        """
+        统计每一个buff的存在情况和作用的技能
+        :return:
+        """
 
 
 

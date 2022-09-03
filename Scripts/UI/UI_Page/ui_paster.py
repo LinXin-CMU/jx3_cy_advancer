@@ -106,8 +106,8 @@ class OperatePainter:
         def get_line() -> QFrame:
             _line = QFrame(self._parent)
             _line.setFrameStyle(QFrame.HLine | QFrame.Plain)
-            _line.setLineWidth(2)
-            _line.resize(10, 2)
+            _line.setLineWidth(1)
+            _line.resize(10, 1)
             _line.setStyleSheet("background-color: rgb(0, 0, 0);")
             _line.raise_()
             return _line
@@ -299,6 +299,7 @@ class OperatePainter:
                 _label.move(self._get_x(msec))
                 _labels.append(_label)
             # 添加悬浮提示
-            _label.setToolTip(_hover_text)
+            # 删除最后一个换行符
+            _label.setToolTip(_hover_text[:-1])
 
         return _labels

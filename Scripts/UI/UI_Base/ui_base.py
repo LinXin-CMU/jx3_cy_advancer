@@ -82,11 +82,15 @@ class BaseUi:
 
     @staticmethod
     def ShowInfoBoxForExportSuccess(parent, export_type):
-        QMessageBox.information(parent, '操作成功!', f'{export_type}文件导出成功!')
+        QMessageBox.information(parent, '操作成功!', f'{export_type}文件导出成功！')
 
     @staticmethod
     def ShowWarningBoxForSSLError(parent):
         QMessageBox.warning(parent, '错误!', '未能访问到jx3box服务器，请关闭本机网络代理服务(vpn)！')
+
+    @staticmethod
+    def ShowWarningBoxForPlayerKungFuWarning(parent):
+        QMessageBox.warning(parent, '警告!', '当前玩家并非分山劲心法，仅能导出excel格式记录！')
 
     def set_equip(self, equip: dict[str: Equip]):
         """

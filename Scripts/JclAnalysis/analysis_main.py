@@ -66,11 +66,13 @@ class Analysis:
         self._player.update(self.data, player_id, npc_id)
         # 这里是得到按不同目的分类的buff和技能数据
         # 开始对技能统计数据的处理
+
         # 1. 整理技能至可供表格展示的状态
         self._skill_to_table = read_origin_skill_data(self._player.skill_events_by_time, self._reader.id_to_name)
         # print(*[f"{i}: {j}\n" for i, j in data.items()])
         # 2. 读取技能轴和增益
         self._data_checker.run()
+        # 3. 读取buff序列并分析
 
 
     def _get_all_operate_data(self):

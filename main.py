@@ -34,19 +34,22 @@ class Main:
         :return:
         """
         try:
-            self.reader.run(*self.main_ui.page_top.run_data)
             # 读取文件
-            # 读取装备部分
-            self.reader.get_equip_info()
-            # 生成装备对象
-            self._sub_calc_equip()
-            # 计算剩余内容
-            # 读取行为部分
-            self.analyzer.run()
-            # 设置技能统计
-            self._sub_show_skills()
-            # 展示复盘页
-            self._sub_show_operate()
+            self.reader.run(*self.main_ui.page_top.run_data)
+            # 判断心法
+            if self.reader.player_kungfu in {'分山劲', '铁骨衣'}:
+                # 读取行为部分
+                self.analyzer.run()
+                # 读取装备部分
+                self.reader.get_equip_info()
+                # 生成装备对象
+                self._sub_calc_equip()
+                # 设置技能统计
+                self._sub_show_skills()
+                # 展示复盘页
+                self._sub_show_operate()
+            else:
+                self.main_ui.ShowWarningBoxForPlayerKungFuWarning(self.main_ui)
         except JclFileEncodeError:
             self.main_ui.ShowWarningBoxForFileEncodeError(self.main_ui)
         except NotFoundPlayerIDFromName:

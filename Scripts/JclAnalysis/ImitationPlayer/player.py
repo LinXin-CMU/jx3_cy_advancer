@@ -64,6 +64,14 @@ class Player:
                 _t += end_time - start_time
             return _t, len(self._buff[8391])
 
+    @property
+    def buff_data(self):
+        """
+        出现过的所有buff
+        :return:
+        """
+        return self._buff
+
     def update(self, data: Dict[int, Dict], player_id: int, npc_id: List):
         """
         根据每行的数据内容以更新自身数据\n
@@ -147,9 +155,9 @@ class Player:
                 for buff_id, buff in self._waiting_buffs.items():
                     # 将所有等待buff添加至玩家状态
                     if buff_id in self._buff:
-                        self._buff[buff_id][buff[0]] = (msec, buff[1], buff[2])
+                        self._buff[buff_id][buff[0]] = (msec, buff[1], buff[2], buff[3])
                     else:
-                        self._buff[buff_id] = {buff[0]: (msec, buff[1], buff[2])}
+                        self._buff[buff_id] = {buff[0]: (msec, buff[1], buff[2], buff[3])}
                 self._waiting_buffs.clear()
             return
 
@@ -159,7 +167,12 @@ class Player:
         if data['bDelete']:
             # 移除该buff的情况
             if new_buff_id not in self._waiting_buffs:
-                return
+                # 在战斗记录外获取，战斗记录内消失的情况
+                if new_buff_id not in self._buff:
+                    src_id = data['dwSkillSrcID']
+                    if src_id == 0:
+                        src_id = data['dwPlayerID']
+                    self._buff[new_buff_id] = {-1200: (msec, data['nLevel'], data['nStackNum'], src_id)}
             # 绝刀怒气判定buff的保护
             elif new_buff_id == 9052:
                 return

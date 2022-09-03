@@ -104,6 +104,10 @@ class FileReader:
     def attribute(self) -> Attribute:
         return self.attributes
 
+    @property
+    def player_kungfu(self):
+        return self._player_mount
+
     def _get_player_info(self, player_name):
         """
         从记录中读取到当前玩家id和心法, 玩家的npcid\n

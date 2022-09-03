@@ -16,11 +16,12 @@ class BeneficialChecker:
         self._other_benefit_buff_to_skill_data = {}
         self._self_benefit_buff_to_skill_data = {}
 
-    def _filtrate_benefit_buff(self):
+    def _filt_benefit_buff(self):
         """
         将数据按buff重新统计分类\n
         :return:
         """
+
 
 
 

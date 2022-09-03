@@ -255,7 +255,8 @@ class Attribute:
             }
         }
         if self.player_kungfu not in mount_attribs:
-            raise
+            # 必须为苍云心法再计算
+            return
         for slot, value in mount_attribs[self.player_kungfu].items():
             if slot not in self._attributes:
                 self._attributes[slot] = value
