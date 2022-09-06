@@ -153,7 +153,8 @@ class JclReader:
         # 对原始数据做有序遍历
         for i in sorted(list(self._data.keys())):
             row = self._data[i]
-            row['type'] = log_type[row['type']]
+            if isinstance(row['type'], int):
+                row['type'] = log_type[row['type']]
             # 过滤掉技能释放失败事件
             if row['type'] == 'SYS_MSG_UI_OME_SKILL_CAST_RESPOND_LOG':
                 # del self._data[i]
@@ -280,13 +281,16 @@ class JclReader:
                 _id = _.pop('dwCharacterID')
             if _id is not None:
                 row['event_id'] = _id
+            # 结束帧计算
+            if 'nEndFrame' in row['data']:
+                row['data']['nEndFrame'] -= self.record_info['start_fight_time']['frame']
             # 删除部分值
-            for key in ['bReact', 'nCount', 'nIndex', 'nEndFrame', 'bInit', 'bIsValid']:
+            for key in ['bReact', 'nCount', 'nIndex', 'bInit', 'bIsValid']:
                 if key in row['data']:
                     del row['data'][key]
 
             # 赋值回原数据
-            if self._csv_data is None:
+            if self ._csv_data is None:
                 self._csv_data = {0: row}
             else:
                 self._csv_data[i] = row

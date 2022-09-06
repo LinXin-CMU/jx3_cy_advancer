@@ -51,8 +51,7 @@ class Analysis:
         用于循环页下半部分的数据\n
         :return:
         """
-        return self._get_all_operate_data()
-
+        return *self._get_all_operate_data(), self._data_checker.benefit_buffs
 
 
     def run(self):
@@ -73,6 +72,7 @@ class Analysis:
         # 2. 读取技能轴和增益
         self._data_checker.run()
         # 3. 读取buff序列并分析
+        self._data_checker.run_buff()
 
 
     def _get_all_operate_data(self):

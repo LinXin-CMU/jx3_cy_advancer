@@ -52,6 +52,14 @@ class MainChecker:
         # 当前心法的重点技能
         return self._major_checker.current_kungfu_skills
 
+    @property
+    def benefit_buffs(self):
+        """
+        所有增益buff的生存时间
+        :return:
+        """
+        return self._benefit_checker.benefit_buffs
+
     def run(self):
         """
         执行技能和增益复盘\n
@@ -194,7 +202,12 @@ class MainChecker:
                     'delay': 0,  # gcd时间
                     'daohun_rate': 0,  # 刀魂盾击占盾回盾击比例
                     'yujian_rate': 0,  # 玉简盾压占盾压比例
-                    'hanjia_layer': 0   # 寒甲平均层数
+                    'hanjia_layer': 0,   # 寒甲平均层数
+                    'dundao_1': 0,
+                    'dundao_2': 0,
+                    'dundao_3': 0,
+                    'dundao_4': 0,
+                    'duanma_rage': [],
                 },
             }
             if not skill_name == '盾飞' and skill_name in delays:
@@ -223,27 +236,28 @@ class MainChecker:
                     # 对Miss字段的累加
                     # 分心法
                     if kungfu == '分山劲' and not skill_name == '盾飞':
-                        if key == 'DaoHun':
-                            if not value:
-                                ret['Miss']['total'] += 1
-                                ret['Miss']['DaoHun'].append(time)
-                            if skill_name == '盾击' and value:
-                                ret['Special']['daohun_rate'] += 1
-                        elif key == 'FenYe':
-                            if not value:
-                                ret['Miss']['total'] += 1
-                                ret['Miss']['FenYe'].append(time)
-                        elif key == 'XueNu':
-                            if value < 2:
-                                ret['Miss']['total'] += 1
-                                ret['Miss']['XueNu'].append(time)
-                        elif key == 'YuJian' and has_yujian:
-                            if skill_name in {'盾击', '盾压'}:
-                                # 飞击飞压
-                                if value < 6:
+                        match key:
+                            case 'DaoHun':
+                                if not value:
                                     ret['Miss']['total'] += 1
-                                    ret['Miss']['YuJian'].append(time)
-                            elif skill_name in {'阵云结晦', '月照连营', '雁门迢递'}:
+                                    ret['Miss']['DaoHun'].append(time)
+                                if skill_name == '盾击' and value:
+                                    ret['Special']['daohun_rate'] += 1
+                            case 'FenYe':
+                                if not value:
+                                    ret['Miss']['total'] += 1
+                                    ret['Miss']['FenYe'].append(time)
+                            case 'XueNu':
+                                if value < 2:
+                                    ret['Miss']['total'] += 1
+                                    ret['Miss']['XueNu'].append(time)
+                            case 'YuJian' if has_yujian:
+                                if skill_name in {'盾击', '盾压'}:
+                                    # 飞击飞压
+                                    if value < 6:
+                                        ret['Miss']['total'] += 1
+                                        ret['Miss']['YuJian'].append(time)
+                            case '阵云结晦' | '月照连营' | '雁门迢递':
                                 # 6层阵云
                                 if value < 6:
                                     ret['Miss']['total'] += 1
@@ -252,19 +266,26 @@ class MainChecker:
                     elif kungfu == '铁骨衣':
                         pass
 
-                    if key == 'norm_rage':
-                        ret['Special']['norm_rage'].append(value)
-                    elif key == 'cw_rage':
-                        ret['Special']['cw_rage'].append(value)
-                    elif key == 'cw':
-                        if value:
-                            ret['Special']['cw_count'] += 1
-                    elif key == 'jueguo':
-                        ret['Special']['jueguo_count'] += value
-                    elif key == 'ZhenYun_Overflow':
-                        ret['Special']['zhenyun_overflow'] += len(value)
-                        ret['Miss']['total'] += len(value)
-                        ret['Miss']['ZhenYun'] += value
+                    # 对Special字段的累加
+                    match key:
+                        case 'norm_rage':
+                            ret['Special']['norm_rage'].append(value)
+                        case 'cw_rage':
+                            ret['Special']['cw_rage'].append(value)
+                        case 'cw':
+                            if value:
+                                ret['Special']['cw_count'] += 1
+                        case 'jueguo':
+                            ret['Special']['jueguo_count'] += value
+                        case 'ZhenYun_Overflow':
+                            ret['Special']['zhenyun_overflow'] += len(value)
+                            ret['Miss']['total'] += len(value)
+                            ret['Miss']['ZhenYun'] += value
+                        case 'stage':
+                            if f'dundao_{value}' in ret['Special']:
+                                ret['Special'][f'dundao_{value}'] += 1
+                        case 'rage':
+                            ret['Special']['duanma_rage'].append(value)
 
             ret_value[skill_name] = ret
         # 技能豁免事件
@@ -332,7 +353,12 @@ class MainChecker:
                 'delay': 0,  # gcd时间
                 'daohun_rate': 0,  # 刀魂盾击占盾回盾击比例
                 'yujian_rate': 0,  # 玉简盾压占盾压比例
-                'hanjia_layer': 0  # 寒甲平均层数
+                'hanjia_layer': 0,  # 寒甲平均层数
+                'dundao_1': 0,
+                'dundao_2': 0,
+                'dundao_3': 0,
+                'dundao_4': 0,
+                'duanma_rage': 0,
             },
         }
             if import_skill not in ret_value:
@@ -347,31 +373,35 @@ class MainChecker:
             for k, v in d['Buffs'].items():
                 ret_value[sk]['Buffs'][k] = v / _n
             # 计算特殊数据平均值
-            if sk == '绝刀':
-                ret_value[sk]['Special']['norm_rage'] = np.mean(ret_value[sk]['Special']['norm_rage'])
-                ret_value[sk]['Special']['cw_rage'] = np.mean(ret_value[sk]['Special']['cw_rage'])
+            match sk:
+                case '绝刀':
+                    ret_value[sk]['Special']['norm_rage'] = np.mean(ret_value[sk]['Special']['norm_rage'])
+                    ret_value[sk]['Special']['cw_rage'] = np.mean(ret_value[sk]['Special']['cw_rage'])
             # elif sk == '阵云结晦':
             #     ret_value[sk]['Special']['']
-            elif sk == '盾飞':
-                df_t, df_c = self._player.dunfei_time_and_count
-                if df_t > 0:
-                    # 每次盾飞减去一次盾飞次数计数
-                    ret_value[sk]['Special']['dunfei_rate'] = (_n - df_c) / (df_t / 1000)
-                else:
-                    pass
-            elif sk == '雁门迢递':
-                ret_value[sk]['Special']['jueguo_count'] = ret_value[sk]['Special']['jueguo_count'] / _n
-            elif sk == '盾击':
-                if dunhui_count > 0 and kungfu == '分山劲':
-                    ret_value[sk]['Special']['daohun_rate'] = ret_value[sk]['Special']['daohun_rate'] / dunhui_count
-            elif sk == '盾压':
-                if kungfu == '分山劲':
-                    ret_value[sk]['Special']['yujian_rate'] = ret_value[sk]['Buffs']['YuJian'] / 6
+                case '盾飞':
+                    df_t, df_c = self._player.dunfei_time_and_count
+                    if df_t > 0:
+                        # 每次盾飞减去一次盾飞次数计数
+                        ret_value[sk]['Special']['dunfei_rate'] = (_n - df_c) / (df_t / 1000)
+                    else:
+                        pass
+                case '雁门迢递':
+                    ret_value[sk]['Special']['jueguo_count'] = ret_value[sk]['Special']['jueguo_count'] / _n
+                case '盾击':
+                    if dunhui_count > 0 and kungfu == '分山劲':
+                        ret_value[sk]['Special']['daohun_rate'] = ret_value[sk]['Special']['daohun_rate'] / dunhui_count
+                case '盾压':
+                    if kungfu == '分山劲':
+                        ret_value[sk]['Special']['yujian_rate'] = ret_value[sk]['Buffs']['YuJian'] / 6
+                case '断马摧城':
+                    ret_value[sk]['Special']['duanma_rage'] = np.mean(ret_value[sk]['Special']['duanma_rage'])
 
             # 寒甲层数
             if kungfu == '铁骨衣':
                 if not sk == '盾挡':
                     ret_value[sk]['Special']['hanjia_layer'] = ret_value[sk]['Buffs']['HanJiaCeng']
+
 
 
 
@@ -456,7 +486,7 @@ class MainChecker:
         统计每一个buff的存在情况和作用的技能
         :return:
         """
-
+        self._benefit_checker.check_benefit_buff(self._player.buff_data)
 
 
 

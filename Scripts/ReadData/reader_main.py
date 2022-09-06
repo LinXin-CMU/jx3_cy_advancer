@@ -116,6 +116,8 @@ class FileReader:
         try:
             # 先读取玩家id
             # 判断是否出现编码损坏
+            self._player_mount = None
+            self._player_id = None
             _file_encode_error = False
             for player_id in self._reader.record_info['name_data']:
                 _name = self._reader.record_info['name_data'][player_id]['szName']

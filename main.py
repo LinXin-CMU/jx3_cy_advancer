@@ -96,7 +96,7 @@ class Main:
         :return:
         """
         self.main_ui.page_retro.set_school_operate_info(self.analyzer.skill_analysis_data)
-        self.main_ui.page_retro.draw_operate_picture(self.analyzer.get_operate_data())
+        self.main_ui.page_retro.draw_operate_picture(self.analyzer.get_operate_data(), self.reader.record_info)
 
 
     def _button_connection(self):

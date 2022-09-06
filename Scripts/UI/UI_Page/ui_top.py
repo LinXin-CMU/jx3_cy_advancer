@@ -353,7 +353,7 @@ class Top_UI(BaseUi):
             self.ShowWarningBoxForNotStartRead(self.widget)
         else:
             workpath = QFileDialog.getExistingDirectory(self.widget, "请选择想要保存到的目录", os.getcwd())
-            csv_name = self._target_file.replace(".jcl", ".csv")
+            csv_name = self._target_file.replace(".jcl", "-") + self.player_name + '.csv'
             try:
                 with open(f"{workpath}/{csv_name}", 'w', encoding='gbk', newline='') as f:
                     csv_writer = DictWriter(f, fieldnames=["frame", "timestamp", "msec", "event_type", 'buff_type',
@@ -367,8 +367,6 @@ class Top_UI(BaseUi):
                 self.ShowInfoBoxForExportSuccess(self.widget, 'Excel')
             except PermissionError as e:
                 print(f"Permission Error: {e} at Scripts/UI/UI_Page/ui_top.py export_csv_data: 目标文件已被打开")
-            finally:
-                f.close()
 
     def _get_all_jcl_files_from_folder(self):
         """

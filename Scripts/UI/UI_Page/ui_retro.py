@@ -383,8 +383,8 @@ class Retro_UI(BaseUi):
         # 未用到
         # operate_list = data['operate_list']
 
-        ICON_POS_X = (20, 240)
-        ICON_POS_Y = (20, 93, 166, 240)
+        ICON_POS_X = (0, 215)
+        ICON_POS_Y = (30, 103, 177, 250)
         ICON_SIZE = (40, 40)
         NAME_SIZE = QSize(111, 21)
         BUTTON_SIZE = QSize(201, 61)
@@ -560,7 +560,7 @@ class Retro_UI(BaseUi):
                 _lb.setAlignment(Qt.AlignHCenter)
                 # 信息
                 _infos = {}
-                for idx in range(4):
+                for idx in range(7):
                     _name_lb = QLabel(widget)
                     _name_lb.resize(71, 18)
                     _name_lb.setVisible(False)
@@ -586,6 +586,8 @@ class Retro_UI(BaseUi):
                 time_table.verticalHeader().setVisible(False)
                 time_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
                 time_table.setSelectionBehavior(QAbstractItemView.SelectRows)
+                # 绑定表格触发
+                time_table.itemSelectionChanged.connect(self._miss_time_table_func(time_table))
                 # 每一组
                 _lbs = {}
                 for _bf_label_count in range(7):
@@ -738,7 +740,6 @@ class Retro_UI(BaseUi):
 
             # 开始填入右侧表格内容
             tb = labels['timetable']
-            tb.setRowCount(0)
             for miss_name, miss_times in skill_analysis[sk_name]['Miss'].items():
                 if miss_name == 'total':
                     continue
@@ -759,9 +760,26 @@ class Retro_UI(BaseUi):
                         tb.setItem(tb.rowCount()-1, 0, time_item)
                         tb.setItem(tb.rowCount()-1, 1, name_item)
 
-    def draw_operate_picture(self, data):
+    def draw_operate_picture(self, operate_data, record_info):
         """
-        绘制全程复盘图片的入口
+        绘制全程复盘图片的入口\n
         """
-        self._operate_painter.run(data)
+        self._operate_painter.run(operate_data, record_info)
+
+    def _miss_time_table_func(self, table: QTableWidget):
+        """
+        右上失误时间表格被点击事件
+        :return:
+        """
+        _tb = table
+        _wid = self.ui.scrollArea.width() // 2
+        def inner():
+            time = _tb.item(_tb.currentRow(), 0).text()
+            mm, ss = time.split(":")
+            pixels = ((int(mm) * 60 + int(ss)) * 1000) // 25 + 50
+            self.ui.scrollArea.horizontalScrollBar().setValue(max(0, pixels - _wid))
+
+        return inner
+
+
 

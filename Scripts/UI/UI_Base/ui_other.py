@@ -1,9 +1,9 @@
 """
 零散函数和变量
 """
-import os
-
+from os import listdir
 from PIL import Image
+from collections import namedtuple
 
 from CustomClasses.Exceptions import SourceNotFoundError
 
@@ -69,14 +69,14 @@ available_specials = {
         '雁门迢递': ['count', 'jueguo_count']
     },
     '铁骨衣': {
-        '盾刀': ['count', 'hanjia_layer'],
+        '盾刀': ['count', 'hanjia_layer', 'dundao_1', 'dundao_2', 'dundao_3', 'dundao_4'],
         '盾击': ['count', 'hanjia_layer'],
         '盾压': ['count', 'hanjia_layer'],
-        '盾飞': ['count', 'hanjia_layer'],
+        '盾飞': ['count', 'hanjia_layer', 'dunfei_rate'],
         '斩刀': ['count', 'hanjia_layer'],
-        '绝刀': ['count', 'hanjia_layer'],
+        '绝刀': ['count', 'hanjia_layer', 'cw_count', 'norm_rage'],
         '盾挡': ['count'],
-        '断马摧城': ['count', 'hanjia_layer'],
+        '断马摧城': ['count', 'hanjia_layer', 'duanma_rage'],
     }
 }
 
@@ -97,6 +97,8 @@ try:
         'CanJuan': Image.open(r'Sources/Jx3_Datas/Icons/buff_icons/残卷·铁骨衣.png', 'r'),
         'DunDang': Image.open(r'Sources/Jx3_Datas/Icons/buff_icons/盾挡.png', 'r'),
         'Enchant_Belt': Image.open(r'Sources/Jx3_Datas/Icons/jx3basic_icons/enchant.png', 'r'),
+        'DanDao': Image.open(r'Sources/Jx3_Datas/Icons/talent_icons/残楼.png', 'r'),
+        'FengLing': Image.open(r'Sources/Jx3_Datas/Icons/buff_icons/锋凌横绝五阵.png', 'r'),
     }
 except FileNotFoundError as e:
     raise SourceNotFoundError(f"Any {e}")
@@ -130,6 +132,11 @@ special_to_name = {
     'daohun_rate': '刀魂盾击比例',    # 刀魂盾击占盾回盾击比例
     'yujian_rate': '玉简盾压比例',    # 玉简盾压占总盾压比例
     'hanjia_layer': '寒甲平均层数',
+    'dundao_1': '一段盾刀数量',
+    'dundao_2': '二段盾刀数量',
+    'dundao_3': '三段盾刀数量',
+    'dundao_4': '四段盾刀数量',
+    'duanma_rage': '平均怒气',
 }
 
 special_to_type = {
@@ -143,6 +150,11 @@ special_to_type = {
     'daohun_rate': 'float',     # 刀魂盾击比例
     'yujian_rate': 'float',
     'hanjia_layer': 'int',
+    'dundao_1': 'int',
+    'dundao_2': 'int',
+    'dundao_3': 'int',
+    'dundao_4': 'int',
+    'duanma_rage': 'float',
 }
 
 miss_to_name = {
@@ -155,7 +167,7 @@ miss_to_name = {
 
 skill_icons = {}
 try:
-    files = os.listdir(r'Sources/Jx3_Datas/Icons/skill_icons')
+    files = listdir(r'Sources/Jx3_Datas/Icons/skill_icons')
     for file in files:
         name, ftype = file.split('.')
         if ftype == 'png':
@@ -163,6 +175,29 @@ try:
 except FileNotFoundError as e:
     raise SourceNotFoundError(f"Any {e}")
 # print(skill_icons)
+
+
+school_colors = {
+    # light | dark
+    'PengLai': ['#abe3fa', '#5d617e'],
+    'BaDao': ['#6a6cbd', '#31276e'],
+    'TianCe': ['#ff6f53', '#690e0e'],
+    'GaiBang': ['#cd853f', '#9f6625'],
+    'LingXue': ['#ee0d32', '#a10922'],
+    'JiangHu': ['#ffffff', '#989898'],
+    'CangJian': ['#d6f95d', '#94981b'],
+    'CangYun': ['#de4a00', '#9d2f02'],
+    'ShaoLin': ['#ffb25f', '#7d700a'],
+    'YanTian': ['#a653fb', '#602d94'],
+    'TangMen': ['#79b736', '#4b7128'],
+    'ChangGe': ['#64fab4', '#1f7867'],
+    'ChunYang': ['#16d8d8', '#085a71'],
+    'QiXiu': ['#ff81b0', '#a24a81'],
+    'WanHua': ['#c498ff', '#2f0e46'],
+    'WuDu': ['#3793ff', '#07529a'],
+    'MingJiao': ['#f04669', '#915011'],
+    'YaoZong': ['#09b5a2', '#0a5157']
+}
 
 
 

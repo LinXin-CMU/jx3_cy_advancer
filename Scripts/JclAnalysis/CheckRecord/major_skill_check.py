@@ -68,6 +68,7 @@ class MajorSkillChecker:
         # last_msec = None
         self._major_skills_result = {}
         self._major_skills_list = {}
+        self._all_skills_result = {}
 
         while True:
             # 获取数据
@@ -186,13 +187,14 @@ class MajorSkillChecker:
         # 盾刀id
         dundao_id = {
             13044: 1,
-            13059: 2,
+            13244: 2,
             13060: 3,
             13119: 4
         }
         # 返回值
         self._major_skills_result = {}
         self._major_skills_list = {}
+        self._all_skills_result = {}
         while True:
             # 获取数据
             _type, msec, skill_id, skill_level, skill_name, buff_data = yield
@@ -259,6 +261,10 @@ class MajorSkillChecker:
                         self._major_skills_result[skill_name] = {msec: buff_ret}
                     else:
                         self._major_skills_result[skill_name][msec] = buff_ret
+                    if skill_name not in self._all_skills_result:
+                        self._all_skills_result[skill_name] = {msec: buff_ret}
+                    else:
+                        self._all_skills_result[skill_name][msec] = buff_ret
 
             if (skill_id, skill_level) not in not_player_skills:
                 if (skill_id, skill_level) not in player_skills:

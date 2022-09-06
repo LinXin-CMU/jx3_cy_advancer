@@ -59,10 +59,9 @@ class Player:
             return 0
         else:
             _t = 0
-            for start_time, val in self._buff[8391].items():
-                end_time = val[0]
-                _t += end_time - start_time
-            return _t, len(self._buff[8391])
+            for item in self._buff[8391][1]:
+                _t += item[1] - item[0]
+            return _t, len(self._buff[8391][1])
 
     @property
     def buff_data(self):
@@ -155,9 +154,12 @@ class Player:
                 for buff_id, buff in self._waiting_buffs.items():
                     # 将所有等待buff添加至玩家状态
                     if buff_id in self._buff:
-                        self._buff[buff_id][buff[0]] = (msec, buff[1], buff[2], buff[3])
+                        if buff[1] in self._buff[buff_id]:
+                            self._buff[buff_id][buff[1]].append((buff[0], msec, buff[1], buff[2], buff[3], buff[4]))
+                        else:
+                            self._buff[buff_id][buff[1]] = [(buff[0], msec, buff[1], buff[2], buff[3], buff[4])]
                     else:
-                        self._buff[buff_id] = {buff[0]: (msec, buff[1], buff[2], buff[3])}
+                        self._buff[buff_id] = {buff[1]: [(buff[0], msec, buff[1], buff[2], buff[3], buff[4])]}
                 self._waiting_buffs.clear()
             return
 
@@ -168,21 +170,32 @@ class Player:
             # 移除该buff的情况
             if new_buff_id not in self._waiting_buffs:
                 # 在战斗记录外获取，战斗记录内消失的情况
+                src_id = data['dwSkillSrcID']
+                if src_id == 0:
+                    src_id = data['dwPlayerID']
                 if new_buff_id not in self._buff:
-                    src_id = data['dwSkillSrcID']
-                    if src_id == 0:
-                        src_id = data['dwPlayerID']
-                    self._buff[new_buff_id] = {-1200: (msec, data['nLevel'], data['nStackNum'], src_id)}
+                    self._buff[new_buff_id] = {data['nLevel']: [(-1200, msec, data['nLevel'], data['nStackNum'], src_id, data['szName'])]}
+                elif data['nLevel'] not in self._buff[new_buff_id]:
+                    self._buff[new_buff_id][data['nLevel']] = [(-1200, msec, data['nLevel'], data['nStackNum'], src_id, data['szName'])]
+                else:
+                    self._buff[new_buff_id][data['nLevel']].append((-1200, msec, data['nLevel'], data['nStackNum'], src_id, data['szName']))
             # 绝刀怒气判定buff的保护
             elif new_buff_id == 9052:
                 return
             else:
+                if new_buff_id in {8271, 17772}:
+                    # 寒甲特殊处理，按时长是否达到8000ms判断是否删除
+                    if msec - self._waiting_buffs[new_buff_id][0] < 8000:
+                        return
                 old_buff = self._waiting_buffs.pop(new_buff_id)
                 if new_buff_id in self._buff:
-                    self._buff[new_buff_id][old_buff[0]] = (msec, old_buff[1], old_buff[2], old_buff[3])
-                    # [add_time] = (del_time, nLevel, nStackNum, dwSkillSrcID)
+                    if old_buff[1] in self._buff[new_buff_id]:
+                        self._buff[new_buff_id][old_buff[1]].append((old_buff[0], msec, old_buff[1], old_buff[2], old_buff[3], old_buff[4]))
+                        # [level] = (add_time, del_time, nStackNum, dwSkillSrcID)
+                    else:
+                        self._buff[new_buff_id][old_buff[1]] = [(old_buff[0], msec, old_buff[1], old_buff[2], old_buff[3], old_buff[4])]
                 else:
-                    self._buff[new_buff_id] = {old_buff[0]: (msec, old_buff[1], old_buff[2], old_buff[3])}
+                    self._buff[new_buff_id] = {old_buff[1]: [(old_buff[0], msec, old_buff[1], old_buff[2], old_buff[3], old_buff[4])]}
         else:
             # 判断来源id
             src_id = data['dwSkillSrcID']
@@ -192,14 +205,27 @@ class Player:
             if new_buff_id in self._waiting_buffs:
                 # 判断等级
                 if data['nLevel'] >= self._waiting_buffs[new_buff_id][1] or new_buff_id == 9052:
+                    # 先取出该buff
+                    old_buff = self._waiting_buffs.pop(new_buff_id)
+                    if new_buff_id in self._buff:
+                        if old_buff[1] in self._buff[new_buff_id]:
+                            self._buff[new_buff_id][old_buff[1]].append(
+                                (old_buff[0], msec, old_buff[1], old_buff[2], old_buff[3], old_buff[4]))
+                            # [level] = (add_time, del_time, nStackNum, dwSkillSrcID)
+                        else:
+                            self._buff[new_buff_id][old_buff[1]] = [
+                                (old_buff[0], msec, old_buff[1], old_buff[2], old_buff[3], old_buff[4])]
+                    else:
+                        self._buff[new_buff_id] = {
+                            old_buff[1]: [(old_buff[0], msec, old_buff[1], old_buff[2], old_buff[3], old_buff[4])]}
                     # 添加新buff
                     # 绝刀怒气判定buff特殊处理
-                    self._waiting_buffs[new_buff_id] = (msec, data['nLevel'], data['nStackNum'], src_id)
+                    self._waiting_buffs[new_buff_id] = (msec, data['nLevel'], data['nStackNum'], src_id, data['szName'])
                 else:
                     return
             else:
                 # 直接添加
-                self._waiting_buffs[new_buff_id] = (msec, data['nLevel'], data['nStackNum'], src_id)
+                self._waiting_buffs[new_buff_id] = (msec, data['nLevel'], data['nStackNum'], src_id, data['szName'])
 
     def _cast_skill(self, msec: int, data: Dict[str, Union[int, str, Dict]], *, status: Literal["dodge"] | None = None):
         """
