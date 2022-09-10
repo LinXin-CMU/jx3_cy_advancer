@@ -69,6 +69,8 @@ class FileReader:
     @property
     def npc_id(self) -> list: return ...
     @property
+    def boss_name(self) -> str: return ...
+    @property
     def data(self): return
     @property
     def csv_data(self): return
@@ -85,7 +87,7 @@ class FileReader:
 
 
 class Player:
-    """Scripts/JclAnalysis/ImitationPlayer/player.py"""
+    """Scripts/JclAnalysis/Imitation/player.py"""
     def __init__(self): ...
     @property
     def skill_events_by_time(self) -> Dict: return ...

@@ -7,8 +7,9 @@
 >> * skill_data_reshape.py -> 函数库, 用于为表格整理数据  
 > ### 2. GetMark  
 >> * used_events.py -> 评分用数据
-> ### 3. ImitationPlayer  
+> ### 3. Imitation 
 >> * player.py -> 读取buff状态, 将记录整理为按技能分类和按时间分类, 记录技能释放时所存在的buff供复盘和评价使用  
+>> * npc.py -> 根据给定武功筛选玩家，检测对应玩家对boss施展的技能以判断boss身上存在的buff 
 ## 3. ReadData  
 > * reader_main -> jcl读取模块顶层
 > ### 1. Equips

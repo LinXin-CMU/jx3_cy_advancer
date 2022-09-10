@@ -99,6 +99,15 @@ try:
         'Enchant_Belt': Image.open(r'Sources/Jx3_Datas/Icons/jx3basic_icons/enchant.png', 'r'),
         'DanDao': Image.open(r'Sources/Jx3_Datas/Icons/talent_icons/残楼.png', 'r'),
         'FengLing': Image.open(r'Sources/Jx3_Datas/Icons/buff_icons/锋凌横绝五阵.png', 'r'),
+        'XueYun': Image.open(r'Sources/Jx3_Datas/Icons/buff_icons/血云.png', 'r'),
+        'TaiChu': Image.open(r'Sources/Jx3_Datas/Icons/buff_icons/太初社稷.png', 'r'),
+        'ZhuQue': Image.open(r'Sources/Jx3_Datas/Icons/buff_icons/朱轩怀雀.png', 'r'),
+        'XiuLuo': Image.open(r'Sources/Jx3_Datas/Icons/buff_icons/修罗鬼面.png', 'r'),
+        'NiYan': Image.open(r'Sources/Jx3_Datas/Icons/buff_icons/十律守心·猊焰.png', 'r'),
+        'AnHun': Image.open(r'Sources/Jx3_Datas/Icons/buff_icons/十律守心·犴魂.png', 'r'),
+        'BaiLang': Image.open(r'Sources/Jx3_Datas/Icons/buff_icons/白狼河北.png', 'r'),
+        'BianSheng': Image.open(r'Sources/Jx3_Datas/Icons/buff_icons/四面边声.png', 'r'),
+        'ZhanMa': Image.open(r'Sources/Jx3_Datas/Icons/buff_icons/斩马刑天.png', 'r'),
     }
 except FileNotFoundError as e:
     raise SourceNotFoundError(f"Any {e}")

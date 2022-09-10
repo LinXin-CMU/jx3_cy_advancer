@@ -24,6 +24,8 @@ class FileReader:
         # 玩家心法
         self._npc_id = None
         # 玩家的npcid序列
+        self._boss_name = None
+        # boss名
         self._reader = JclReader()
         # 阅读jcl的类
         self._equip = PlayerEquip()
@@ -39,9 +41,14 @@ class FileReader:
         # 读取原始数据
         self._get_player_info(current_player_name)
         # 查询到玩家id
+        self._boss_name = filepath.rsplit('-', 1)[-1][:-4]
         # 读取装备信息
         # except Exception as e:
         #     print(f"{e} at Scripts/ReadData/reader_main.py run")
+
+    @property
+    def boss_name(self):
+        return self._boss_name
 
     @property
     def player_id(self):

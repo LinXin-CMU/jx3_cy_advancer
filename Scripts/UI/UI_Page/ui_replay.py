@@ -3,7 +3,7 @@
 # 复盘图片制作
 
 from PyQt5.QtWidgets import QLabel, QFrame, QGroupBox, QScrollArea, QMainWindow, QScrollBar, QPlainTextEdit
-from PyQt5.Qt import QColor, QSize
+from PyQt5.Qt import QColor, QSize, QPixmap
 from PyQt5.QtCore import QPoint, Qt, QEvent
 from PIL import Image
 from collections import namedtuple
@@ -11,6 +11,7 @@ from typing import Literal, Iterable
 
 from Scripts.UI.UI_Base.ui_other import buff_icons, skill_icons, buff_to_name, school_colors
 from Scripts.UI.UI_Base.ui import Ui_MainWindow
+from Scripts.JclAnalysis.CheckRecord.benefic_buffs import BUFF_LEVEL_MEANING
 
 position = namedtuple('position', ['x', 'y'])
 size = namedtuple('size', ['w', 'h'])
@@ -27,10 +28,18 @@ except FileNotFoundError:
     orange_border = Image.new('RGBA', (48, 48), (255, 255, 255, 255))
 
 # buff数据
-_self_buff_imports = {'恋战': 9, '寒甲': 6, '坚铁': 10, '盾挡': 7, '分野': 2, '军啸': 3, '伤腰': 4, '单刀赴会·战': 11, '玉简·分山劲': 1, '残卷·铁骨衣': 8, "锋凌横绝五阵": 5}
-_self_buff_to_name = {'恋战': "LianZhan", '寒甲': "HanJia", '坚铁': "JianTie", '盾挡': "DunDang", '分野': "FenYe",
+_self_buff_imports = {'恋战': 9, '寒甲': 6, '坚铁': 10, '盾挡': 7, '千山盾挡': 7, '分野': 2, '军啸': 3, '伤腰': 4,
+                      '单刀赴会·战': 12, '玉简·分山劲': 1, '残卷·铁骨衣': 8, "锋凌横绝五阵": 5, '血云': 11, '太初社稷': 11,
+                      '征天': 11, '题龙旐': 11, '千仞': 11, '旧嗜': 11, '朱轩怀雀': 11, '修罗鬼面': 11, '十律守心·猊焰': 11,
+                      '十律守心·犴魂': 11, '白狼河北': 11, '四面边声': 11, '斩马刑天': 12}
+
+_self_buff_to_name = {'恋战': "LianZhan", '寒甲': "HanJia", '坚铁': "JianTie", '千山盾挡': "DunDang", '盾挡': "DunDang", '分野': "FenYe",
                       '军啸': "JunXiao", '伤腰': "Enchant_Belt", '单刀赴会·战': "DanDao", '玉简·分山劲': "YuJian",
-                      '残卷·铁骨衣': "CanJuan", '锋凌横绝五阵': "FengLing"}
+                      '残卷·铁骨衣': "CanJuan", '锋凌横绝五阵': "FengLing", '血云': "XueYun", '太初社稷': "TaiChu",
+                      '征天': "XueYun", '题龙旐': "TaiChu", '千仞': "XueYun", '旧嗜': "TaiChu", '朱轩怀雀': "ZhuQue",
+                      '修罗鬼面': "XiuLuo", '十律守心·猊焰': "NiYan", '十律守心·犴魂': "AnHun", '白狼河北': "BaiLang",
+                      '四面边声': "BianSheng", '斩马刑天': "ZhanMa"}
+
 _other_buff_imports = {
     "潮生": "JiangHu",
     "卫公折冲五阵": "TianCe", "激雷": "TianCe", "号令三军": "TianCe", "化干戈": "TianCe",
@@ -39,7 +48,7 @@ _other_buff_imports = {
     "弘法": "ShaoLin",
     "梅隐香": "CangJian", "剑锋百锻": "CangJian",
     "酣畅淋漓": "GaiBang", "降龙伏虎五阵": "GaiBang",
-    "朝圣言": "MingJiao",
+    "朝圣言": "MingJiao", "朝圣言增强": "MingJiao",
     "圣蝎附体": "WuDu",
     "流星赶月五阵": "TangMen", "千机百变五阵": "TangMen",
     "振奋": "CangYun", "寒啸千军": "CangYun",
@@ -57,7 +66,7 @@ _other_buff_to_group = {
     "弘法": 3,
     "梅隐香": 14, "剑锋百锻": 14,
     "酣畅淋漓": 16, "降龙伏虎五阵": 17,
-    "朝圣言": 7,
+    "朝圣言": 7, '朝圣言增强': 7,
     "圣蝎附体": 24,
     "流星赶月五阵": 15, "千机百变五阵": 15,
     "振奋": 1, "寒啸千军": 2,
@@ -66,6 +75,27 @@ _other_buff_to_group = {
     "龙皇雪风五阵": 20,
     "祝由·水坎": 23, "九星游年五阵": 23,
     "香稠": 11, "配伍": 11, "飘黄": 10
+}
+
+_target_buff_imports = {
+    '破风': 'TianCe', '破风增强': 'TianCe', '赤雷裂空': 'TianCe',
+    '秋肃': 'WanHua', '画影残月': 'ChunYang', '穿林': 'QiXiu', '红蝶': 'QiXiu', '镜中寒樱': 'QiXiu',
+    '戒火': 'MingJiao', '烈日': 'MingJiao', '琉璃灼烧': 'MingJiao', '虚弱': 'CangYun',
+    '破甲': 'ChangGe', '入世': 'ChangGe',
+}
+_target_buff_to_group = {
+    '破风': 2, '破风增强': 2, '赤雷裂空': 3,
+    '秋肃': 4, '画影残月': 5, '穿林': 6, '红蝶': 6, '镜中寒樱': 6,
+    '戒火': 4, '烈日': 7, '琉璃灼烧': 8, '虚弱': 1,
+    '破甲': 9, '入世': 9,
+}
+_target_id_to_name = {
+    '661_30': '破风', '12717_30': '破风增强', '16466_1': '赤雷裂空',
+    '23305_1': '秋肃', '16680_1': '画影残月',
+    '4058_1': '戒火', '4418_1': '烈日', '8248_1': '虚弱',
+}
+_target_multiple_id_to_name = {
+    '16330': '穿林', '16331': '红蝶', '16365': '镜中寒樱', '15850': '琉璃灼烧', '10530': '破甲', '10533': '入世',
 }
 
 
@@ -149,6 +179,7 @@ class OperatePainter:
         self._rows = {}
         self._lines = None
         self._figure = self._set_figure()
+        self._fig_labels = None
         self._set_rows()
         # 战斗时间
         self._fight_time = 0
@@ -156,6 +187,8 @@ class OperatePainter:
         self._skill_data = None
         # buff记录
         self._benefit_buffs = None
+        # 目标buff记录
+        self._target_buffs = None
         # 额外buff图标储存
         self._other_buff_icons = {}
         # 绑定滚轮
@@ -163,6 +196,19 @@ class OperatePainter:
         self.ui.scrollArea.verticalScrollBar().valueChanged.connect(self._set_figure_scroll_bar)
         # 隐藏信息提示框
         self.ui.tooltip_textEdit.setVisible(False)
+        self.ui.replay_mini_menu_button.clicked.connect(self._mini_menu_change)
+        # 按时间跳转的逻辑
+        self.ui.replay_mini_menu_timeedit.timeChanged.connect(self._mini_menu_time_edit_event)
+        # 按技能或buff跳转的逻辑
+        # 数据结构：技能_{技能名}: [list] 或 增益_{增益名}: list
+        self._mini_menu_combobox_list = {}
+        _func = self._mini_menu_combobox_event()
+        self.ui.replay_mini_menu_combobox.currentTextChanged.connect(lambda: _func('change'))
+        self.ui.replay_mini_menu_upbutton.clicked.connect(lambda: _func('down'))
+        self.ui.replay_mini_menu_downbutton.clicked.connect(lambda: _func('up'))
+
+
+
 
     def _get_icon(self, buff_name) -> Image.Image:
         """
@@ -188,14 +234,77 @@ class OperatePainter:
         v = max(min(v, horizontal_bar.maximum()), horizontal_bar.minimum())  # 限制横向滚动条的value值。
         horizontal_bar.setValue(v)  # 设置滚动值
 
+    def _mini_menu_time_edit_event(self):
+        """
+        按时间跳转的逻辑\n
+        :return:
+        """
+        time = self.ui.replay_mini_menu_timeedit.time()
+        mm = time.hour()
+        ss = time.minute()
+        pixels = ((int(mm) * 60 + int(ss)) * 1000) // 25 + 80
+        _wid = self.ui.scrollArea.width() // 2
+        self.ui.scrollArea.horizontalScrollBar().setValue(max(0, pixels - _wid))
+
+    def _mini_menu_combobox_event(self):
+        """
+        按技能跳转的逻辑
+        :return:
+        """
+        _index = 0
+        _now_times = []
+        _wid = self.ui.scrollArea.width() // 2
+        def inner(event: Literal['change', 'up', 'down']):
+            nonlocal _index, _now_times
+            match event:
+                case 'change':
+                    _text = self.ui.replay_mini_menu_combobox.currentText()
+                    if _text in self._mini_menu_combobox_list:
+                        _now_times = self._mini_menu_combobox_list[_text]
+                    else:
+                        return
+                    _index = 0
+                case 'up':
+                    _index += 1
+                    if not _index < len(_now_times):
+                        _index = 0
+                    pixels = _now_times[_index] // 25 + 80
+                    self.ui.scrollArea.horizontalScrollBar().setValue(max(0, pixels - _wid))
+                    self.ui.replay_mini_menu_gb.update()
+                case 'down':
+                    _index -= 1
+                    if _index < 0:
+                        _index = len(_now_times) - 1
+                    pixels = _now_times[_index] // 25 + 80
+                    self.ui.scrollArea.horizontalScrollBar().setValue(max(0, pixels - _wid))
+                    self.ui.replay_mini_menu_gb.update()
+
+        return inner
+
+    def _mini_menu_change(self):
+        """
+        显示或隐藏小工具栏\n
+        :return:
+        """
+        btn = self.ui.replay_mini_menu_button
+        if btn.y() > 370:
+            self.ui.replay_mini_menu_gb.setVisible(False)
+            btn.move(749, 331)
+            if self.ui.scrollArea.verticalScrollBar().value() == 0:
+                self.ui.scrollArea.verticalScrollBar().setValue(65)
+        else:
+            self.ui.replay_mini_menu_gb.setVisible(True)
+            btn.move(749, 373)
+
     def _set_figure(self):
         """
-        初始化时生成图例
+        初始化时生成图例\n
         :return:
         """
         # self._fig = QGroupBox(self.ui.scrollArea)
         self._fig = self.ui.scrollAreaWidgetContents_3
-        self._fig.resize(30, self._parent.height())
+        self._fig.setMinimumHeight(self._parent.height()+200)
+        self._fig.resize(30, self._parent.height()+200)
         self._fig.move(0, 0)
         self._fig.setStyleSheet("border: 1px solid rgb(0, 0, 0); border-radius: 0px;")
         # self.ui.scrollArea_2.setVerticalScrollBar(self.ui.scrollArea.verticalScrollBar())
@@ -205,14 +314,14 @@ class OperatePainter:
 
     def _set_figure_scroll_bar(self):
         """
-        图例滚动条的槽函数
+        图例滚动条的槽函数\n
         :return:
         """
         self.ui.scrollArea_2.verticalScrollBar().setValue(self.ui.scrollArea.verticalScrollBar().value())
 
     def _set_rows(self):
         """
-        初始化时生成每一行的GroupBox和分界线
+        初始化时生成每一行的GroupBox和分界线\n
         :return:
         """
         start = 130
@@ -226,7 +335,7 @@ class OperatePainter:
 
         def get_line() -> QFrame:
             _line = QFrame(self._parent)
-            _line.setFrameStyle(QFrame.HLine | QFrame.Plain)
+            _line.setFrameStyle(QFrame.HLine | QFrame.Sunken)
             _line.setLineWidth(1)
             _line.resize(10, 1)
             _line.setStyleSheet("background-color: rgba(80, 80, 80, 80);")
@@ -276,7 +385,7 @@ class OperatePainter:
 
         def get_line() -> QFrame:
             _line = QFrame(self._parent)
-            _line.setFrameStyle(QFrame.HLine | QFrame.Plain)
+            _line.setFrameStyle(QFrame.HLine | QFrame.Sunken)
             _line.setLineWidth(1)
             _line.resize(10, 1)
             _line.setStyleSheet("background-color: rgba(80, 80, 80, 80);")
@@ -289,19 +398,30 @@ class OperatePainter:
         # 同时检查画布是否需要扩大
         if row_index > 0:
             y_pixels = self._lines[-1].y() + 1
-            if y_pixels + row_tp.height > self._parent.height():
+            while y_pixels + row_tp.height > self._parent.height() - 10:
                 self._parent.setMinimumHeight(y_pixels + row_tp.height + 10)
                 self._parent.resize(self._parent.width(), y_pixels + row_tp.height + 10)
-                self._fig.setMinimumHeight(y_pixels + row_tp.height + 30)
-                self._fig.resize(self._fig.width(), y_pixels + row_tp.height + 30)
+                self._fig.setMinimumHeight(self._fig.height() + 100)
+                self._fig.resize(self._fig.width(), self._fig.height() + 100)
         else:
-            y_pixels = self._lines[1].y() - row_tp.height
-            if y_pixels < 0:
-                self._parent.setMinimumHeight(self._parent.height() + abs(y_pixels) + 10)
-                self._parent.resize(self._parent.width(), self._parent.height() + abs(y_pixels) + 10)
-                self._fig.setMinimumHeight(self._parent.height() + abs(y_pixels) + 30)
-                self._fig.resize(self._fig.width(), self._parent.height() + abs(y_pixels) + 30)
-                y_pixels = 10
+            y_pixels = self._lines[0].y() - row_tp.height
+            print(self._lines[0].y())
+            print(y_pixels)
+            while y_pixels < 10:
+                # 预留出上方操作栏位置
+                self._parent.setMinimumHeight(self._parent.height() + 10)
+                # self._parent.resize(self._parent.width(), self._parent.height())
+                self._fig.setMinimumHeight(self._fig.height() + 100)
+                # self._fig.resize(self._fig.width(), self._parent.height() + 20)
+                # 在上方添加的话要将现有行和分割线都向下移动
+                for past_row in self._rows.values():
+                    past_row.move(past_row.x(), past_row.y()+10)
+                for past_line in self._lines:
+                    past_line.move(past_line.x(), past_line.y()+10)
+                for past_fig in self._fig_labels:
+                    past_fig.move(past_fig.x(), past_fig.y()+10)
+                y_pixels = self._lines[0].y() - row_tp.height
+
         # 每行的groupbox
         _gb = QGroupBox(self._parent)
         _gb.resize(10, row_tp.height)
@@ -315,18 +435,16 @@ class OperatePainter:
         if row_index > 0:
             # 下方
             _line.move(LEFT_BORDER, y_pixels + row_tp.height - 1)
+            self._lines.append(_line)
         else:
             # 上方
             _line.move(LEFT_BORDER, y_pixels - 1)
+            self._lines = [_line] + self._lines
 
         # 储存行
         self._rows[row_tp.name] = _gb
         _write_in_list.append(_gb)
         # 储存分割线
-        if self._lines is None:
-            self._lines = [_line]
-        else:
-            self._lines.append(_line)
         _write_in_list.append(_line)
         return _write_in_list
 
@@ -377,8 +495,10 @@ class OperatePainter:
         :param:
         :return:
         """
+        self._mini_menu_combobox_list.clear()
+        self.ui.replay_mini_menu_combobox.clear()
         # 拆包数据
-        self._fight_time, self._skill_data, self._benefit_buffs = data
+        self._fight_time, self._skill_data, self._benefit_buffs, self._target_buffs = data
         # 清除上一次的控件
         self._clear()
         # 计算所需宽度
@@ -387,8 +507,8 @@ class OperatePainter:
         self._parent.setMinimumWidth(x_pixels)
         self._parent.setMinimumHeight(371)
         self._parent.resize(x_pixels, 371)
-        self._fig.setMinimumHeight(351)
-        self._fig.resize(30, 351)
+        self._fig.setMinimumHeight(371)
+        self._fig.resize(30, 371)
         # 修改行宽
         for frame in list(self._rows.values()) + self._lines:
             frame.resize(x_pixels, frame.height())
@@ -400,8 +520,12 @@ class OperatePainter:
         self._add_player_skill()
         # 添加buff
         self._add_player_buff(record_info)
+        # 添加目标buff
+        self._add_target_buff(record_info)
         # 添加刻度
         self._add_scale()
+        # 设置快速跳转
+        self.ui.replay_mini_menu_combobox.addItems(self._mini_menu_combobox_list.keys())
 
 
     @_write_in
@@ -519,6 +643,12 @@ class OperatePainter:
             # 添加悬浮提示
             # 删除最后一个换行符
             _label.setToolTip(_hover_text[:-1])
+            # 添加到快速跳转数据中
+            key = f"技能_{_name}"
+            if key in self._mini_menu_combobox_list:
+                self._mini_menu_combobox_list[key].append(msec)
+            else:
+                self._mini_menu_combobox_list[key] = [msec]
 
         return _labels
 
@@ -554,6 +684,9 @@ class OperatePainter:
             else:
                 _color = "#A63400"
                 _font_color = "rgb(255, 255, 255)"
+            # 添加到快速跳转
+            key = f"增益_{buff_name}"
+
             for buff_data in _self_buffs[buff_name]:
                 start_time, end_time, level, layer, src_player = buff_data
                 # 先获取玩家角色名
@@ -561,7 +694,14 @@ class OperatePainter:
                     src_player = _player_names[src_player]['szName']
                 else:
                     src_player = '未知目标'
-                _hover_text = f"{buff_name}:\nbuff等级:{level}\nbuff层数:{layer}\n来源:{src_player}"
+                # 获取buff等级含义
+                # 0层是表现buff，手动修改一下
+                if layer == 0:
+                    layer = 1
+                _hover_text = f"{buff_name}:\nbuff层数:{layer}\n来源:{src_player}"
+                if buff_name in BUFF_LEVEL_MEANING:
+                    if level in BUFF_LEVEL_MEANING[buff_name]:
+                        _hover_text = f"{buff_name}:\n{BUFF_LEVEL_MEANING[buff_name][level]}\nbuff层数:{layer}\n来源:{src_player}"
                 _buff_label = ToolTipOutLabel(self.ui.tooltip_textEdit, self._rows['自身buff'])
                 _buff_label.resize(15, 15)
                 _buff_label.setStyleSheet(f"background-color: {_color}; font-size: 9pt;")
@@ -575,6 +715,12 @@ class OperatePainter:
                 _buff_time_line.setText(f"×{layer}")
                 _buff_time_line.setToolTip(_hover_text)
                 _ret_frames += [_buff_time_line, _buff_label]
+                # 添加到快速跳转
+                if key in self._mini_menu_combobox_list:
+                    self._mini_menu_combobox_list[key].append(start_time)
+                else:
+                    self._mini_menu_combobox_list[key] = [start_time]
+
             # 生成图例
             _fig_label = ToolTipOutLabel(self.ui.tooltip_textEdit, self._fig)
             _fig_label.resize(self._fig.width(), 15)
@@ -583,6 +729,10 @@ class OperatePainter:
             _fig_label.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
             _fig_label.setText(buff_name[:2])
             _ret_frames.append(_fig_label)
+            if self._fig_labels is None:
+                self._fig_labels = [_fig_label]
+            else:
+                self._fig_labels.append(_fig_label)
         # 调用下方buff序列，保证颜色明暗顺序
         self._add_other_buff(_player_names)
         return _ret_frames
@@ -634,7 +784,7 @@ class OperatePainter:
                 # 取消图例显示
                 _need_fig = False
             # 根据组别查找对应背景颜色和字体颜色
-            _belong_school = _other_buff_imports[buff_name]
+            _belong_school = _m
             if _belong_school in school_colors:
                 if _has_groups[_m]['count'] % 2 == 1:
                     # bright
@@ -648,6 +798,9 @@ class OperatePainter:
                 # _color = '#000000'
             else:
                 return
+            # 添加到快速跳转
+            key = f"增益_{buff_name}"
+
             for buff_data in _other_buffs[buff_name]:
                 start_time, end_time, level, layer, src_player = buff_data
                 # 先获取玩家角色名
@@ -655,7 +808,14 @@ class OperatePainter:
                     src_player = _player_names[src_player]['szName']
                 else:
                     src_player = '未知目标'
-                _hover_text = f"{buff_name}:\nbuff等级:{level}\nbuff层数:{layer}\n来源:{src_player}"
+                # 获取buff等级的含义
+                # 0层是表现buff，手动修改一下
+                if layer == 0:
+                    layer = 1
+                _hover_text = f"{buff_name}:\nbuff层数:{layer}\n来源:{src_player}"
+                if buff_name in BUFF_LEVEL_MEANING:
+                    if level in BUFF_LEVEL_MEANING[buff_name]:
+                        _hover_text = f"{buff_name}:\n{BUFF_LEVEL_MEANING[buff_name][level]}\nbuff层数:{layer}\n来源:{src_player}"
                 _buff_label = ToolTipOutLabel(self.ui.tooltip_textEdit, self._rows['增益buff'])
                 _buff_label.resize(15, 15)
                 _buff_label.setStyleSheet(f"background-color: {_bg_color}; font-size: 9pt;")
@@ -669,6 +829,12 @@ class OperatePainter:
                 _buff_time_line.setText(f"×{layer}")
                 _buff_time_line.setToolTip(_hover_text)
                 _ret_frames += [_buff_time_line, _buff_label]
+                # 添加到快速跳转
+                if key in self._mini_menu_combobox_list:
+                    self._mini_menu_combobox_list[key].append(start_time)
+                else:
+                    self._mini_menu_combobox_list[key] = [start_time]
+
             # 生成图例
             if _need_fig:
                 _fig_label = ToolTipOutLabel(self.ui.tooltip_textEdit, self._fig)
@@ -678,6 +844,160 @@ class OperatePainter:
                 _fig_label.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
                 _fig_label.setText(buff_name[:2])
                 _ret_frames.append(_fig_label)
+                if self._fig_labels is None:
+                    self._fig_labels = [_fig_label]
+                else:
+                    self._fig_labels.append(_fig_label)
+
+        return _ret_frames
+
+    @_write_in
+    def _add_target_buff(self, record_info):
+        """
+        向图片中添加目标的buff
+        :return:
+        """
+        # 玩家角色名信息
+        _player_names = record_info['name_data']
+        # 返回值
+        _ret_frames = []
+        # 先过滤需要展示的增益buff
+        _target_buffs = {}
+        # 权重数据记录
+        _target_weight = {}
+        for target in self._target_buffs:
+            _npc_name = self._target_buffs[target].pop('name')
+            _npc_weight = self._target_buffs[target].pop('count')
+            # 记录权重
+            _target_weight[target] = _npc_weight
+            # 取出buff名
+            for buff_id, buff_data in self._target_buffs[target].items():
+                if buff_id in _target_id_to_name:
+                    buff_name = _target_id_to_name[buff_id]
+                else:
+                    _id = buff_id.split('_')[0]
+                    if _id in _target_multiple_id_to_name:
+                        buff_name = _target_multiple_id_to_name[_id]
+                    else:
+                        continue
+
+                if buff_name in _target_buff_imports:
+                    if target not in _target_buffs:
+                        _target_buffs[target] = {}
+                    if buff_name not in _target_buffs[target]:
+                        _target_buffs[target][buff_name] = buff_data['times']
+                    else:
+                        _target_buffs[target][buff_name] += buff_data['times']
+        # 根据数量生成自身buff行
+        self._add_row(-1, row('目标buff', max([len(i) for i in _target_buffs.values()]) * 15))
+        # 生成buff持续时间线
+        for target_id in _target_buffs:
+            _target_buffs[target_id] = {k: _target_buffs[target_id][k] for k in sorted(_target_buffs[target_id].keys(), key=lambda i: _target_buff_to_group[i])}
+        _target_buff_sequence = sorted(_target_buffs.keys(), key=lambda i: _target_weight[i])
+        # 记录已存在的门派和组
+        _has_groups = {}
+        # 已叠加的buff, 需要在index中减去
+        _index_minus = 0
+        _target_buffs = _target_buffs[_target_buff_sequence[-1]]
+        for index, buff_name in enumerate(_target_buffs.keys()):
+            index -= _index_minus
+            # 判断当前buff是否是新的一行buff，如不是的话不设置图例
+            _need_fig = True
+            # 记录buff所属的门派和行分组
+            _g = _target_buff_to_group[buff_name]
+            _m = _target_buff_imports[buff_name]
+            # 万花特殊查找
+            if _m == 'WanHua':
+                if 'MingJiao' in _has_groups:
+                    if _g in _has_groups['MingJiao']['group']:
+                        index = _has_groups['MingJiao']['group'][_g] - _index_minus + 1
+                        _index_minus += 1
+                        _has_groups['MingJiao']['count'] += 1
+                        # 取消图例显示
+                        _need_fig = False
+                if 'WanHua' not in _has_groups:
+                    _has_groups[_m] = {'group': {_g: index}, 'count': 1}
+                elif _g not in _has_groups[_m]['group']:
+                    _has_groups[_m]['group'][_g] = index
+                    _has_groups[_m]['count'] += 1
+            # 常规查找当前门派的组
+            elif _m not in _has_groups:
+                _has_groups[_m] = {'group': {_g: index}, 'count': 1}
+            elif _g not in _has_groups[_m]['group']:
+                _has_groups[_m]['group'][_g] = index
+                _has_groups[_m]['count'] += 1
+            else:
+                # 修改当前index，关联buff处于哪一行
+                index = _has_groups[_m]['group'][_g] - _index_minus
+                _index_minus += 1
+                _has_groups[_m]['count'] += 1
+                # 取消图例显示
+                _need_fig = False
+            # 根据组别查找对应背景颜色和字体颜色
+            _belong_school = _m
+            if _belong_school in school_colors:
+                if _has_groups[_m]['count'] % 2 == 1:
+                    # bright
+                    _bg_color = school_colors[_belong_school][0]
+                    _color = '#000000'
+                else:
+                    # dark
+                    _bg_color = school_colors[_belong_school][1]
+                    _color = '#ffffff'
+                # _bg_color = school_colors[_belong_school][0]
+                # _color = '#000000'
+            else:
+                return
+            # 从最下向上
+            index += 1
+
+            # 添加到快速跳转
+            key = f"易伤_{buff_name}"
+            # 行高
+            row_height = self._rows['目标buff'].height()
+
+            for buff_data in _target_buffs[buff_name]:
+                start_time, end_time, level, layer, src_player = buff_data
+                # 获取buff等级的含义
+                # 0层是表现buff，手动修改一下
+                if layer == 0:
+                    layer = 1
+                _hover_text = f"{buff_name}:\nbuff层数:{layer}\n来源:{src_player}"
+                if buff_name in BUFF_LEVEL_MEANING:
+                    if level in BUFF_LEVEL_MEANING[buff_name]:
+                        _hover_text = f"{buff_name}:\n{BUFF_LEVEL_MEANING[buff_name][level]}\nbuff层数:{layer}\n来源:{src_player}"
+
+                _buff_label = ToolTipOutLabel(self.ui.tooltip_textEdit, self._rows['目标buff'])
+                _buff_label.resize(15, 15)
+                _buff_label.setStyleSheet(f"background-color: {_bg_color}; font-size: 9pt;")
+                _buff_label.setPixmap(self._get_icon(buff_name).resize((15, 15)).toqpixmap())
+                _buff_label.move(self._get_x(start_time, position=True), row_height - (index * 15))
+                _buff_label.setToolTip(_hover_text)
+                _buff_time_line = ToolTipOutLabel(self.ui.tooltip_textEdit, self._rows['目标buff'])
+                _buff_time_line.resize(self._get_x(end_time - start_time) - 15, 15)
+                _buff_time_line.setStyleSheet(f"background-color: {_bg_color}; font-size: 8pt; color: {_color}")
+                _buff_time_line.move(self._get_x(start_time, position=True) + 15, row_height - (index * 15))
+                _buff_time_line.setText(f"×{layer}")
+                _buff_time_line.setToolTip(_hover_text)
+                _ret_frames += [_buff_time_line, _buff_label]
+                # 添加到快速跳转
+                if key in self._mini_menu_combobox_list:
+                    self._mini_menu_combobox_list[key].append(start_time)
+                else:
+                    self._mini_menu_combobox_list[key] = [start_time]
+            # 生成图例
+            if _need_fig:
+                _fig_label = ToolTipOutLabel(self.ui.tooltip_textEdit, self._fig)
+                _fig_label.resize(self._fig.width(), 15)
+                _fig_label.move(0, self._rows['目标buff'].y() + row_height - (index * 15))
+                _fig_label.setStyleSheet(f"font-size: 8pt; border: none;")
+                _fig_label.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
+                _fig_label.setText(buff_name[:2])
+                _ret_frames.append(_fig_label)
+                if self._fig_labels is None:
+                    self._fig_labels = [_fig_label]
+                else:
+                    self._fig_labels.append(_fig_label)
 
         return _ret_frames
 

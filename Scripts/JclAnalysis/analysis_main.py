@@ -1,11 +1,14 @@
 # coding: utf-8
 # author: LinXin
 
-from .ImitationPlayer.player import Player
+from .Imitation.player import Player
+from .Imitation.npc import Npc
 from .CheckRecord.skill_data_reshape import read_origin_skill_data
 from Scripts.JclAnalysis.checker_main import MainChecker
 from CustomClasses.Exceptions import JclTypeError
 from CustomClasses.TypeHints import FileReader, Attribute
+
+from concurrent.futures import ThreadPoolExecutor, wait
 
 
 class Analysis:
@@ -19,6 +22,8 @@ class Analysis:
         # jcl基础数据
         self._player = Player()
         # 玩家对象，储存状态
+        self._npc = Npc()
+        # boss对象，储存状态
         self._skill_to_table = None
         # 用于技能统计表的数据
         self.attribute: Attribute = data_address.attribute
@@ -51,10 +56,12 @@ class Analysis:
         用于循环页下半部分的数据\n
         :return:
         """
-        return *self._get_all_operate_data(), self._data_checker.benefit_buffs
+        return *self._get_all_operate_data(), self._data_checker.benefit_buffs, self._npc.target_buff_data
 
 
     def run(self):
+        pool = ThreadPoolExecutor(3)
+
         self.data = self._reader.data
         # 动态获取一次当前data并更新到自身属性
         player_id = self._reader.player_id
@@ -62,17 +69,36 @@ class Analysis:
         # data类型校验
         if not (isinstance(self.data, dict) and isinstance(self.data[1], dict)):
             raise JclTypeError
+
+        # future1 = pool.submit(self._player.update, self.data, player_id, npc_id)
+        # # 这里是得到按不同目的分类的buff和技能数据
+        # future2 = pool.submit(self._npc.run, self.data, self._reader.boss_name, player_id, self._reader.record_info)
+        # wait([future1, future2], return_when='ALL_COMPLETED')
+        # print(self._npc.target_buff_data)
+
+        # # 开始对技能统计数据的处理
+        # # 1. 整理技能至可供表格展示的状态
+        # future3 = pool.submit(read_origin_skill_data, self._player.skill_events_by_time, self._reader.id_to_name)
+        # # 2. 读取技能轴和增益
+        # future4 = pool.submit(self._data_checker.run)
+        # # 3. 读取buff序列并分析
+        # future5 = pool.submit(self._data_checker.run_buff)
+        #
+        # wait([future3, future4, future5], return_when='ALL_COMPLETED')
+        # self._skill_to_table = future3.result()
+
         self._player.update(self.data, player_id, npc_id)
         # 这里是得到按不同目的分类的buff和技能数据
-        # 开始对技能统计数据的处理
+        self._npc.run(self.data, self._reader.boss_name, player_id, self._reader.record_info)
 
+        # 开始对技能统计数据的处理
         # 1. 整理技能至可供表格展示的状态
         self._skill_to_table = read_origin_skill_data(self._player.skill_events_by_time, self._reader.id_to_name)
-        # print(*[f"{i}: {j}\n" for i, j in data.items()])
         # 2. 读取技能轴和增益
         self._data_checker.run()
         # 3. 读取buff序列并分析
         self._data_checker.run_buff()
+
 
 
     def _get_all_operate_data(self):

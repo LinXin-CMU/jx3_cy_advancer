@@ -13,7 +13,7 @@ from Scripts.UI.UI_Base.ui_base import BaseUi
 from Scripts.UI.UI_Base.ui import Ui_MainWindow
 from Scripts.UI.UI_Base.ui_other import DATA_TABLE_COLUMN_WIDTHS, INFO_TABLE_COLUMN_WIDTHS, TARGET_TABLE_COLUMN_WIDTHS, \
     set_page, available_buffs, available_specials, buff_icons, buff_to_name, special_to_name, special_to_type, miss_to_name
-from .ui_paster import OperatePainter
+from .ui_replay import OperatePainter
 from CustomClasses.Exceptions import SourceNotFoundError
 from CustomClasses.jx3_collections import position, size
 

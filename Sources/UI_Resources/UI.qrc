@@ -1,30 +1,16 @@
 <RCC>
   <qresource prefix="Main">
     <file>pageButton_2.png</file>
+    <file>up_down_bar.png</file>
     <file>pageButton_1.png</file>
-    <file>Toolbar.png</file>
     <file>pageButton_0.png</file>
     <file>page_back.png</file>
     <file>page_next.png</file>
     <file>num_down.png</file>
     <file>num_up.png</file>
-    <file>GrageIcon.png</file>
-    <file>SettingIcon.png</file>
-    <file>RecordIcon.png</file>
     <file>ScrollBar.png</file>
-    <file>Instruct.png</file>
     <file>down_arrow.png</file>
     <file>up_arrow.png</file>
-    <file>Mark.png</file>
-    <file>BasicMark.png</file>
-    <file>DungeonMark.png</file>
-    <file>SpecialMark.png</file>
-    <file>Record.jpg</file>
     <file>icon.png</file>
-    <file>MainButton.png</file>
-    <file>MainButton_hover.png</file>
-    <file>Title.png</file>
-    <file>Setting.jpg</file>
-    <file>Grade.jpg</file>
   </qresource>
 </RCC>

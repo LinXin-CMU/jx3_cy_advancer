@@ -7,7 +7,7 @@ import os
 import re
 from typing import Any
 from PyQt5.QtWidgets import QMainWindow, QFileDialog, QHeaderView, QTableWidgetItem, QAbstractItemView
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QTime
 from time import localtime
 from datetime import datetime, timedelta
 from winreg import OpenKey, EnumValue, CloseKey, HKEY_LOCAL_MACHINE
@@ -47,7 +47,7 @@ class Top_UI(BaseUi):
         # 设置combobox数据
         self._set_nearest_date_combobox()
         # 将标定时间默认值设为5分钟
-        self.ui.spinBox.setValue(5)
+        self.ui.top_fight_time_timeedit.setTime(QTime(5, 0))
         # 读取config以初始化
         self._read_config()
         # 绑定控件

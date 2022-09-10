@@ -163,3 +163,4 @@
 ['skill', 23286, {2: {'Remark': '(23286) 新苍云特殊武器_争神炎舞增', 'Name': '争神焱舞', 'SkillName': '新苍云特殊武器_争神炎舞增', 'Desc': '测试技能', 'BelongKungfu': '10572'}}]
 ['skill', 14250, {1: {'Remark': None, 'Name': None, 'SkillName': '平吟_删除寒梅减伤效果', 'Desc': None, 'BelongKungfu': '10446'}}]
 ['skill', 14646, {1: {'Remark': '(14646) 万花_毫针_新被击回血', 'Name': '毫针', 'SkillName': '万花_毫针_新被击回血', 'Desc': '<SKILL Therapy>点(+<SKILLEx {D0} {SkillTherapyAP}>)', 'BelongKungfu': '10027'}}]
+['skill', 3331, {1: {'Remark': None, 'Name': None, 'SkillName': '唐门外功阵法第六重_击杀后阵眼加BUFF', 'Desc': None, 'BelongKungfu': '10226'}}]

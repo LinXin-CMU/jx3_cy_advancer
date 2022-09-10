@@ -308,107 +308,13 @@ class Ui_MainWindow(object):
         self.label_58 = QtWidgets.QLabel(self.groupBox_3)
         self.label_58.setGeometry(QtCore.QRect(20, 627, 131, 16))
         self.label_58.setObjectName("label_58")
-        self.spinBox = QtWidgets.QSpinBox(self.groupBox_3)
-        self.spinBox.setGeometry(QtCore.QRect(183, 657, 61, 22))
-        self.spinBox.setStyleSheet("QSpinBox{\n"
-"    border:none;\n"
-"    border-radius:4px;\n"
-"    font-size:10pt;\n"
-"    background-color: rgba(255, 255, 255, 0);\n"
-"}\n"
-"QSpinBox::up-button{\n"
-"    subcontrol-origin:border;\n"
-"    subcontrol-position:right;\n"
-"    width: 20px;\n"
-"    height: 20px;\n"
-"    border-image: url(:/Main/num_up.png);\n"
-"}\n"
-"QSpinBox::down-button{\n"
-"    subcontrol-origin:border;\n"
-"    subcontrol-position:left;\n"
-"    width: 20px;\n"
-"    height: 20px;\n"
-"    border-image: url(:/Main/num_down.png);\n"
-"}\n"
-"\n"
-"QSpinBox::down-button, QSpinBox::up-button{\n"
-"    \n"
-"    border-radius:4px;\n"
-"    \n"
-"}\n"
-"\n"
-"QSpinBox::up-arrow,  QSpinBox::down-arrow {\n"
-"    subcontrol-origin: content;\n"
-"    subcontrol-position: center center;\n"
-"    width: 20px;\n"
-"    height: 20px;\n"
-"}\n"
-"QSpinBox::up-button:pressed,QSpinBox::down-button:pressed{\n"
-"    \n"
-"    background-color: rgb(158, 158, 158);\n"
-"}")
-        self.spinBox.setObjectName("spinBox")
         self.label_70 = QtWidgets.QLabel(self.groupBox_3)
-        self.label_70.setGeometry(QtCore.QRect(14, 660, 181, 16))
+        self.label_70.setGeometry(QtCore.QRect(10, 660, 181, 16))
         self.label_70.setStyleSheet("QLabel{\n"
 "    \n"
 "    color: rgb(184, 71, 49);\n"
 "}")
         self.label_70.setObjectName("label_70")
-        self.spinBox_2 = QtWidgets.QSpinBox(self.groupBox_3)
-        self.spinBox_2.setGeometry(QtCore.QRect(267, 657, 61, 22))
-        self.spinBox_2.setStyleSheet("QSpinBox{\n"
-"    border:none;\n"
-"    border-radius:4px;\n"
-"    font-size:10pt;\n"
-"    background-color: rgba(255, 255, 255, 0);\n"
-"}\n"
-"QSpinBox::up-button{\n"
-"    subcontrol-origin:border;\n"
-"    subcontrol-position:right;\n"
-"    width: 20px;\n"
-"    height: 20px;\n"
-"    border-image: url(:/Main/num_up.png);\n"
-"}\n"
-"QSpinBox::down-button{\n"
-"    subcontrol-origin:border;\n"
-"    subcontrol-position:left;\n"
-"    width: 20px;\n"
-"    height: 20px;\n"
-"    border-image: url(:/Main/num_down.png);\n"
-"}\n"
-"\n"
-"QSpinBox::down-button, QSpinBox::up-button{\n"
-"    \n"
-"    border-radius:4px;\n"
-"    \n"
-"}\n"
-"\n"
-"QSpinBox::up-arrow,  QSpinBox::down-arrow {\n"
-"    subcontrol-origin: content;\n"
-"    subcontrol-position: center center;\n"
-"    width: 20px;\n"
-"    height: 20px;\n"
-"}\n"
-"QSpinBox::up-button:pressed,QSpinBox::down-button:pressed{\n"
-"    \n"
-"    background-color: rgb(158, 158, 158);\n"
-"}")
-        self.spinBox_2.setObjectName("spinBox_2")
-        self.label_72 = QtWidgets.QLabel(self.groupBox_3)
-        self.label_72.setGeometry(QtCore.QRect(330, 660, 21, 16))
-        self.label_72.setStyleSheet("QLabel{\n"
-"    \n"
-"    color: rgb(184, 71, 49);\n"
-"}")
-        self.label_72.setObjectName("label_72")
-        self.label_71 = QtWidgets.QLabel(self.groupBox_3)
-        self.label_71.setGeometry(QtCore.QRect(246, 660, 21, 16))
-        self.label_71.setStyleSheet("QLabel{\n"
-"    \n"
-"    color: rgb(184, 71, 49);\n"
-"}")
-        self.label_71.setObjectName("label_71")
         self.label_13 = QtWidgets.QLabel(self.groupBox_3)
         self.label_13.setGeometry(QtCore.QRect(30, 54, 54, 12))
         self.label_13.setObjectName("label_13")
@@ -523,6 +429,46 @@ class Ui_MainWindow(object):
         self.checkBox_8.setGeometry(QtCore.QRect(361, 179, 51, 16))
         self.checkBox_8.setObjectName("checkBox_8")
         self.top_zone_type_buttonGroup.addButton(self.checkBox_8)
+        self.top_fight_time_timeedit = QtWidgets.QTimeEdit(self.groupBox_3)
+        self.top_fight_time_timeedit.setGeometry(QtCore.QRect(180, 658, 71, 22))
+        self.top_fight_time_timeedit.setStyleSheet("QTimeEdit{\n"
+"    border:none;\n"
+"    border-radius:5px;\n"
+"    font-size:10pt;\n"
+"    background-color: rgb(255, 255, 255);\n"
+"}\n"
+"QTimeEdit::up-button{\n"
+"    subcontrol-origin:border;\n"
+"    subcontrol-position:right;\n"
+"    width: 20px;\n"
+"    height: 20px;\n"
+"    border-image: url(:/Main/num_up.png);\n"
+"}\n"
+"QTimeEdit::down-button{\n"
+"    subcontrol-origin:border;\n"
+"    subcontrol-position:left;\n"
+"    width: 20px;\n"
+"    height: 20px;\n"
+"    border-image: url(:/Main/num_down.png);\n"
+"}\n"
+"\n"
+"QTimeEdit::down-button, QTimeEdit::up-button{\n"
+"    \n"
+"    border-radius:4px;\n"
+"    \n"
+"}\n"
+"\n"
+"QTimeEdit::up-arrow,  QTimeEdit::down-arrow {\n"
+"    subcontrol-origin: content;\n"
+"    subcontrol-position: center center;\n"
+"    width: 20px;\n"
+"    height: 20px;\n"
+"}\n"
+"QTimeEdit::up-button:pressed,QTimeEdit::down-button:pressed{\n"
+"    \n"
+"    background-color: rgb(158, 158, 158);\n"
+"}")
+        self.top_fight_time_timeedit.setObjectName("top_fight_time_timeedit")
         self.groupBox_14 = QtWidgets.QGroupBox(self.page)
         self.groupBox_14.setGeometry(QtCore.QRect(460, 10, 131, 31))
         self.groupBox_14.setStyleSheet("QGroupBox{\n"
@@ -1315,10 +1261,106 @@ class Ui_MainWindow(object):
         self.tabWidget_2.addTab(self.buffs_tab_7, "")
         self.scrollArea_3.setWidget(self.scrollAreaWidgetContents_4)
         self.tooltip_textEdit = QtWidgets.QPlainTextEdit(self.groupBox_5)
-        self.tooltip_textEdit.setGeometry(QtCore.QRect(20, 330, 131, 111))
+        self.tooltip_textEdit.setGeometry(QtCore.QRect(20, 560, 131, 111))
         self.tooltip_textEdit.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.tooltip_textEdit.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.tooltip_textEdit.setObjectName("tooltip_textEdit")
+        self.replay_mini_menu_gb = QtWidgets.QGroupBox(self.groupBox_5)
+        self.replay_mini_menu_gb.setGeometry(QtCore.QRect(51, 330, 789, 43))
+        self.replay_mini_menu_gb.setStyleSheet("QGroupBox{\n"
+"    border-radius: 0px;\n"
+"    background-color: rgb(223, 223, 223);\n"
+"    border-top:1px solid #000000;\n"
+"    border-bottom-left-radius:5px;\n"
+"    border-bottom-right-radius:0px;\n"
+"}")
+        self.replay_mini_menu_gb.setTitle("")
+        self.replay_mini_menu_gb.setObjectName("replay_mini_menu_gb")
+        self.label_75 = QtWidgets.QLabel(self.replay_mini_menu_gb)
+        self.label_75.setGeometry(QtCore.QRect(20, 10, 71, 20))
+        self.label_75.setObjectName("label_75")
+        self.line_47 = QtWidgets.QFrame(self.replay_mini_menu_gb)
+        self.line_47.setGeometry(QtCore.QRect(200, 10, 20, 21))
+        self.line_47.setFrameShape(QtWidgets.QFrame.VLine)
+        self.line_47.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line_47.setObjectName("line_47")
+        self.label_85 = QtWidgets.QLabel(self.replay_mini_menu_gb)
+        self.label_85.setGeometry(QtCore.QRect(118, 5, 54, 12))
+        self.label_85.setStyleSheet("font-size:9pt;")
+        self.label_85.setAlignment(QtCore.Qt.AlignBottom|QtCore.Qt.AlignHCenter)
+        self.label_85.setObjectName("label_85")
+        self.label_105 = QtWidgets.QLabel(self.replay_mini_menu_gb)
+        self.label_105.setGeometry(QtCore.QRect(320, 5, 101, 12))
+        self.label_105.setStyleSheet("font-size:9pt;")
+        self.label_105.setAlignment(QtCore.Qt.AlignBottom|QtCore.Qt.AlignHCenter)
+        self.label_105.setObjectName("label_105")
+        self.replay_mini_menu_combobox = QtWidgets.QComboBox(self.replay_mini_menu_gb)
+        self.replay_mini_menu_combobox.setGeometry(QtCore.QRect(250, 20, 131, 20))
+        self.replay_mini_menu_combobox.setObjectName("replay_mini_menu_combobox")
+        self.replay_mini_menu_upbutton = QtWidgets.QPushButton(self.replay_mini_menu_gb)
+        self.replay_mini_menu_upbutton.setGeometry(QtCore.QRect(390, 23, 51, 18))
+        self.replay_mini_menu_upbutton.setStyleSheet("font: 8pt \"黑体\";")
+        self.replay_mini_menu_upbutton.setObjectName("replay_mini_menu_upbutton")
+        self.replay_mini_menu_downbutton = QtWidgets.QPushButton(self.replay_mini_menu_gb)
+        self.replay_mini_menu_downbutton.setGeometry(QtCore.QRect(450, 23, 51, 18))
+        self.replay_mini_menu_downbutton.setStyleSheet("font: 8pt \"黑体\";")
+        self.replay_mini_menu_downbutton.setObjectName("replay_mini_menu_downbutton")
+        self.replay_mini_menu_timeedit = QtWidgets.QTimeEdit(self.replay_mini_menu_gb)
+        self.replay_mini_menu_timeedit.setGeometry(QtCore.QRect(110, 19, 71, 22))
+        self.replay_mini_menu_timeedit.setStyleSheet("QTimeEdit{\n"
+"    border:none;\n"
+"    border-radius:5px;\n"
+"    font-size:10pt;\n"
+"    background-color: rgb(255, 255, 255);\n"
+"}\n"
+"QTimeEdit::up-button{\n"
+"    subcontrol-origin:border;\n"
+"    subcontrol-position:right;\n"
+"    width: 20px;\n"
+"    height: 20px;\n"
+"    border-image: url(:/Main/num_up.png);\n"
+"}\n"
+"QTimeEdit::down-button{\n"
+"    subcontrol-origin:border;\n"
+"    subcontrol-position:left;\n"
+"    width: 20px;\n"
+"    height: 20px;\n"
+"    border-image: url(:/Main/num_down.png);\n"
+"}\n"
+"\n"
+"QTimeEdit::down-button, QTimeEdit::up-button{\n"
+"    \n"
+"    border-radius:4px;\n"
+"    \n"
+"}\n"
+"\n"
+"QTimeEdit::up-arrow,  QTimeEdit::down-arrow {\n"
+"    subcontrol-origin: content;\n"
+"    subcontrol-position: center center;\n"
+"    width: 20px;\n"
+"    height: 20px;\n"
+"}\n"
+"QTimeEdit::up-button:pressed,QTimeEdit::down-button:pressed{\n"
+"    \n"
+"    background-color: rgb(158, 158, 158);\n"
+"}")
+        self.replay_mini_menu_timeedit.setWrapping(True)
+        self.replay_mini_menu_timeedit.setButtonSymbols(QtWidgets.QAbstractSpinBox.UpDownArrows)
+        self.replay_mini_menu_timeedit.setAccelerated(True)
+        self.replay_mini_menu_timeedit.setProperty("showGroupSeparator", False)
+        self.replay_mini_menu_timeedit.setCurrentSectionIndex(0)
+        self.replay_mini_menu_timeedit.setObjectName("replay_mini_menu_timeedit")
+        self.replay_mini_menu_button = QtWidgets.QPushButton(self.groupBox_5)
+        self.replay_mini_menu_button.setGeometry(QtCore.QRect(749, 373, 91, 16))
+        self.replay_mini_menu_button.setStyleSheet("background-color: rgb(223, 223, 223);\n"
+"border-bottom-left-radius:5px;\n"
+"border-bottom-right-radius:5px;\n"
+"border-top-left-radius:0px;\n"
+"border-top-right-radius:0px;\n"
+"border:none;\n"
+"background-image: url(:/Main/up_down_bar.png);")
+        self.replay_mini_menu_button.setText("")
+        self.replay_mini_menu_button.setObjectName("replay_mini_menu_button")
         self.tabWidget.addTab(self.tab_2, "")
         self.tab_3 = QtWidgets.QWidget()
         self.tab_3.setObjectName("tab_3")
@@ -3954,8 +3996,6 @@ class Ui_MainWindow(object):
         self.SelectFile.setText(_translate("MainWindow", "打开目录"))
         self.label_58.setText(_translate("MainWindow", "或手动选择复盘文件："))
         self.label_70.setText(_translate("MainWindow", "（仅木桩）标定战斗时间："))
-        self.label_72.setText(_translate("MainWindow", "秒"))
-        self.label_71.setText(_translate("MainWindow", "分"))
         self.label_13.setText(_translate("MainWindow", "角色名"))
         self.label_57.setText(_translate("MainWindow", "游戏路径"))
         self.label_128.setText(_translate("MainWindow", " 基本信息"))
@@ -4079,6 +4119,11 @@ class Ui_MainWindow(object):
         self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.buffs_tab_5), _translate("MainWindow", "页"))
         self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.buffs_tab_6), _translate("MainWindow", "页"))
         self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.buffs_tab_7), _translate("MainWindow", "页"))
+        self.label_75.setText(_translate("MainWindow", "快速跳转："))
+        self.label_85.setText(_translate("MainWindow", "按时间"))
+        self.label_105.setText(_translate("MainWindow", "按技能或增益"))
+        self.replay_mini_menu_upbutton.setText(_translate("MainWindow", "上一个"))
+        self.replay_mini_menu_downbutton.setText(_translate("MainWindow", "下一个"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "循 环"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), _translate("MainWindow", "增 益"))
         self.label_97.setText(_translate("MainWindow", "帽子"))
