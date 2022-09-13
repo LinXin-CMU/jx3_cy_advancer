@@ -48,6 +48,8 @@ class Main:
                 self._sub_show_skills()
                 # 展示复盘页
                 self._sub_show_operate()
+                # 计算评分模块
+                self.analyzer.run_marker()
             else:
                 self.main_ui.ShowWarningBoxForPlayerKungFuWarning(self.main_ui)
         except JclFileEncodeError:
@@ -109,12 +111,12 @@ class Main:
 
         # 切换页面按钮
         # 从装备栏设置页面切换出页面所用
-        buttons: list[QPushButton] = [self.main_ui.ui.pageButton_0, self.main_ui.ui.pageButton_1, self.main_ui.ui.pageButton_2]
+        buttons = [self.main_ui.ui.pageButton_0, self.main_ui.ui.pageButton_1, self.main_ui.ui.pageButton_2]
         for button in buttons:
             button.clicked.connect(lambda _: self._sub_calc_equip(current_index=self.main_ui.ui.stackedWidget.currentIndex()))
         # 绑定页面切换，同时保证与上部分的先后次序
-        for i in range(4):
-            # 0-3
+        for i in range(3):
+            # 0-2
             button = getattr(self.main_ui.ui, f"pageButton_{i}")
             button.clicked.connect(set_page(i, self.main_ui.ui.stackedWidget.setCurrentIndex))
         self.main_ui.ui.EquipInfoButton.clicked.connect(lambda _: self.main_ui.ui.stackedWidget.setCurrentIndex(2))

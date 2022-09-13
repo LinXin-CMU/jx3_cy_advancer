@@ -17,8 +17,7 @@ position = namedtuple('position', ['x', 'y'])
 size = namedtuple('size', ['w', 'h'])
 row = namedtuple('row_data', ['name', 'height'])
 
-# 一次绘图中添加的所有frames
-frames = None
+
 
 LEFT_BORDER = 0
 
@@ -148,25 +147,7 @@ class Jx3Label(ToolTipOutLabel):
 
 
 
-def _write_in(func):
-    """
-    用于记录当前添加的所有label
-    :param func:
-    :return:
-    """
 
-    def wrapper(*args, **kwargs):
-        global frames
-        ret = func(*args, **kwargs)
-        if not isinstance(ret, Iterable):
-            ret = [ret]
-        for item in ret:
-            if frames is None:
-                frames = [item]
-            else:
-                frames.append(item)
-
-    return wrapper
 
 
 class OperatePainter:
@@ -206,9 +187,29 @@ class OperatePainter:
         self.ui.replay_mini_menu_combobox.currentTextChanged.connect(lambda: _func('change'))
         self.ui.replay_mini_menu_upbutton.clicked.connect(lambda: _func('down'))
         self.ui.replay_mini_menu_downbutton.clicked.connect(lambda: _func('up'))
+        # 一次绘图中添加的所有frames
+        self.frames = None
 
+    @staticmethod
+    def _write_in(func):
+        """
+        用于记录当前添加的所有label
+        :param func:
+        :return:
+        """
 
+        def wrapper(*args, **kwargs):
+            self: OperatePainter = args[0]
+            ret = func(*args, **kwargs)
+            if not isinstance(ret, Iterable):
+                ret = [ret]
+            for item in ret:
+                if self.frames is None:
+                    self.frames = [item]
+                else:
+                    self.frames.append(item)
 
+        return wrapper
 
     def _get_icon(self, buff_name) -> Image.Image:
         """
@@ -561,28 +562,27 @@ class OperatePainter:
         清除所有控件
         :return:
         """
-        global frames
-        if isinstance(frames, Iterable):
+        if isinstance(self.frames, Iterable):
             # 删除self._rows中的frame
             _del = []
             for k, v in self._rows.items():
-                if v in frames:
+                if v in self.frames:
                     _del.append(k)
             for k in _del:
                 del self._rows[k]
             # 删除self._lines中的frame
             if isinstance(self._lines, list):
                 for item in reversed(self._lines):
-                    if item in frames:
+                    if item in self.frames:
                         self._lines.remove(item)
 
-            for frame in frames:
+            for frame in self.frames:
                 if hasattr(frame, 'deleteLater'):
                     frame.deleteLater()
                     frame.setVisible(False)
                 elif hasattr(frame, 'setVisible'):
                     frame.setVisible(False)
-            frames = None
+            self.frames = None
 
 
     @staticmethod

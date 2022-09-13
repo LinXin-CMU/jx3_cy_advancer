@@ -809,7 +809,7 @@ class Ui_MainWindow(object):
 "    margin-bottom: -20px;\n"
 "}\n"
 "QTabBar:tab{\n"
-"    width: 287px;\n"
+"    width: 430px;\n"
 "    height: 30px;\n"
 "    font-size: 12pt;\n"
 "    font-family: \"SimHei\";\n"
@@ -1029,7 +1029,7 @@ class Ui_MainWindow(object):
         self.tab_2 = QtWidgets.QWidget()
         self.tab_2.setObjectName("tab_2")
         self.groupBox_5 = QtWidgets.QGroupBox(self.tab_2)
-        self.groupBox_5.setGeometry(QtCore.QRect(0, 10, 861, 711))
+        self.groupBox_5.setGeometry(QtCore.QRect(0, 10, 860, 711))
         self.groupBox_5.setStyleSheet("QGroupBox#groupBox_5{\n"
 "    border-radius: 0px;\n"
 "    border-top-left-radius: 5px;\n"
@@ -1362,23 +1362,71 @@ class Ui_MainWindow(object):
         self.replay_mini_menu_button.setText("")
         self.replay_mini_menu_button.setObjectName("replay_mini_menu_button")
         self.tabWidget.addTab(self.tab_2, "")
-        self.tab_3 = QtWidgets.QWidget()
-        self.tab_3.setObjectName("tab_3")
-        self.groupBox_10 = QtWidgets.QGroupBox(self.tab_3)
-        self.groupBox_10.setGeometry(QtCore.QRect(0, 10, 861, 711))
-        self.groupBox_10.setStyleSheet("QGroupBox{\n"
-"    border-radius: 0px;\n"
-"    border-top-left-radius: 5px;\n"
-"    border-top-right-radius: 5px;\n"
-"}")
-        self.groupBox_10.setTitle("")
-        self.groupBox_10.setObjectName("groupBox_10")
-        self.tabWidget.addTab(self.tab_3, "")
         self.stackedWidget.addWidget(self.page_1)
         self.page_2 = QtWidgets.QWidget()
         self.page_2.setObjectName("page_2")
-        self.groupBox_13 = QtWidgets.QGroupBox(self.page_2)
-        self.groupBox_13.setGeometry(QtCore.QRect(20, 50, 861, 741))
+        self.groupBox_8 = QtWidgets.QGroupBox(self.page_2)
+        self.groupBox_8.setGeometry(QtCore.QRect(20, 10, 131, 31))
+        self.groupBox_8.setStyleSheet("QGroupBox{\n"
+"    border-radius:4px;\n"
+"    border:none;\n"
+"    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(77, 92, 115, 255), stop:1 rgba(255, 255, 255, 0));\n"
+"}\n"
+"")
+        self.groupBox_8.setTitle("")
+        self.groupBox_8.setObjectName("groupBox_8")
+        self.label_96 = QtWidgets.QLabel(self.groupBox_8)
+        self.label_96.setGeometry(QtCore.QRect(10, 0, 51, 31))
+        self.label_96.setStyleSheet("QLabel{\n"
+"    font: 12pt \"黑体\";\n"
+"    color: rgb(255, 255, 255);\n"
+"}")
+        self.label_96.setObjectName("label_96")
+        self.tabWidget_3 = QtWidgets.QTabWidget(self.page_2)
+        self.tabWidget_3.setGeometry(QtCore.QRect(20, 40, 860, 761))
+        self.tabWidget_3.setStyleSheet("QWidget#tab_4, QWidget#tab_5{\n"
+"    background-color: rgb(226, 221, 215);\n"
+"    border: none;\n"
+"}\n"
+"QWidget#tabWidget{\n"
+"    border: none;\n"
+"}\n"
+"QTabWidget:tab-bar{\n"
+"    border: none;\n"
+"    top: -10px;\n"
+"}\n"
+"QTabWidget:pane{\n"
+"    margin-bottom: -20px;\n"
+"}\n"
+"QTabBar:tab{\n"
+"    width: 430px;\n"
+"    height: 30px;\n"
+"    font-size: 12pt;\n"
+"    font-family: \"SimHei\";\n"
+"    font-weight: 400;\n"
+"    color: rgb(170, 128, 128);\n"
+"    background-color: rgb(226, 221, 215);\n"
+"}\n"
+"QTabBar:tab:first{\n"
+"    border-bottom-left-radius:5px;\n"
+"}\n"
+"QTabBar:tab:last{\n"
+"    border-bottom-right-radius:5px;\n"
+"}\n"
+"QTabBar:tab:selected{\n"
+"    background-color: rgb(247, 245, 243);\n"
+"    border-bottom-right-radius:5px;\n"
+"    border-bottom-left-radius:5px;\n"
+"    color: rgb(236, 149, 120);\n"
+"    font-size: 13pt;\n"
+"}\n"
+"")
+        self.tabWidget_3.setTabPosition(QtWidgets.QTabWidget.South)
+        self.tabWidget_3.setObjectName("tabWidget_3")
+        self.tab_4 = QtWidgets.QWidget()
+        self.tab_4.setObjectName("tab_4")
+        self.groupBox_13 = QtWidgets.QGroupBox(self.tab_4)
+        self.groupBox_13.setGeometry(QtCore.QRect(0, 10, 860, 711))
         self.groupBox_13.setStyleSheet("QPushButton{\n"
 "    border-radius:5px;\n"
 "    background-color:rgb(227, 89, 58);\n"
@@ -1391,7 +1439,8 @@ class Ui_MainWindow(object):
 "QGroupBox{\n"
 "    border:none;\n"
 "    background-color: rgb(247, 245, 243);\n"
-"    \n"
+"    border-bottom-left-radius:0px;\n"
+"    border-bottom-right-radius:0px;\n"
 "}")
         self.groupBox_13.setTitle("")
         self.groupBox_13.setObjectName("groupBox_13")
@@ -2014,45 +2063,11 @@ class Ui_MainWindow(object):
         self.line_46.setFrameShape(QtWidgets.QFrame.HLine)
         self.line_46.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_46.setObjectName("line_46")
-        self.groupBox_8 = QtWidgets.QGroupBox(self.page_2)
-        self.groupBox_8.setGeometry(QtCore.QRect(20, 10, 131, 31))
-        self.groupBox_8.setStyleSheet("QGroupBox{\n"
-"    border-radius:4px;\n"
-"    border:none;\n"
-"    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(77, 92, 115, 255), stop:1 rgba(255, 255, 255, 0));\n"
-"}\n"
-"")
-        self.groupBox_8.setTitle("")
-        self.groupBox_8.setObjectName("groupBox_8")
-        self.label_96 = QtWidgets.QLabel(self.groupBox_8)
-        self.label_96.setGeometry(QtCore.QRect(10, 0, 51, 31))
-        self.label_96.setStyleSheet("QLabel{\n"
-"    font: 12pt \"黑体\";\n"
-"    color: rgb(255, 255, 255);\n"
-"}")
-        self.label_96.setObjectName("label_96")
-        self.stackedWidget.addWidget(self.page_2)
-        self.page_3 = QtWidgets.QWidget()
-        self.page_3.setObjectName("page_3")
-        self.groupBox_16 = QtWidgets.QGroupBox(self.page_3)
-        self.groupBox_16.setGeometry(QtCore.QRect(20, 10, 131, 31))
-        self.groupBox_16.setStyleSheet("QGroupBox{\n"
-"    border-radius:4px;\n"
-"    border:none;\n"
-"    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(77, 92, 115, 255), stop:1 rgba(255, 255, 255, 0));\n"
-"}\n"
-"")
-        self.groupBox_16.setTitle("")
-        self.groupBox_16.setObjectName("groupBox_16")
-        self.label_112 = QtWidgets.QLabel(self.groupBox_16)
-        self.label_112.setGeometry(QtCore.QRect(10, 0, 111, 31))
-        self.label_112.setStyleSheet("QLabel{\n"
-"    font: 12pt \"黑体\";\n"
-"    color: rgb(255, 255, 255);\n"
-"}")
-        self.label_112.setObjectName("label_112")
-        self.groupBox = QtWidgets.QGroupBox(self.page_3)
-        self.groupBox.setGeometry(QtCore.QRect(20, 50, 861, 741))
+        self.tabWidget_3.addTab(self.tab_4, "")
+        self.tab_5 = QtWidgets.QWidget()
+        self.tab_5.setObjectName("tab_5")
+        self.groupBox = QtWidgets.QGroupBox(self.tab_5)
+        self.groupBox.setGeometry(QtCore.QRect(0, 10, 861, 711))
         self.groupBox.setStyleSheet("QPushButton{\n"
 "    border-radius:5px;\n"
 "    background-color:rgb(227, 89, 58);\n"
@@ -3671,6 +3686,27 @@ class Ui_MainWindow(object):
 "    font: 9pt \"黑体\";\n"
 "}")
         self.loadsetting_comboBox.setObjectName("loadsetting_comboBox")
+        self.tabWidget_3.addTab(self.tab_5, "")
+        self.stackedWidget.addWidget(self.page_2)
+        self.page_3 = QtWidgets.QWidget()
+        self.page_3.setObjectName("page_3")
+        self.groupBox_16 = QtWidgets.QGroupBox(self.page_3)
+        self.groupBox_16.setGeometry(QtCore.QRect(20, 10, 131, 31))
+        self.groupBox_16.setStyleSheet("QGroupBox{\n"
+"    border-radius:4px;\n"
+"    border:none;\n"
+"    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(77, 92, 115, 255), stop:1 rgba(255, 255, 255, 0));\n"
+"}\n"
+"")
+        self.groupBox_16.setTitle("")
+        self.groupBox_16.setObjectName("groupBox_16")
+        self.label_112 = QtWidgets.QLabel(self.groupBox_16)
+        self.label_112.setGeometry(QtCore.QRect(10, 0, 111, 31))
+        self.label_112.setStyleSheet("QLabel{\n"
+"    font: 12pt \"黑体\";\n"
+"    color: rgb(255, 255, 255);\n"
+"}")
+        self.label_112.setObjectName("label_112")
         self.stackedWidget.addWidget(self.page_3)
         self.page_4 = QtWidgets.QWidget()
         self.page_4.setObjectName("page_4")
@@ -3933,14 +3969,6 @@ class Ui_MainWindow(object):
 "}")
         self.pageButton_2.setText("")
         self.pageButton_2.setObjectName("pageButton_2")
-        self.pageButton_3 = QtWidgets.QPushButton(self.groupBox_9)
-        self.pageButton_3.setGeometry(QtCore.QRect(0, 150, 151, 51))
-        font = QtGui.QFont()
-        font.setFamily("方正可变悠黑 简 Normal")
-        font.setPointSize(14)
-        self.pageButton_3.setFont(font)
-        self.pageButton_3.setStyleSheet("")
-        self.pageButton_3.setObjectName("pageButton_3")
         self.label_16.raise_()
         self.minusButton.raise_()
         self.closeButton.raise_()
@@ -3960,6 +3988,7 @@ class Ui_MainWindow(object):
         self.stackedWidget.setCurrentIndex(1)
         self.tabWidget.setCurrentIndex(1)
         self.tabWidget_2.setCurrentIndex(0)
+        self.tabWidget_3.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -4125,7 +4154,7 @@ class Ui_MainWindow(object):
         self.replay_mini_menu_upbutton.setText(_translate("MainWindow", "上一个"))
         self.replay_mini_menu_downbutton.setText(_translate("MainWindow", "下一个"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "循 环"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), _translate("MainWindow", "增 益"))
+        self.label_96.setText(_translate("MainWindow", "·装备"))
         self.label_97.setText(_translate("MainWindow", "帽子"))
         self.equip_hat_name.setText(_translate("MainWindow", "无"))
         self.equip_hat_enchance.setText(_translate("MainWindow", "无"))
@@ -4190,8 +4219,7 @@ class Ui_MainWindow(object):
         self.label_64.setText(_translate("MainWindow", "会心："))
         self.label_80.setText(_translate("MainWindow", "会心效果："))
         self.label_129.setText(_translate("MainWindow", "增益"))
-        self.label_96.setText(_translate("MainWindow", "·装备"))
-        self.label_112.setText(_translate("MainWindow", "·装备设置"))
+        self.tabWidget_3.setTabText(self.tabWidget_3.indexOf(self.tab_4), _translate("MainWindow", "装 备"))
         self.label_113.setText(_translate("MainWindow", "武器"))
         self.label_114.setText(_translate("MainWindow", "上衣"))
         self.label_115.setText(_translate("MainWindow", "腰带"))
@@ -4249,6 +4277,8 @@ class Ui_MainWindow(object):
         self.savesetting_2_button.setText(_translate("MainWindow", "空配置2"))
         self.savesetting_3_button.setText(_translate("MainWindow", "空配置3"))
         self.label_5.setText(_translate("MainWindow", "载入配置"))
+        self.tabWidget_3.setTabText(self.tabWidget_3.indexOf(self.tab_5), _translate("MainWindow", "装 备 栏 设 置"))
+        self.label_112.setText(_translate("MainWindow", "·装备设置"))
         self.PicRd_timeLabel.setText(_translate("MainWindow", "0:00-0:30"))
         self.label_88.setText(_translate("MainWindow", " 装备概览"))
         self.label_89.setText(_translate("MainWindow", "武器："))
@@ -4258,6 +4288,5 @@ class Ui_MainWindow(object):
         self.label_93.setText(_translate("MainWindow", "副本精简："))
         self.label_94.setText(_translate("MainWindow", "无皇精简："))
         self.label_95.setText(_translate("MainWindow", "特效腰坠："))
-        self.pageButton_3.setText(_translate("MainWindow", "设置"))
 from pyqtgraph import PlotWidget
 import UI_rc

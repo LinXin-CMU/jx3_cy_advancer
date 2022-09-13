@@ -1,10 +1,11 @@
 # coding: utf-8
 # author: LinXin
 
-from .Imitation.player import Player
-from .Imitation.npc import Npc
+from .Model.player import Player
+from .Model.npc import Npc
 from .CheckRecord.skill_data_reshape import read_origin_skill_data
-from Scripts.JclAnalysis.checker_main import MainChecker
+from .Mark.operate_marker import OperateMarker
+from .checker_main import MainChecker
 from CustomClasses.Exceptions import JclTypeError
 from CustomClasses.TypeHints import FileReader, Attribute
 
@@ -29,6 +30,10 @@ class Analysis:
         self.attribute: Attribute = data_address.attribute
         # Attribute类
         self._data_checker = MainChecker(self._player, self._reader)
+        # 操作类
+        self._operate_checker = OperateMarker()
+        # 玩家战斗数据的整理后记录
+        self._skill_analysis_data = None
 
     @property
     def DATA_skill_to_table(self):
@@ -44,11 +49,12 @@ class Analysis:
         用于循环页上半部分的数据\n
         :return: Dict{'major_skill_list', 'analysis', 'operate_list'}
         """
-        return {
+        self._skill_analysis_data = {
             "major_skill_list": self._data_checker.current_kungfu_skills,
             "analysis": self._data_checker.major_skill_analysis,
             "operate_list": self._data_checker.operate_skill_list
         }
+        return self._skill_analysis_data
 
     # @property
     def get_operate_data(self):
@@ -99,6 +105,16 @@ class Analysis:
         # 3. 读取buff序列并分析
         self._data_checker.run_buff()
 
+
+    def run_marker(self):
+        # 开始进入评分模块
+        _fight_time = self._reader.record_info['end_fight_time']['timestamp'] - self._reader.record_info['start_fight_time']['timestamp']
+        # 1. 读取玩家数据
+        self._operate_checker.basic_setting(self.attribute, _fight_time)
+        # 2. 计算评分
+        if self._skill_analysis_data is None:
+            return
+        self._operate_checker.run(self._skill_analysis_data)
 
 
     def _get_all_operate_data(self):

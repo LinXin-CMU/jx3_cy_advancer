@@ -51,8 +51,12 @@ class Attribute:
     embedding_count: Any
     player_kungfu: Any
     player_talent: list
+    equip: Any
+    equip_set_count: Any
     @property
-    def yunshan_enchant(self) -> bool: ...
+    def yunshan_enchant(self) -> bool: return ...
+    @property
+    def belt_enchant(self) -> bool: return ...
 
 # class ConfigSetting:
 #     """Scripts/Config/config.py"""
@@ -87,7 +91,7 @@ class FileReader:
 
 
 class Player:
-    """Scripts/JclAnalysis/Imitation/player.py"""
+    """Scripts/JclAnalysis/Model/player.py"""
     def __init__(self): ...
     @property
     def skill_events_by_time(self) -> Dict: return ...

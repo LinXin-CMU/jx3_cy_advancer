@@ -22,7 +22,7 @@ class Attribute:
         # json格式
         self.json_attributes = None
         # 合计套装
-        self._equip_set_count = None
+        self.equip_set_count = None
         # 合计镶嵌 {数量，总等级}
         self.embedding_count = {'quantity': 0, 'total_level': 0}
         # 玩家心法
@@ -58,9 +58,17 @@ class Attribute:
 
     @property
     def yunshan_enchant(self) -> bool:
-        _bottom = self.equip['BOTTOM']
+        _bottom = self.equip['BOTTOMS']
         if _bottom is not None:
             if _bottom.enchant is not None and '玉简' in _bottom.enchant:
+                return True
+        return False
+
+    @property
+    def belt_enchant(self) -> bool:
+        _bottom = self.equip['BELT']
+        if _bottom is not None:
+            if _bottom.enchant is not None and '伤·腰' in _bottom.enchant:
                 return True
         return False
 
@@ -90,7 +98,7 @@ class Attribute:
         #   _Equip.embedding
         # 清空属性
         self._attributes = {}
-        self._equip_set_count = {}
+        self.equip_set_count = {}
         self.embedding_count = {'quantity': 0, 'total_level': 0}
         # 1. 遍历每件装备
         for equip_name in self._EQUIP_NAME:
@@ -198,7 +206,7 @@ class Attribute:
         :return:
         """
         # 1. 套装属性
-        for set_type, set_info in self._equip_set_count.items():
+        for set_type, set_info in self.equip_set_count.items():
             # 套装最少有两件
             if set_info['count'] > 1:
                 for set_count in range(2, set_info['count'] + 1):
@@ -383,14 +391,14 @@ class Attribute:
         :return:
         """
         try:
-            if set_key not in self._equip_set_count:
-                self._equip_set_count[set_key] = {
+            if set_key not in self.equip_set_count:
+                self.equip_set_count[set_key] = {
                     "count": 1,
                     "level": int(equip_data['Level']),
                     "attrs": equip_data['_SetData']
                 }
             else:
-                self._equip_set_count[set_key]['count'] += 1
+                self.equip_set_count[set_key]['count'] += 1
 
         except KeyError as e:
             print(f"KeyError: {e} at Scripts/ReadData/Equips/equip_reader.py _add_set_data_to_set_count")
