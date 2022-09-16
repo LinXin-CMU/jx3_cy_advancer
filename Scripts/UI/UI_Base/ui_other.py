@@ -31,7 +31,8 @@ def set_page(index, func):
 DATA_TABLE_COLUMN_WIDTHS = ((0, 30), (1, 150), (2, 70), (3, 150), (4, 49))
 INFO_TABLE_COLUMN_WIDTHS = ((0, 32), (1, 68), (2, 68), (3, 68), (4, 40), (5, 52))
 TARGET_TABLE_COLUMN_WIDTHS = ((0, 30), (1, 113), (2, 110), (3, 49), (4, 49), (5, 49), (6, 49))
-FILES_TABLE_COLUMN_WIDTHS = ((0, 55), (1, 38), (2, 110), (3, 92), (4, 40), (5, 12))
+FILES_TABLE_COLUMN_WIDTHS = ((0, 65), (1, 48), (2, 220), (3, 142), (4, 50), (5, 10), (6, 60))
+MARK_TABLE_COLUMN_WIDTHS = ((0, 104), (1, 103), (2, 103), (3, 103), (4, 103), (5, 105), (6, 105))
 
 # 复盘模块循环页各技能显示内容
 available_buffs = {

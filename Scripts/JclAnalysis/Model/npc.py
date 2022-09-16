@@ -315,10 +315,22 @@ class Npc:
                         self._targets_buff_data[target_id]['661_30']['times'][p_pf] = \
                             (buff_jf.end+1, buff_pf.end, buff_pf.level, buff_pf.layer, buff_pf.src_name)
                     # 指针位移和循环判定终止
-                    if buff_pf.end < buff_jf.start:
+                    if p_pf < stop_pf and buff_pf.end < buff_jf.start:
                         p_pf = min(p_pf + 1, stop_pf)
-                    elif buff_jf.end < buff_pf.start:
+                    elif p_jf < stop_jf and buff_jf.end < buff_pf.start:
                         p_jf = min(p_jf + 1, stop_jf)
+                    # 劲风已到最后一位，破风有剩余的情况
+                    elif p_jf == stop_jf and buff_jf.end < buff_pf.start:
+                        end = buff_pf.end
+                        for i in range(p_pf+1, stop_pf+1):
+                            buff_pf: buff_res = buff_res(*buff_p_pf[i])
+                            self._targets_buff_data[target_id]['661_30']['times'][i] = \
+                                (end, buff_pf.end, buff_pf.level, buff_pf.layer, buff_pf.src_name)
+                            end = buff_pf.end
+                        break
+                    # 破风已到最后一位，劲风有剩余的情况
+                    elif p_pf == stop_pf and buff_pf.end < buff_jf.start:
+                        break
                     elif p_pf == stop_pf and p_jf == stop_jf:
                         break
 

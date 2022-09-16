@@ -1,13 +1,12 @@
-import datetime
-import random
+from datetime import timedelta
+from random import shuffle
 from typing import Dict, List, Literal
 from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem, QAbstractItemView, QLabel, QPushButton, QHBoxLayout, \
-    QVBoxLayout, QWidget, QFrame, QTableWidget, QHeaderView
-from PyQt5.QtCore import Qt, QPointF, QSize
+    QVBoxLayout, QFrame, QTableWidget, QHeaderView
+from PyQt5.QtCore import Qt, QSize
 from PyQt5.Qt import QFont
 from PIL import Image
 import pyqtgraph as pg
-import numpy as np
 
 from Scripts.UI.UI_Base.ui_base import BaseUi
 from Scripts.UI.UI_Base.ui import Ui_MainWindow
@@ -61,7 +60,7 @@ class Retro_UI(BaseUi):
         # self.target_label.move(760, 550)
         for index, label in enumerate([self.time_label, self.damage_label, self.target_label]):
             label.resize(100, 16)
-            label.move((index + 5) * 100 + 57, 690)
+            label.move((index + 5) * 100 + 57, 668)
             label.setStyleSheet("QLabel{color: rgb(227, 91, 57);}")
         # 记录当前坐标点的数据，便于展示
         self._points_datas = {}
@@ -83,10 +82,13 @@ class Retro_UI(BaseUi):
         # 不可改变
         self.ui.Retro_skill_data_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.ui.Retro_skill_data_table.horizontalHeader().setSectionResizeMode(QHeaderView.Fixed)
+        self.ui.Retro_skill_data_table.horizontalHeader().setVisible(True)
         self.ui.Retro_skill_info_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.ui.Retro_skill_info_table.horizontalHeader().setSectionResizeMode(QHeaderView.Fixed)
+        self.ui.Retro_skill_info_table.horizontalHeader().setVisible(True)
         self.ui.Retro_skill_target_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.ui.Retro_skill_target_table.horizontalHeader().setSectionResizeMode(QHeaderView.Fixed)
+        self.ui.Retro_skill_target_table.horizontalHeader().setVisible(True)
         # 绑定触发
         self.ui.Retro_skill_data_table.itemSelectionChanged.connect(lambda: self.set_skill_info_table('by_skill'))
         self.ui.Retro_skill_data_table.itemSelectionChanged.connect(self.set_skill_target_table)
@@ -105,7 +107,7 @@ class Retro_UI(BaseUi):
         norm_pen = pg.mkPen((121, 194, 225), width=2)
         crit_pen = pg.mkPen((254, 208, 129), width=2)
         # 标签取值为其中随机一个数据点
-        random.shuffle(points)
+        shuffle(points)
         if self._points_clicked is None:
             pass
         else:
@@ -749,7 +751,9 @@ class Retro_UI(BaseUi):
                     name = ""
                 if len(miss_times) > 0:
                     for time in miss_times:
-                        _, mm, _s = datetime.timedelta(seconds=time/1000).__str__().split(':')
+                        _, mm, _s = timedelta(seconds=time/1000).__str__().split(':')
+                        if '.' not in _s:
+                            _s += '.00'
                         ss, ms = _s.split(".")
                         time_item = QTableWidgetItem(f"{mm}:{ss}")
                         time_item.setFont(QFont("SimHei", 8, QFont.Normal))

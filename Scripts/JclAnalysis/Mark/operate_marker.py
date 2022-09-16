@@ -61,7 +61,11 @@ class OperateMarker:
         self._player_equip_data = player_equip_data
         self._fight_time = fight_time
         # 1. 提取出需要的属性
-        _json_attrib = eval(player_equip_data.json_attributes)
+        try:
+            _json_attrib = eval(player_equip_data.json_attributes)
+        except TypeError as e:
+            print(f"TypeError: {e} at Scripts/JclAnalysis/Mark/operate_marker.py basic_setting: 未知错误!")
+            return
         self._player_attribute['PhysicsAttackPowerBase'] = _json_attrib['PhysicsAttackPowerBase']
         self._player_attribute['PhysicsAttackPower'] = _json_attrib['PhysicsAttackPower'] - _json_attrib['PhysicsAttackPowerBase']
         self._player_attribute['MeleeWeaponDamage'] = _json_attrib['MeleeWeaponDamage'] + _json_attrib['MeleeWeaponDamageRand'] // 2
@@ -123,10 +127,12 @@ class OperateMarker:
         self._get_standard_skill_damage()
         self._get_real_skill_count_and_damage()
 
-        print(self._standard_skill_count_result)
-        print(self._standard_skill_damage_result)
-        print(self._real_skill_count_result)
-        print(self._real_skill_damage_result)
+        return (
+            self._standard_skill_count_result,
+            self._standard_skill_damage_result,
+            self._real_skill_count_result,
+            self._real_skill_damage_result
+        )
 
     def _get_damage_by_buff(self, skill: Literal['云', '月', '雁', '斩', '绝'], buff: advance_buff):
         """
@@ -261,14 +267,24 @@ class OperateMarker:
         name_to_short_name = {
             '阵云结晦': '云', '月照连营': '月', '雁门迢递': '雁', '斩刀': '斩', '绝刀': '绝'
         }
+        _count = {
+            '阵云结晦': 0, '月照连营': 0, '雁门迢递': 0, '斩刀': 0, '绝刀': 0
+        }
         for skill, skill_data in _analysis.items():
             if skill in name_to_short_name:
                 skill = name_to_short_name[skill]
-                self._real_skill_count_result[skill] = skill_data['Special']['count']
                 _buffs = skill_data['Buffs']
                 # noinspection PyTypeChecker
                 self._real_skill_damage_result[skill] = self._get_damage_by_buff(skill,
                     advance_buff(_buffs['DaoHun'], _buffs['XueNu'], _buffs['CongRong'], _buffs['YuJian'], _buffs['FenYe']))
+
+        for _, data in self._player_operate_data['operate_list'].items():
+            if data['name'] in _count:
+                _count[data['name']] += 1
+
+        for skill, count in _count.items():
+            skill = name_to_short_name[skill]
+            self._real_skill_count_result[skill] = count
 
 
 

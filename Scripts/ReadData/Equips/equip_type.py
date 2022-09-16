@@ -1,4 +1,4 @@
-import re
+from re import compile
 
 from Sources.Jx3_Datas.Files.jx3_stone import stone
 from Sources.Jx3_Datas.Files.jx3_equip import equip
@@ -64,50 +64,54 @@ class _Equip:
 
         # 五彩石
         if self.stone is not None:
-            stone_id = self.data[5][0][2]
             try:
-                if not stone_id == 0 and stone_id is not None:
-                    try:
-                        stone_info = stone[stone_id]
-                    except KeyError:
-                        stone_info = None
-                        stone_name = '五彩石等级过低'
+                stone_id = self.data[5][0][2]
+            except TypeError:
+                print("无五彩石！")
+            else:
+                try:
+                    if not stone_id == 0 and stone_id is not None:
+                        try:
+                            stone_info = stone[stone_id]
+                        except KeyError:
+                            stone_info = None
+                            stone_name = '五彩石等级过低'
+                        else:
+                            stone_name = ''
+                            stone_lv = None
+                            for index, attr_info in enumerate(stone_info):
+                                if len(stone_info) == 3:
+                                    # 常规五彩石
+                                    if index == 0:
+                                        if attr_info[4] == '11':
+                                            stone_lv = '(肆)'
+                                        elif attr_info[4] == '13':
+                                            stone_lv = '(伍)'
+                                        elif attr_info[4] == '14':
+                                            stone_lv = '(陆)'
+                                elif len(stone_info) == 2:
+                                    # 精简五彩石
+                                    if index == 0:
+                                        if attr_info[4] == '12':
+                                            stone_lv = '(肆)'
+                                        elif attr_info[4] == '14':
+                                            stone_lv = '(伍)'
+                                        elif attr_info[4] == '16':
+                                            stone_lv = '(陆)'
+                                if len(attr_info[0]) == 5:
+                                    stone_name += attr_info[0][3:]
+                                elif attr_info[0] == '武器伤害':
+                                    stone_name += "武伤"
+                                else:
+                                    stone_name += attr_info[0]
+                                stone_name += '·'
+                            stone_name = stone_name[:-1] + stone_lv
                     else:
-                        stone_name = ''
-                        stone_lv = None
-                        for index, attr_info in enumerate(stone_info):
-                            if len(stone_info) == 3:
-                                # 常规五彩石
-                                if index == 0:
-                                    if attr_info[4] == '11':
-                                        stone_lv = '(肆)'
-                                    elif attr_info[4] == '13':
-                                        stone_lv = '(伍)'
-                                    elif attr_info[4] == '14':
-                                        stone_lv = '(陆)'
-                            elif len(stone_info) == 2:
-                                # 精简五彩石
-                                if index == 0:
-                                    if attr_info[4] == '12':
-                                        stone_lv = '(肆)'
-                                    elif attr_info[4] == '14':
-                                        stone_lv = '(伍)'
-                                    elif attr_info[4] == '16':
-                                        stone_lv = '(陆)'
-                            if len(attr_info[0]) == 5:
-                                stone_name += attr_info[0][3:]
-                            elif attr_info[0] == '武器伤害':
-                                stone_name += "武伤"
-                            else:
-                                stone_name += attr_info[0]
-                            stone_name += '·'
-                        stone_name = stone_name[:-1] + stone_lv
-                else:
-                    stone_info = None
-                    stone_name = '无五彩石'
-                self.stone = {'name': stone_name, 'data': stone_info}
-            except KeyError as e:
-                print(f"KeyError: {e} at Scripts/ReadData/Equips/equip_type.py stone")
+                        stone_info = None
+                        stone_name = '无五彩石'
+                    self.stone = {'name': stone_name, 'data': stone_info}
+                except KeyError as e:
+                    print(f"KeyError: {e} at Scripts/ReadData/Equips/equip_type.py stone")
 
         # 装备自身属性
         # 基础属性
@@ -223,7 +227,7 @@ class _Equip:
                     _attr_slot = "atPhysicsOvercomeBase"
                     # 属性值: 从描述中查找
                     _attr_value = int([i.group("value") for i in
-                                       re.compile(r'则破防等级提高(?P<value>.+?)点').finditer(enchant_data["_AttriName"])][
+                                       compile(r'则破防等级提高(?P<value>.+?)点').finditer(enchant_data["_AttriName"])][
                                           0])
                     # 添加到装备属性中
                     if _attr_slot not in self.changed_attrs['MagicAttrs']:
@@ -236,7 +240,7 @@ class _Equip:
                     _attr_slot = "atPhysicsAttackPowerBase"
                     # 属性值: 从描述中查找
                     _attr_value = int([i.group("value") for i in
-                                       re.compile(r"外功提高(?P<value>.+?)点").finditer(enchant_data["_AttriName"])][0])
+                                       compile(r"外功提高(?P<value>.+?)点").finditer(enchant_data["_AttriName"])][0])
                     # 添加到装备属性中
                     if _attr_slot not in self.changed_attrs['MagicAttrs']:
                         self.changed_attrs['MagicAttrs'][_attr_slot] = _attr_value

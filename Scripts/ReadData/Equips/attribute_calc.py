@@ -8,7 +8,7 @@ from Sources.Jx3_Datas.Files.jcl_data import slot_to_name_dictionary
 
 from typing import Any
 from json import dumps
-import re
+from re import compile
 
 
 class Attribute:
@@ -312,7 +312,7 @@ class Attribute:
             elif 'BasePercentAdd' in slot:
                 # 主属性加成
                 slot_name = \
-                [match.group('attrtype') for match in re.compile(r'at(?P<attrtype>.+?)BasePercentAdd').finditer(slot)][
+                [match.group('attrtype') for match in compile(r'at(?P<attrtype>.+?)BasePercentAdd').finditer(slot)][
                     0]
                 # 这一步只能加成主属性
                 if slot_name in ['Vitality', 'Agility', 'Strength', 'Spunk', 'Spirit']:
@@ -337,7 +337,11 @@ class Attribute:
             self._attributes['atPhysicsCriticalStrike'] = int(self._attributes['atAgilityBase'] * 0.64)
         # 力道
         # 对攻击加成
-        self._attributes['atPhysicsAttackPowerBase'] += int(self._attributes['atStrengthBase'] * 0.15)
+        # 铁骨适配
+        if 'atPhysicsAttackPowerBase' in self._attributes:
+            self._attributes['atPhysicsAttackPowerBase'] += int(self._attributes['atStrengthBase'] * 0.15)
+        else:
+            self._attributes['atPhysicsAttackPowerBase'] = int(self._attributes['atStrengthBase'] * 0.15)
         # 对破防加成
         if 'atPhysicsOvercomeBase' in self._attributes:
             self._attributes['atPhysicsOvercomeBase'] += int(self._attributes['atStrengthBase'] * 0.3)

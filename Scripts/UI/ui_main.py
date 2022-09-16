@@ -8,10 +8,11 @@ from PyQt5.QtWidgets import QMainWindow, QPushButton
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize
 
-from .UI_Page.ui_calculator import Calculator_UI
+from .UI_Page.ui_equip import Calculator_UI
 from .UI_Page.ui_equip_setting import Equip_UI
 from .UI_Page.ui_retro import Retro_UI
 from .UI_Page.ui_top import Top_UI
+from .UI_Page.ui_mark import Marker_UI
 from .UI_Base.ui_base import BaseUi, UiStyle
 from .UI_Base.ui import Ui_MainWindow
 
@@ -32,6 +33,7 @@ class MainUi(UiStyle, QMainWindow, BaseUi):
         self.page_calc = Calculator_UI(self)
         self.page_retro = Retro_UI(self)
         self.page_top = Top_UI(self)
+        self.page_mark = Marker_UI(self)
         self.pages: list[BaseUi] = [self.page_calc, self.page_equip]
         # 界面样式初始化
         self._widget_init()

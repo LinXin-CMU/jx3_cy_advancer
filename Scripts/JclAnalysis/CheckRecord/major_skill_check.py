@@ -60,7 +60,7 @@ class MajorSkillChecker:
         检查分山技能: 阵云*3, 斩刀, 绝刀, 盾击, 盾压, 盾飞\n
         :return:
         """
-        alls = {'阵云结晦', '月照连营', '雁门迢递', '断马摧城', '斩刀', '绝刀', '劫刀', '闪刀', '盾毅', '撼地', '盾舞', '隐刀', '血刀', '盾击', '盾压', '盾刀', '盾猛', '盾飞'}
+        alls = {'阵云结晦', '月照连营', '雁门迢递', '断马摧城', '斩刀', '绝刀', '劫刀', '闪刀', '盾毅', '撼地', '盾舞', '隐刀', '血刀', '盾击', '盾压', '盾刀', '盾猛', '盾飞', '破'}
         player_skills = set()
         not_player_skills = set()
         zhenyun_max_layer = int(self.config['zhenyun_max_layer'])
@@ -165,7 +165,8 @@ class MajorSkillChecker:
                         _kf = skill[skill_id][skill_level]['BelongKungfu']
                     except KeyError:
                         _kf = get_buff_or_skill_from_jx3box('skill', skill_id, skill_level)['BelongKungfu']
-                    if skill_id in {30769, 30855, 30856, 9003, 9004, 9005, 9006, 9007} or _kf in {'10385', '10386', '10384', '10383', '24785'} and skill_name not in {'阵云绝', '破招外功伤害子技能（母）'}:
+                    if skill_id in {30769, 30855, 30856, 9003, 9004, 9005, 9006, 9007} or _kf in {'10385', '10386', '10384', '10383', '24785'} \
+                            and skill_name not in {'阵云绝', '破招外功伤害子技能（母）'}:
                         # 阵云单独处理
                         # 小轻功单独处理
                         # 苍云套路+破招
@@ -181,7 +182,7 @@ class MajorSkillChecker:
         检查铁骨技能: 盾刀, 盾击, 盾压, 流血, 斩刀, 绝刀, 劫刀, 断马摧城\n
         :return:
         """
-        imports = {'盾刀', '盾击', '盾压', '盾飞', '斩刀', '绝刀', '盾挡', '断马摧城'}
+        imports = {'盾刀', '盾击', '盾压', '盾飞', '斩刀', '绝刀', '盾挡', '断马摧城', '破'}
         player_skills = set()
         not_player_skills = set()
         # 盾刀id
@@ -257,9 +258,9 @@ class MajorSkillChecker:
                             buff_ret['rage'] = (skill_level - 1) * 10
                             # 卡gcd释放占比
                             pass
-                    if skill_name not in self._major_skills_result:
+                    if skill_name not in self._major_skills_result and not skill_name == '破':
                         self._major_skills_result[skill_name] = {msec: buff_ret}
-                    else:
+                    elif not skill_name == '破':
                         self._major_skills_result[skill_name][msec] = buff_ret
                     if skill_name not in self._all_skills_result:
                         self._all_skills_result[skill_name] = {msec: buff_ret}

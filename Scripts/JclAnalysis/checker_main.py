@@ -418,7 +418,7 @@ class MainChecker:
         operate_list = self.operate_skill_list
 
         # 破招单独处理
-        _pozhao_lst = None
+        _pozhao_lst = []
 
         # 需要额外删除的技能
         _del = []
@@ -453,7 +453,7 @@ class MainChecker:
         _total = None
         _group = []
         latest_pozhao_time = None
-        for msec in _pozhao_lst:
+        for msec in sorted(_pozhao_lst):
             # 分割破招轴
             # 开始的情况
             if latest_pozhao_time is None:
@@ -461,18 +461,21 @@ class MainChecker:
                 _group.append(latest_pozhao_time)
             # 同一个破招的情况
             elif msec - latest_pozhao_time < 100:
-                _group.append(latest_pozhao_time)
+                _group.append(msec)
             # 不同破招的情况
             else:
                 if _total is None:
                     _total = [[i for i in _group]]
                 else:
                     _total.append([i for i in _group])
-                _group.clear()
-        for group in _group:
+                _group = [msec]
+                latest_pozhao_time = msec
+        if _total is None:
+            _total = [_group]
+        for group in _total:
             for msec in group:
                 if msec not in operate_list:
-                    operate_list[msec] = {'name': '破', 'buffs': None}
+                    operate_list[msec] = {'name': '破', 'buffs': data['破'].pop(msec)}
                     break
 
         # 3. 排序

@@ -177,12 +177,15 @@ class FileReader:
         self._equip.set_equip(origin_equip_info)
         # 20220729读取不到装备栏精炼镶嵌，暂不能使用
 
-    def calc_attribute(self, write_in, current_index=None):
+    def calc_attribute(self, write_in, current_index=None, inside_tab=False):
         """
         计算属性的上层入口, 用于控制计算时间
         :return:
         """
-        if current_index == 3 or current_index is None:
+        if inside_tab:
+            if current_index == 0:
+                current_index = 2
+        if current_index == 2 or current_index is None:
             try:
                 # 检测是否为装备栏设置页面切换至其他页面
                 self.attributes.calc_attribute()

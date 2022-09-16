@@ -123,7 +123,7 @@ class Ui_MainWindow(object):
 "}")
         self.label.setObjectName("label")
         self.groupBox_3 = QtWidgets.QGroupBox(self.page)
-        self.groupBox_3.setGeometry(QtCore.QRect(20, 50, 411, 741))
+        self.groupBox_3.setGeometry(QtCore.QRect(20, 50, 861, 741))
         self.groupBox_3.setStyleSheet("QGroupBox{\n"
 "    \n"
 "    background-color: rgb(247, 245, 243);\n"
@@ -165,7 +165,7 @@ class Ui_MainWindow(object):
         self.groupBox_3.setTitle("")
         self.groupBox_3.setObjectName("groupBox_3")
         self.label_127 = QtWidgets.QLabel(self.groupBox_3)
-        self.label_127.setGeometry(QtCore.QRect(20, 121, 71, 20))
+        self.label_127.setGeometry(QtCore.QRect(20, 116, 71, 20))
         self.label_127.setStyleSheet("QLabel{\n"
 "    font-size:10pt;\n"
 "    color: rgb(255, 255, 255);\n"
@@ -173,13 +173,15 @@ class Ui_MainWindow(object):
 "}")
         self.label_127.setObjectName("label_127")
         self.label_52 = QtWidgets.QLabel(self.groupBox_3)
-        self.label_52.setGeometry(QtCore.QRect(30, 153, 54, 12))
+        self.label_52.setGeometry(QtCore.QRect(30, 150, 151, 16))
+        self.label_52.setAlignment(QtCore.Qt.AlignCenter)
         self.label_52.setObjectName("label_52")
         self.label_53 = QtWidgets.QLabel(self.groupBox_3)
-        self.label_53.setGeometry(QtCore.QRect(30, 180, 54, 12))
+        self.label_53.setGeometry(QtCore.QRect(33, 290, 151, 16))
+        self.label_53.setAlignment(QtCore.Qt.AlignCenter)
         self.label_53.setObjectName("label_53")
         self.radioButton = QtWidgets.QRadioButton(self.groupBox_3)
-        self.radioButton.setGeometry(QtCore.QRect(93, 152, 51, 16))
+        self.radioButton.setGeometry(QtCore.QRect(40, 185, 51, 16))
         self.radioButton.setStyleSheet("QRadioButton{\n"
 "    font-family:\"黑体\";\n"
 "    font-size:9pt;\n"
@@ -191,31 +193,29 @@ class Ui_MainWindow(object):
         self.top_nearest_date_buttonGroup.setObjectName("top_nearest_date_buttonGroup")
         self.top_nearest_date_buttonGroup.addButton(self.radioButton)
         self.radioButton_2 = QtWidgets.QRadioButton(self.groupBox_3)
-        self.radioButton_2.setGeometry(QtCore.QRect(233, 152, 31, 16))
-        self.radioButton_2.setText("")
+        self.radioButton_2.setGeometry(QtCore.QRect(40, 224, 61, 16))
+        self.radioButton_2.setStyleSheet("QRadioButton{\n"
+"    font-family:\"黑体\";\n"
+"    font-size:9pt;\n"
+"    color: rgb(76, 91, 114);\n"
+"}")
         self.radioButton_2.setObjectName("radioButton_2")
         self.top_nearest_date_buttonGroup.addButton(self.radioButton_2)
         self.top_nearest_days_combobox = QtWidgets.QComboBox(self.groupBox_3)
-        self.top_nearest_days_combobox.setGeometry(QtCore.QRect(143, 148, 69, 22))
+        self.top_nearest_days_combobox.setGeometry(QtCore.QRect(110, 181, 69, 22))
         self.top_nearest_days_combobox.setObjectName("top_nearest_days_combobox")
         self.top_nearest_days_combobox.addItem("")
         self.top_nearest_days_combobox.addItem("")
         self.top_nearest_days_combobox.addItem("")
         self.top_nearest_days_combobox.addItem("")
         self.top_nearest_year_combobox = QtWidgets.QComboBox(self.groupBox_3)
-        self.top_nearest_year_combobox.setGeometry(QtCore.QRect(253, 148, 69, 22))
+        self.top_nearest_year_combobox.setGeometry(QtCore.QRect(110, 220, 69, 22))
         self.top_nearest_year_combobox.setObjectName("top_nearest_year_combobox")
-        self.label_56 = QtWidgets.QLabel(self.groupBox_3)
-        self.label_56.setGeometry(QtCore.QRect(217, 153, 16, 12))
-        self.label_56.setStyleSheet("QLabel{\n"
-"    font-size:9pt;\n"
-"}")
-        self.label_56.setObjectName("label_56")
         self.top_nearest_month_combobox = QtWidgets.QComboBox(self.groupBox_3)
-        self.top_nearest_month_combobox.setGeometry(QtCore.QRect(330, 148, 61, 22))
+        self.top_nearest_month_combobox.setGeometry(QtCore.QRect(110, 249, 69, 22))
         self.top_nearest_month_combobox.setObjectName("top_nearest_month_combobox")
         self.checkBox = QtWidgets.QCheckBox(self.groupBox_3)
-        self.checkBox.setGeometry(QtCore.QRect(93, 179, 71, 16))
+        self.checkBox.setGeometry(QtCore.QRect(40, 320, 131, 16))
         self.checkBox.setChecked(True)
         self.checkBox.setTristate(False)
         self.checkBox.setObjectName("checkBox")
@@ -224,21 +224,17 @@ class Ui_MainWindow(object):
         self.top_zone_type_buttonGroup.setExclusive(False)
         self.top_zone_type_buttonGroup.addButton(self.checkBox)
         self.checkBox_3 = QtWidgets.QCheckBox(self.groupBox_3)
-        self.checkBox_3.setGeometry(QtCore.QRect(140, 179, 91, 16))
+        self.checkBox_3.setGeometry(QtCore.QRect(40, 350, 131, 16))
         self.checkBox_3.setChecked(True)
         self.checkBox_3.setTristate(False)
         self.checkBox_3.setObjectName("checkBox_3")
         self.top_zone_type_buttonGroup.addButton(self.checkBox_3)
         self.checkBox_6 = QtWidgets.QCheckBox(self.groupBox_3)
-        self.checkBox_6.setGeometry(QtCore.QRect(234, 179, 71, 16))
+        self.checkBox_6.setGeometry(QtCore.QRect(40, 380, 131, 16))
         self.checkBox_6.setObjectName("checkBox_6")
         self.top_zone_type_buttonGroup.addButton(self.checkBox_6)
-        self.checkBox_7 = QtWidgets.QCheckBox(self.groupBox_3)
-        self.checkBox_7.setGeometry(QtCore.QRect(304, 179, 61, 16))
-        self.checkBox_7.setObjectName("checkBox_7")
-        self.top_zone_type_buttonGroup.addButton(self.checkBox_7)
         self.top_files_table = QtWidgets.QTableWidget(self.groupBox_3)
-        self.top_files_table.setGeometry(QtCore.QRect(20, 240, 381, 371))
+        self.top_files_table.setGeometry(QtCore.QRect(210, 150, 631, 431))
         self.top_files_table.setStyleSheet("QTableWidget{\n"
 "    border-radius:0px;\n"
 "    border:2px solid;\n"
@@ -259,7 +255,7 @@ class Ui_MainWindow(object):
         self.top_files_table.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.top_files_table.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.top_files_table.setObjectName("top_files_table")
-        self.top_files_table.setColumnCount(7)
+        self.top_files_table.setColumnCount(8)
         self.top_files_table.setRowCount(0)
         item = QtWidgets.QTableWidgetItem()
         self.top_files_table.setHorizontalHeaderItem(0, item)
@@ -275,6 +271,8 @@ class Ui_MainWindow(object):
         self.top_files_table.setHorizontalHeaderItem(5, item)
         item = QtWidgets.QTableWidgetItem()
         self.top_files_table.setHorizontalHeaderItem(6, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.top_files_table.setHorizontalHeaderItem(7, item)
         self.top_files_table.horizontalHeader().setVisible(False)
         self.top_files_table.horizontalHeader().setDefaultSectionSize(72)
         self.top_files_table.verticalHeader().setVisible(False)
@@ -282,14 +280,26 @@ class Ui_MainWindow(object):
         self.top_files_table.verticalHeader().setSortIndicatorShown(True)
         self.top_files_table.verticalHeader().setStretchLastSection(False)
         self.top_filt_button = QtWidgets.QPushButton(self.groupBox_3)
-        self.top_filt_button.setGeometry(QtCore.QRect(170, 205, 75, 23))
+        self.top_filt_button.setGeometry(QtCore.QRect(65, 480, 81, 23))
+        self.top_filt_button.setStyleSheet("QPushButton{\n"
+"    font-family:\"黑体\";\n"
+"    font-size:10pt;\n"
+"    \n"
+"    background-color: rgb(226, 221, 215);\n"
+"    color: rgb(227, 91, 57);\n"
+"    border-color: rgb(218, 185, 138);\n"
+"}\n"
+"QPushButton:hover{\n"
+"    \n"
+"    background-color: rgb(245, 240, 233);\n"
+"}")
         self.top_filt_button.setObjectName("top_filt_button")
         self.FileLineEdit = QtWidgets.QLineEdit(self.groupBox_3)
-        self.FileLineEdit.setGeometry(QtCore.QRect(160, 624, 129, 23))
+        self.FileLineEdit.setGeometry(QtCore.QRect(310, 590, 531, 23))
         self.FileLineEdit.setStyleSheet("")
         self.FileLineEdit.setObjectName("FileLineEdit")
         self.SelectFile = QtWidgets.QPushButton(self.groupBox_3)
-        self.SelectFile.setGeometry(QtCore.QRect(300, 624, 81, 23))
+        self.SelectFile.setGeometry(QtCore.QRect(25, 590, 81, 23))
         self.SelectFile.setStyleSheet("QPushButton{\n"
 "    width:40px;\n"
 "    height:17px;\n"
@@ -306,10 +316,10 @@ class Ui_MainWindow(object):
 "}")
         self.SelectFile.setObjectName("SelectFile")
         self.label_58 = QtWidgets.QLabel(self.groupBox_3)
-        self.label_58.setGeometry(QtCore.QRect(20, 627, 131, 16))
+        self.label_58.setGeometry(QtCore.QRect(30, 560, 171, 20))
         self.label_58.setObjectName("label_58")
         self.label_70 = QtWidgets.QLabel(self.groupBox_3)
-        self.label_70.setGeometry(QtCore.QRect(10, 660, 181, 16))
+        self.label_70.setGeometry(QtCore.QRect(380, 83, 181, 16))
         self.label_70.setStyleSheet("QLabel{\n"
 "    \n"
 "    color: rgb(184, 71, 49);\n"
@@ -382,7 +392,7 @@ class Ui_MainWindow(object):
         self.NameLineEdit.setObjectName("NameLineEdit")
         self.MainButton = QtWidgets.QPushButton(self.groupBox_3)
         self.MainButton.setEnabled(True)
-        self.MainButton.setGeometry(QtCore.QRect(160, 690, 90, 31))
+        self.MainButton.setGeometry(QtCore.QRect(60, 670, 90, 31))
         self.MainButton.setStyleSheet("QPushButton#MainButton{\n"
 "    border:2px solid rgb(218, 185, 138);\n"
 "    font: 11pt \"黑体\";\n"
@@ -399,23 +409,23 @@ class Ui_MainWindow(object):
         self.MainButton.setFlat(False)
         self.MainButton.setObjectName("MainButton")
         self.label_62 = QtWidgets.QLabel(self.groupBox_3)
-        self.label_62.setGeometry(QtCore.QRect(103, 121, 301, 20))
+        self.label_62.setGeometry(QtCore.QRect(210, 120, 331, 20))
         self.label_62.setStyleSheet("QLabel{\n"
 "    color: rgb(190, 194, 202);\n"
 "}")
         self.label_62.setObjectName("label_62")
         self.line_17 = QtWidgets.QFrame(self.groupBox_3)
-        self.line_17.setGeometry(QtCore.QRect(30, 165, 361, 16))
+        self.line_17.setGeometry(QtCore.QRect(30, 280, 161, 16))
         self.line_17.setFrameShape(QtWidgets.QFrame.HLine)
         self.line_17.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_17.setObjectName("line_17")
         self.line_18 = QtWidgets.QFrame(self.groupBox_3)
-        self.line_18.setGeometry(QtCore.QRect(30, 190, 361, 16))
+        self.line_18.setGeometry(QtCore.QRect(30, 515, 161, 16))
         self.line_18.setFrameShape(QtWidgets.QFrame.HLine)
         self.line_18.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_18.setObjectName("line_18")
         self.cue_label = QtWidgets.QLabel(self.groupBox_3)
-        self.cue_label.setGeometry(QtCore.QRect(60, 350, 311, 161))
+        self.cue_label.setGeometry(QtCore.QRect(220, 150, 601, 401))
         font = QtGui.QFont()
         font.setFamily("黑体")
         font.setPointSize(20)
@@ -426,11 +436,11 @@ class Ui_MainWindow(object):
         self.cue_label.setAlignment(QtCore.Qt.AlignCenter)
         self.cue_label.setObjectName("cue_label")
         self.checkBox_8 = QtWidgets.QCheckBox(self.groupBox_3)
-        self.checkBox_8.setGeometry(QtCore.QRect(361, 179, 51, 16))
+        self.checkBox_8.setGeometry(QtCore.QRect(40, 410, 131, 16))
         self.checkBox_8.setObjectName("checkBox_8")
         self.top_zone_type_buttonGroup.addButton(self.checkBox_8)
         self.top_fight_time_timeedit = QtWidgets.QTimeEdit(self.groupBox_3)
-        self.top_fight_time_timeedit.setGeometry(QtCore.QRect(180, 658, 71, 22))
+        self.top_fight_time_timeedit.setGeometry(QtCore.QRect(550, 80, 71, 22))
         self.top_fight_time_timeedit.setStyleSheet("QTimeEdit{\n"
 "    border:none;\n"
 "    border-radius:5px;\n"
@@ -469,308 +479,68 @@ class Ui_MainWindow(object):
 "    background-color: rgb(158, 158, 158);\n"
 "}")
         self.top_fight_time_timeedit.setObjectName("top_fight_time_timeedit")
-        self.groupBox_14 = QtWidgets.QGroupBox(self.page)
-        self.groupBox_14.setGeometry(QtCore.QRect(460, 10, 131, 31))
-        self.groupBox_14.setStyleSheet("QGroupBox{\n"
-"    border-radius:4px;\n"
-"    border:none;\n"
-"    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(77, 92, 115, 255), stop:1 rgba(255, 255, 255, 0));\n"
-"}\n"
-"")
-        self.groupBox_14.setTitle("")
-        self.groupBox_14.setObjectName("groupBox_14")
-        self.label_111 = QtWidgets.QLabel(self.groupBox_14)
-        self.label_111.setGeometry(QtCore.QRect(10, 0, 81, 31))
-        self.label_111.setStyleSheet("QLabel{\n"
-"    font: 12pt \"黑体\";\n"
-"    color: rgb(255, 255, 255);\n"
-"}")
-        self.label_111.setObjectName("label_111")
-        self.groupBox_15 = QtWidgets.QGroupBox(self.page)
-        self.groupBox_15.setGeometry(QtCore.QRect(460, 50, 421, 741))
-        self.groupBox_15.setStyleSheet("QGroupBox{\n"
-"    \n"
-"    background-color: rgb(247, 245, 243);\n"
-"    border-radius:5px;\n"
-"    border:none\n"
-"}")
-        self.groupBox_15.setTitle("")
-        self.groupBox_15.setObjectName("groupBox_15")
-        self.SummaryLabel_Time = QtWidgets.QLabel(self.groupBox_15)
-        self.SummaryLabel_Time.setGeometry(QtCore.QRect(106, 40, 141, 16))
-        self.SummaryLabel_Time.setStyleSheet("QLabel{\n"
-"    \n"
-"    color: rgb(220, 90, 57);\n"
-"}")
-        self.SummaryLabel_Time.setText("")
-        self.SummaryLabel_Time.setObjectName("SummaryLabel_Time")
-        self.SummaryLabel_Fighttime = QtWidgets.QLabel(self.groupBox_15)
-        self.SummaryLabel_Fighttime.setGeometry(QtCore.QRect(286, 40, 51, 16))
-        self.SummaryLabel_Fighttime.setStyleSheet("QLabel{\n"
-"    \n"
-"    color: rgb(220, 90, 57);\n"
-"}")
-        self.SummaryLabel_Fighttime.setText("")
-        self.SummaryLabel_Fighttime.setObjectName("SummaryLabel_Fighttime")
-        self.SummaryLabel_Weaponname = QtWidgets.QLabel(self.groupBox_15)
-        self.SummaryLabel_Weaponname.setGeometry(QtCore.QRect(137, 60, 171, 16))
-        self.SummaryLabel_Weaponname.setStyleSheet("QLabel{\n"
-"    \n"
-"    color: rgb(220, 90, 57);\n"
-"}")
-        self.SummaryLabel_Weaponname.setText("")
-        self.SummaryLabel_Weaponname.setObjectName("SummaryLabel_Weaponname")
-        self.SummaryLabel_Map = QtWidgets.QLabel(self.groupBox_15)
-        self.SummaryLabel_Map.setGeometry(QtCore.QRect(171, 20, 111, 16))
-        self.SummaryLabel_Map.setStyleSheet("QLabel{\n"
-"    font-size:8pt;\n"
-"    color: rgb(220, 90, 57);\n"
-"}")
-        self.SummaryLabel_Map.setText("")
-        self.SummaryLabel_Map.setObjectName("SummaryLabel_Map")
-        self.SummaryLabel_Enchantname = QtWidgets.QLabel(self.groupBox_15)
-        self.SummaryLabel_Enchantname.setGeometry(QtCore.QRect(100, 80, 171, 16))
-        self.SummaryLabel_Enchantname.setStyleSheet("QLabel{\n"
-"    \n"
-"    color: rgb(220, 90, 57);\n"
-"}")
-        self.SummaryLabel_Enchantname.setText("")
-        self.SummaryLabel_Enchantname.setObjectName("SummaryLabel_Enchantname")
-        self.SummaryLabel_YuJianDunYa = QtWidgets.QLabel(self.groupBox_15)
-        self.SummaryLabel_YuJianDunYa.setGeometry(QtCore.QRect(80, 390, 81, 16))
-        self.SummaryLabel_YuJianDunYa.setStyleSheet("QLabel{\n"
-"    \n"
-"    color: rgb(220, 90, 57);\n"
-"}")
-        self.SummaryLabel_YuJianDunYa.setText("")
-        self.SummaryLabel_YuJianDunYa.setObjectName("SummaryLabel_YuJianDunYa")
-        self.SummaryLabel_Fenyecount = QtWidgets.QLabel(self.groupBox_15)
-        self.SummaryLabel_Fenyecount.setGeometry(QtCore.QRect(80, 240, 81, 16))
-        self.SummaryLabel_Fenyecount.setStyleSheet("QLabel{\n"
-"    \n"
-"    color: rgb(220, 90, 57);\n"
-"}")
-        self.SummaryLabel_Fenyecount.setText("")
-        self.SummaryLabel_Fenyecount.setObjectName("SummaryLabel_Fenyecount")
-        self.SummaryLabel_Dunjicount = QtWidgets.QLabel(self.groupBox_15)
-        self.SummaryLabel_Dunjicount.setGeometry(QtCore.QRect(80, 220, 81, 16))
-        self.SummaryLabel_Dunjicount.setStyleSheet("QLabel{\n"
-"    \n"
-"    color: rgb(220, 90, 57);\n"
-"}")
-        self.SummaryLabel_Dunjicount.setText("")
-        self.SummaryLabel_Dunjicount.setObjectName("SummaryLabel_Dunjicount")
-        self.SummaryLabel_Zhandaocount = QtWidgets.QLabel(self.groupBox_15)
-        self.SummaryLabel_Zhandaocount.setGeometry(QtCore.QRect(80, 200, 81, 16))
-        self.SummaryLabel_Zhandaocount.setStyleSheet("QLabel{\n"
-"    \n"
-"    color: rgb(220, 90, 57);\n"
-"}")
-        self.SummaryLabel_Zhandaocount.setText("")
-        self.SummaryLabel_Zhandaocount.setObjectName("SummaryLabel_Zhandaocount")
-        self.SummaryLabel_TeXiaoJueDaoRage = QtWidgets.QLabel(self.groupBox_15)
-        self.SummaryLabel_TeXiaoJueDaoRage.setGeometry(QtCore.QRect(345, 440, 51, 16))
-        self.SummaryLabel_TeXiaoJueDaoRage.setStyleSheet("QLabel{\n"
-"    \n"
-"    color: rgb(220, 90, 57);\n"
-"}")
-        self.SummaryLabel_TeXiaoJueDaoRage.setText("")
-        self.SummaryLabel_TeXiaoJueDaoRage.setObjectName("SummaryLabel_TeXiaoJueDaoRage")
-        self.SummaryLabel_YuJianZhanDao = QtWidgets.QLabel(self.groupBox_15)
-        self.SummaryLabel_YuJianZhanDao.setGeometry(QtCore.QRect(80, 370, 81, 16))
-        self.SummaryLabel_YuJianZhanDao.setStyleSheet("QLabel{\n"
-"    \n"
-"    color: rgb(220, 90, 57);\n"
-"}")
-        self.SummaryLabel_YuJianZhanDao.setText("")
-        self.SummaryLabel_YuJianZhanDao.setObjectName("SummaryLabel_YuJianZhanDao")
-        self.SummaryLabel_Xuenuly1 = QtWidgets.QLabel(self.groupBox_15)
-        self.SummaryLabel_Xuenuly1.setGeometry(QtCore.QRect(80, 300, 81, 16))
-        self.SummaryLabel_Xuenuly1.setStyleSheet("QLabel{\n"
-"    \n"
-"    color: rgb(220, 90, 57);\n"
-"}")
-        self.SummaryLabel_Xuenuly1.setText("")
-        self.SummaryLabel_Xuenuly1.setObjectName("SummaryLabel_Xuenuly1")
-        self.SummaryLabel_Xuenuly0 = QtWidgets.QLabel(self.groupBox_15)
-        self.SummaryLabel_Xuenuly0.setGeometry(QtCore.QRect(80, 320, 81, 16))
-        self.SummaryLabel_Xuenuly0.setStyleSheet("QLabel{\n"
-"    \n"
-"    color: rgb(220, 90, 57);\n"
-"}")
-        self.SummaryLabel_Xuenuly0.setText("")
-        self.SummaryLabel_Xuenuly0.setObjectName("SummaryLabel_Xuenuly0")
-        self.SummaryLabel_Pozhaocount = QtWidgets.QLabel(self.groupBox_15)
-        self.SummaryLabel_Pozhaocount.setGeometry(QtCore.QRect(250, 260, 81, 16))
-        self.SummaryLabel_Pozhaocount.setStyleSheet("QLabel{\n"
-"    \n"
-"    color: rgb(220, 90, 57);\n"
-"}")
-        self.SummaryLabel_Pozhaocount.setText("")
-        self.SummaryLabel_Pozhaocount.setObjectName("SummaryLabel_Pozhaocount")
-        self.SummaryLabel_Juedaocount = QtWidgets.QLabel(self.groupBox_15)
-        self.SummaryLabel_Juedaocount.setGeometry(QtCore.QRect(140, 260, 51, 16))
-        self.SummaryLabel_Juedaocount.setStyleSheet("QLabel{\n"
-"    \n"
-"    color: rgb(220, 90, 57);\n"
-"}")
-        self.SummaryLabel_Juedaocount.setText("")
-        self.SummaryLabel_Juedaocount.setObjectName("SummaryLabel_Juedaocount")
-        self.SummaryLabel_TeXiaoJueDaoCount = QtWidgets.QLabel(self.groupBox_15)
-        self.SummaryLabel_TeXiaoJueDaoCount.setGeometry(QtCore.QRect(135, 440, 61, 16))
-        self.SummaryLabel_TeXiaoJueDaoCount.setStyleSheet("QLabel{\n"
-"    \n"
-"    color: rgb(220, 90, 57);\n"
-"}")
-        self.SummaryLabel_TeXiaoJueDaoCount.setText("")
-        self.SummaryLabel_TeXiaoJueDaoCount.setObjectName("SummaryLabel_TeXiaoJueDaoCount")
-        self.SummaryLabel_Delaytime = QtWidgets.QLabel(self.groupBox_15)
-        self.SummaryLabel_Delaytime.setGeometry(QtCore.QRect(275, 140, 71, 16))
-        self.SummaryLabel_Delaytime.setStyleSheet("QLabel{\n"
-"    \n"
-"    color: rgb(220, 90, 57);\n"
-"}")
-        self.SummaryLabel_Delaytime.setText("")
-        self.SummaryLabel_Delaytime.setObjectName("SummaryLabel_Delaytime")
-        self.SummaryLabel_Fenyedamage = QtWidgets.QLabel(self.groupBox_15)
-        self.SummaryLabel_Fenyedamage.setGeometry(QtCore.QRect(290, 280, 81, 16))
-        self.SummaryLabel_Fenyedamage.setStyleSheet("QLabel{\n"
-"    \n"
-"    color: rgb(220, 90, 57);\n"
-"}")
-        self.SummaryLabel_Fenyedamage.setText("")
-        self.SummaryLabel_Fenyedamage.setObjectName("SummaryLabel_Fenyedamage")
-        self.groupBox_2 = QtWidgets.QGroupBox(self.groupBox_15)
-        self.groupBox_2.setGeometry(QtCore.QRect(10, 0, 391, 481))
-        self.groupBox_2.setTitle("")
-        self.groupBox_2.setObjectName("groupBox_2")
-        self.label_60 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_60.setGeometry(QtCore.QRect(266, 20, 16, 16))
-        self.label_60.setObjectName("label_60")
-        self.label_35 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_35.setGeometry(QtCore.QRect(50, 300, 16, 16))
-        self.label_35.setObjectName("label_35")
-        self.label_14 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_14.setGeometry(QtCore.QRect(20, 350, 191, 16))
-        self.label_14.setObjectName("label_14")
-        self.label_37 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_37.setGeometry(QtCore.QRect(90, 320, 291, 16))
-        self.label_37.setObjectName("label_37")
-        self.label_78 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_78.setGeometry(QtCore.QRect(20, 420, 191, 16))
-        self.label_78.setObjectName("label_78")
-        self.label_81 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_81.setGeometry(QtCore.QRect(147, 440, 181, 16))
-        self.label_81.setObjectName("label_81")
-        self.label_21 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_21.setGeometry(QtCore.QRect(50, 140, 251, 16))
-        self.label_21.setObjectName("label_21")
-        self.label_36 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_36.setGeometry(QtCore.QRect(90, 300, 181, 16))
-        self.label_36.setObjectName("label_36")
-        self.label_38 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_38.setGeometry(QtCore.QRect(50, 320, 16, 16))
-        self.label_38.setObjectName("label_38")
-        self.label_66 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_66.setGeometry(QtCore.QRect(16, 40, 111, 16))
-        self.label_66.setObjectName("label_66")
-        self.label_42 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_42.setGeometry(QtCore.QRect(16, 60, 121, 16))
-        self.label_42.setObjectName("label_42")
-        self.label_43 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_43.setGeometry(QtCore.QRect(16, 80, 111, 16))
-        self.label_43.setObjectName("label_43")
-        self.label_44 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_44.setGeometry(QtCore.QRect(239, 80, 54, 16))
-        self.label_44.setObjectName("label_44")
-        self.label_20 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_20.setGeometry(QtCore.QRect(20, 120, 131, 16))
-        self.label_20.setObjectName("label_20")
-        self.label_32 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_32.setGeometry(QtCore.QRect(263, 260, 121, 16))
-        self.label_32.setObjectName("label_32")
-        self.label_50 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_50.setGeometry(QtCore.QRect(50, 370, 16, 16))
-        self.label_50.setObjectName("label_50")
-        self.label_55 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_55.setGeometry(QtCore.QRect(50, 390, 16, 16))
-        self.label_55.setObjectName("label_55")
-        self.label_30 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_30.setGeometry(QtCore.QRect(80, 260, 54, 16))
-        self.label_30.setObjectName("label_30")
-        self.label_79 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_79.setGeometry(QtCore.QRect(50, 440, 71, 16))
-        self.label_79.setObjectName("label_79")
-        self.label_25 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_25.setGeometry(QtCore.QRect(50, 220, 16, 16))
-        self.label_25.setObjectName("label_25")
-        self.label_19 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_19.setGeometry(QtCore.QRect(90, 370, 151, 16))
-        self.label_19.setObjectName("label_19")
-        self.label_22 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_22.setGeometry(QtCore.QRect(80, 180, 161, 16))
-        self.label_22.setObjectName("label_22")
-        self.label_24 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_24.setGeometry(QtCore.QRect(90, 200, 141, 16))
-        self.label_24.setObjectName("label_24")
-        self.label_33 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_33.setGeometry(QtCore.QRect(80, 280, 201, 16))
-        self.label_33.setObjectName("label_33")
-        self.label_31 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_31.setGeometry(QtCore.QRect(150, 260, 91, 16))
-        self.label_31.setObjectName("label_31")
-        self.label_34 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_34.setGeometry(QtCore.QRect(330, 280, 91, 16))
-        self.label_34.setObjectName("label_34")
-        self.label_40 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_40.setGeometry(QtCore.QRect(216, 40, 91, 16))
-        self.label_40.setObjectName("label_40")
-        self.label_41 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_41.setGeometry(QtCore.QRect(326, 40, 41, 16))
-        self.label_41.setObjectName("label_41")
-        self.label_51 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_51.setGeometry(QtCore.QRect(90, 390, 151, 16))
-        self.label_51.setObjectName("label_51")
-        self.label_39 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_39.setGeometry(QtCore.QRect(16, 20, 141, 16))
-        self.label_39.setObjectName("label_39")
-        self.label_29 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_29.setGeometry(QtCore.QRect(90, 240, 221, 16))
-        self.label_29.setObjectName("label_29")
-        self.label_26 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_26.setGeometry(QtCore.QRect(310, 140, 41, 16))
-        self.label_26.setObjectName("label_26")
-        self.label_27 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_27.setGeometry(QtCore.QRect(90, 220, 211, 16))
-        self.label_27.setObjectName("label_27")
-        self.label_28 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_28.setGeometry(QtCore.QRect(50, 240, 16, 16))
-        self.label_28.setObjectName("label_28")
-        self.label_23 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_23.setGeometry(QtCore.QRect(50, 200, 16, 16))
-        self.label_23.setObjectName("label_23")
-        self.line_3 = QtWidgets.QFrame(self.groupBox_2)
-        self.line_3.setGeometry(QtCore.QRect(10, 100, 391, 31))
-        self.line_3.setFrameShape(QtWidgets.QFrame.HLine)
-        self.line_3.setFrameShadow(QtWidgets.QFrame.Sunken)
-        self.line_3.setObjectName("line_3")
-        self.EquipInfoButton = QtWidgets.QPushButton(self.groupBox_15)
-        self.EquipInfoButton.setGeometry(QtCore.QRect(30, 690, 121, 31))
-        self.EquipInfoButton.setStyleSheet("QPushButton{\n"
-"    background-color: rgb(228, 92, 58);\n"
-"    color: rgb(255, 255, 255);\n"
-"    font-size:11pt;\n"
-"    font-family:\"黑体\";\n"
-"    border-radius:5px;\n"
-"}\n"
-"QPushButton:hover{\n"
-"    background-color: rgb(240, 125, 49);\n"
-"}")
-        self.EquipInfoButton.setObjectName("EquipInfoButton")
-        self.export_excel_button = QtWidgets.QPushButton(self.groupBox_15)
-        self.export_excel_button.setGeometry(QtCore.QRect(270, 690, 121, 31))
+        self.export_excel_button = QtWidgets.QPushButton(self.groupBox_3)
+        self.export_excel_button.setGeometry(QtCore.QRect(340, 669, 131, 21))
         self.export_excel_button.setStyleSheet("")
         self.export_excel_button.setObjectName("export_excel_button")
+        self.label_56 = QtWidgets.QLabel(self.groupBox_3)
+        self.label_56.setGeometry(QtCore.QRect(20, 540, 171, 20))
+        self.label_56.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_56.setObjectName("label_56")
+        self.line_48 = QtWidgets.QFrame(self.groupBox_3)
+        self.line_48.setGeometry(QtCore.QRect(20, 100, 821, 16))
+        self.line_48.setFrameShape(QtWidgets.QFrame.HLine)
+        self.line_48.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line_48.setObjectName("line_48")
+        self.line_49 = QtWidgets.QFrame(self.groupBox_3)
+        self.line_49.setGeometry(QtCore.QRect(30, 140, 161, 16))
+        self.line_49.setFrameShape(QtWidgets.QFrame.HLine)
+        self.line_49.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line_49.setObjectName("line_49")
+        self.line_50 = QtWidgets.QFrame(self.groupBox_3)
+        self.line_50.setGeometry(QtCore.QRect(20, 620, 821, 16))
+        self.line_50.setFrameShape(QtWidgets.QFrame.HLine)
+        self.line_50.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line_50.setObjectName("line_50")
+        self.label_71 = QtWidgets.QLabel(self.groupBox_3)
+        self.label_71.setGeometry(QtCore.QRect(50, 640, 111, 16))
+        self.label_71.setObjectName("label_71")
+        self.label_130 = QtWidgets.QLabel(self.groupBox_3)
+        self.label_130.setGeometry(QtCore.QRect(210, 640, 71, 20))
+        self.label_130.setStyleSheet("QLabel{\n"
+"    font-size:10pt;\n"
+"    color: rgb(255, 255, 255);\n"
+"    background-color: rgb(111, 111, 111);\n"
+"}")
+        self.label_130.setObjectName("label_130")
+        self.label_72 = QtWidgets.QLabel(self.groupBox_3)
+        self.label_72.setGeometry(QtCore.QRect(210, 670, 131, 21))
+        self.label_72.setObjectName("label_72")
+        self.line_51 = QtWidgets.QFrame(self.groupBox_3)
+        self.line_51.setGeometry(QtCore.QRect(30, 510, 161, 16))
+        self.line_51.setFrameShape(QtWidgets.QFrame.HLine)
+        self.line_51.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line_51.setObjectName("line_51")
+        self.label_76 = QtWidgets.QLabel(self.groupBox_3)
+        self.label_76.setGeometry(QtCore.QRect(210, 592, 91, 21))
+        self.label_76.setObjectName("label_76")
+        self.open_garbage_button = QtWidgets.QPushButton(self.groupBox_3)
+        self.open_garbage_button.setGeometry(QtCore.QRect(115, 590, 81, 23))
+        self.open_garbage_button.setStyleSheet("QPushButton{\n"
+"    width:40px;\n"
+"    height:17px;\n"
+"    font-family:\"黑体\";\n"
+"    font-size:10pt;\n"
+"    \n"
+"    background-color: rgb(226, 221, 215);\n"
+"    color: rgb(227, 91, 57);\n"
+"    border-color: rgb(218, 185, 138);\n"
+"}\n"
+"QPushButton:hover{\n"
+"    \n"
+"    background-color: rgb(245, 240, 233);\n"
+"}")
+        self.open_garbage_button.setObjectName("open_garbage_button")
         self.stackedWidget.addWidget(self.page)
         self.page_1 = QtWidgets.QWidget()
         self.page_1.setObjectName("page_1")
@@ -3690,152 +3460,231 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.page_2)
         self.page_3 = QtWidgets.QWidget()
         self.page_3.setObjectName("page_3")
-        self.groupBox_16 = QtWidgets.QGroupBox(self.page_3)
-        self.groupBox_16.setGeometry(QtCore.QRect(20, 10, 131, 31))
-        self.groupBox_16.setStyleSheet("QGroupBox{\n"
+        self.groupBox_14 = QtWidgets.QGroupBox(self.page_3)
+        self.groupBox_14.setGeometry(QtCore.QRect(20, 10, 131, 31))
+        self.groupBox_14.setStyleSheet("QGroupBox{\n"
 "    border-radius:4px;\n"
 "    border:none;\n"
 "    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(77, 92, 115, 255), stop:1 rgba(255, 255, 255, 0));\n"
 "}\n"
 "")
-        self.groupBox_16.setTitle("")
-        self.groupBox_16.setObjectName("groupBox_16")
-        self.label_112 = QtWidgets.QLabel(self.groupBox_16)
-        self.label_112.setGeometry(QtCore.QRect(10, 0, 111, 31))
-        self.label_112.setStyleSheet("QLabel{\n"
+        self.groupBox_14.setTitle("")
+        self.groupBox_14.setObjectName("groupBox_14")
+        self.label_111 = QtWidgets.QLabel(self.groupBox_14)
+        self.label_111.setGeometry(QtCore.QRect(10, 0, 81, 31))
+        self.label_111.setStyleSheet("QLabel{\n"
 "    font: 12pt \"黑体\";\n"
 "    color: rgb(255, 255, 255);\n"
 "}")
-        self.label_112.setObjectName("label_112")
+        self.label_111.setObjectName("label_111")
+        self.groupBox_15 = QtWidgets.QGroupBox(self.page_3)
+        self.groupBox_15.setGeometry(QtCore.QRect(20, 50, 861, 741))
+        self.groupBox_15.setStyleSheet("QGroupBox{\n"
+"    \n"
+"    background-color: rgb(247, 245, 243);\n"
+"    border-radius:5px;\n"
+"    border:none\n"
+"}")
+        self.groupBox_15.setTitle("")
+        self.groupBox_15.setObjectName("groupBox_15")
+        self.SummaryLabel_Time = QtWidgets.QLabel(self.groupBox_15)
+        self.SummaryLabel_Time.setGeometry(QtCore.QRect(106, 40, 141, 16))
+        self.SummaryLabel_Time.setStyleSheet("QLabel{\n"
+"    \n"
+"    color: rgb(220, 90, 57);\n"
+"}")
+        self.SummaryLabel_Time.setText("")
+        self.SummaryLabel_Time.setObjectName("SummaryLabel_Time")
+        self.SummaryLabel_Fighttime = QtWidgets.QLabel(self.groupBox_15)
+        self.SummaryLabel_Fighttime.setGeometry(QtCore.QRect(286, 40, 51, 16))
+        self.SummaryLabel_Fighttime.setStyleSheet("QLabel{\n"
+"    \n"
+"    color: rgb(220, 90, 57);\n"
+"}")
+        self.SummaryLabel_Fighttime.setText("")
+        self.SummaryLabel_Fighttime.setObjectName("SummaryLabel_Fighttime")
+        self.SummaryLabel_Weaponname = QtWidgets.QLabel(self.groupBox_15)
+        self.SummaryLabel_Weaponname.setGeometry(QtCore.QRect(137, 60, 171, 16))
+        self.SummaryLabel_Weaponname.setStyleSheet("QLabel{\n"
+"    \n"
+"    color: rgb(220, 90, 57);\n"
+"}")
+        self.SummaryLabel_Weaponname.setText("")
+        self.SummaryLabel_Weaponname.setObjectName("SummaryLabel_Weaponname")
+        self.SummaryLabel_Map = QtWidgets.QLabel(self.groupBox_15)
+        self.SummaryLabel_Map.setGeometry(QtCore.QRect(171, 20, 111, 16))
+        self.SummaryLabel_Map.setStyleSheet("QLabel{\n"
+"    font-size:8pt;\n"
+"    color: rgb(220, 90, 57);\n"
+"}")
+        self.SummaryLabel_Map.setText("")
+        self.SummaryLabel_Map.setObjectName("SummaryLabel_Map")
+        self.SummaryLabel_Enchantname = QtWidgets.QLabel(self.groupBox_15)
+        self.SummaryLabel_Enchantname.setGeometry(QtCore.QRect(100, 80, 171, 16))
+        self.SummaryLabel_Enchantname.setStyleSheet("QLabel{\n"
+"    \n"
+"    color: rgb(220, 90, 57);\n"
+"}")
+        self.SummaryLabel_Enchantname.setText("")
+        self.SummaryLabel_Enchantname.setObjectName("SummaryLabel_Enchantname")
+        self.SummaryLabel_YuJianDunYa = QtWidgets.QLabel(self.groupBox_15)
+        self.SummaryLabel_YuJianDunYa.setGeometry(QtCore.QRect(80, 390, 81, 16))
+        self.SummaryLabel_YuJianDunYa.setStyleSheet("QLabel{\n"
+"    \n"
+"    color: rgb(220, 90, 57);\n"
+"}")
+        self.SummaryLabel_YuJianDunYa.setText("")
+        self.SummaryLabel_YuJianDunYa.setObjectName("SummaryLabel_YuJianDunYa")
+        self.SummaryLabel_Fenyecount = QtWidgets.QLabel(self.groupBox_15)
+        self.SummaryLabel_Fenyecount.setGeometry(QtCore.QRect(80, 240, 81, 16))
+        self.SummaryLabel_Fenyecount.setStyleSheet("QLabel{\n"
+"    \n"
+"    color: rgb(220, 90, 57);\n"
+"}")
+        self.SummaryLabel_Fenyecount.setText("")
+        self.SummaryLabel_Fenyecount.setObjectName("SummaryLabel_Fenyecount")
+        self.SummaryLabel_Dunjicount = QtWidgets.QLabel(self.groupBox_15)
+        self.SummaryLabel_Dunjicount.setGeometry(QtCore.QRect(80, 220, 81, 16))
+        self.SummaryLabel_Dunjicount.setStyleSheet("QLabel{\n"
+"    \n"
+"    color: rgb(220, 90, 57);\n"
+"}")
+        self.SummaryLabel_Dunjicount.setText("")
+        self.SummaryLabel_Dunjicount.setObjectName("SummaryLabel_Dunjicount")
+        self.SummaryLabel_Zhandaocount = QtWidgets.QLabel(self.groupBox_15)
+        self.SummaryLabel_Zhandaocount.setGeometry(QtCore.QRect(80, 200, 81, 16))
+        self.SummaryLabel_Zhandaocount.setStyleSheet("QLabel{\n"
+"    \n"
+"    color: rgb(220, 90, 57);\n"
+"}")
+        self.SummaryLabel_Zhandaocount.setText("")
+        self.SummaryLabel_Zhandaocount.setObjectName("SummaryLabel_Zhandaocount")
+        self.SummaryLabel_TeXiaoJueDaoRage = QtWidgets.QLabel(self.groupBox_15)
+        self.SummaryLabel_TeXiaoJueDaoRage.setGeometry(QtCore.QRect(345, 440, 51, 16))
+        self.SummaryLabel_TeXiaoJueDaoRage.setStyleSheet("QLabel{\n"
+"    \n"
+"    color: rgb(220, 90, 57);\n"
+"}")
+        self.SummaryLabel_TeXiaoJueDaoRage.setText("")
+        self.SummaryLabel_TeXiaoJueDaoRage.setObjectName("SummaryLabel_TeXiaoJueDaoRage")
+        self.SummaryLabel_YuJianZhanDao = QtWidgets.QLabel(self.groupBox_15)
+        self.SummaryLabel_YuJianZhanDao.setGeometry(QtCore.QRect(80, 370, 81, 16))
+        self.SummaryLabel_YuJianZhanDao.setStyleSheet("QLabel{\n"
+"    \n"
+"    color: rgb(220, 90, 57);\n"
+"}")
+        self.SummaryLabel_YuJianZhanDao.setText("")
+        self.SummaryLabel_YuJianZhanDao.setObjectName("SummaryLabel_YuJianZhanDao")
+        self.SummaryLabel_Xuenuly1 = QtWidgets.QLabel(self.groupBox_15)
+        self.SummaryLabel_Xuenuly1.setGeometry(QtCore.QRect(80, 300, 81, 16))
+        self.SummaryLabel_Xuenuly1.setStyleSheet("QLabel{\n"
+"    \n"
+"    color: rgb(220, 90, 57);\n"
+"}")
+        self.SummaryLabel_Xuenuly1.setText("")
+        self.SummaryLabel_Xuenuly1.setObjectName("SummaryLabel_Xuenuly1")
+        self.SummaryLabel_Xuenuly0 = QtWidgets.QLabel(self.groupBox_15)
+        self.SummaryLabel_Xuenuly0.setGeometry(QtCore.QRect(80, 320, 81, 16))
+        self.SummaryLabel_Xuenuly0.setStyleSheet("QLabel{\n"
+"    \n"
+"    color: rgb(220, 90, 57);\n"
+"}")
+        self.SummaryLabel_Xuenuly0.setText("")
+        self.SummaryLabel_Xuenuly0.setObjectName("SummaryLabel_Xuenuly0")
+        self.SummaryLabel_Pozhaocount = QtWidgets.QLabel(self.groupBox_15)
+        self.SummaryLabel_Pozhaocount.setGeometry(QtCore.QRect(250, 260, 81, 16))
+        self.SummaryLabel_Pozhaocount.setStyleSheet("QLabel{\n"
+"    \n"
+"    color: rgb(220, 90, 57);\n"
+"}")
+        self.SummaryLabel_Pozhaocount.setText("")
+        self.SummaryLabel_Pozhaocount.setObjectName("SummaryLabel_Pozhaocount")
+        self.SummaryLabel_Juedaocount = QtWidgets.QLabel(self.groupBox_15)
+        self.SummaryLabel_Juedaocount.setGeometry(QtCore.QRect(140, 260, 51, 16))
+        self.SummaryLabel_Juedaocount.setStyleSheet("QLabel{\n"
+"    \n"
+"    color: rgb(220, 90, 57);\n"
+"}")
+        self.SummaryLabel_Juedaocount.setText("")
+        self.SummaryLabel_Juedaocount.setObjectName("SummaryLabel_Juedaocount")
+        self.SummaryLabel_TeXiaoJueDaoCount = QtWidgets.QLabel(self.groupBox_15)
+        self.SummaryLabel_TeXiaoJueDaoCount.setGeometry(QtCore.QRect(135, 440, 61, 16))
+        self.SummaryLabel_TeXiaoJueDaoCount.setStyleSheet("QLabel{\n"
+"    \n"
+"    color: rgb(220, 90, 57);\n"
+"}")
+        self.SummaryLabel_TeXiaoJueDaoCount.setText("")
+        self.SummaryLabel_TeXiaoJueDaoCount.setObjectName("SummaryLabel_TeXiaoJueDaoCount")
+        self.SummaryLabel_Delaytime = QtWidgets.QLabel(self.groupBox_15)
+        self.SummaryLabel_Delaytime.setGeometry(QtCore.QRect(275, 140, 71, 16))
+        self.SummaryLabel_Delaytime.setStyleSheet("QLabel{\n"
+"    \n"
+"    color: rgb(220, 90, 57);\n"
+"}")
+        self.SummaryLabel_Delaytime.setText("")
+        self.SummaryLabel_Delaytime.setObjectName("SummaryLabel_Delaytime")
+        self.SummaryLabel_Fenyedamage = QtWidgets.QLabel(self.groupBox_15)
+        self.SummaryLabel_Fenyedamage.setGeometry(QtCore.QRect(290, 280, 81, 16))
+        self.SummaryLabel_Fenyedamage.setStyleSheet("QLabel{\n"
+"    \n"
+"    color: rgb(220, 90, 57);\n"
+"}")
+        self.SummaryLabel_Fenyedamage.setText("")
+        self.SummaryLabel_Fenyedamage.setObjectName("SummaryLabel_Fenyedamage")
+        self.to_retro_info_button = QtWidgets.QPushButton(self.groupBox_15)
+        self.to_retro_info_button.setGeometry(QtCore.QRect(30, 690, 121, 31))
+        self.to_retro_info_button.setStyleSheet("QPushButton{\n"
+"    background-color: rgb(228, 92, 58);\n"
+"    color: rgb(255, 255, 255);\n"
+"    font-size:11pt;\n"
+"    font-family:\"黑体\";\n"
+"    border-radius:5px;\n"
+"}\n"
+"QPushButton:hover{\n"
+"    background-color: rgb(240, 125, 49);\n"
+"}")
+        self.to_retro_info_button.setObjectName("to_retro_info_button")
+        self.marker_table = QtWidgets.QTableWidget(self.groupBox_15)
+        self.marker_table.setGeometry(QtCore.QRect(30, 30, 731, 431))
+        self.marker_table.setStyleSheet("QTableWidget{\n"
+"    border-radius:0px;\n"
+"    border:2px solid;\n"
+"    border-color: rgb(77, 92, 115);\n"
+"    background-color: rgb(247, 245, 243);\n"
+"}\n"
+"QHeaderView{\n"
+"    background-color: rgb(226, 221, 215);\n"
+"}\n"
+"QHeaderView::section{\n"
+"    border:none;\n"
+"    color:rgb(77, 91, 117);\n"
+"    font: 10pt \"黑体\";\n"
+"    background-color: rgb(206, 206, 206);\n"
+"}\n"
+"")
+        self.marker_table.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.marker_table.setObjectName("marker_table")
+        self.marker_table.setColumnCount(7)
+        self.marker_table.setRowCount(0)
+        item = QtWidgets.QTableWidgetItem()
+        self.marker_table.setHorizontalHeaderItem(0, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.marker_table.setHorizontalHeaderItem(1, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.marker_table.setHorizontalHeaderItem(2, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.marker_table.setHorizontalHeaderItem(3, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.marker_table.setHorizontalHeaderItem(4, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.marker_table.setHorizontalHeaderItem(5, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.marker_table.setHorizontalHeaderItem(6, item)
+        self.marker_table.horizontalHeader().setDefaultSectionSize(103)
+        self.marker_table.verticalHeader().setVisible(False)
         self.stackedWidget.addWidget(self.page_3)
         self.page_4 = QtWidgets.QWidget()
         self.page_4.setObjectName("page_4")
-        self.groupBox_7 = QtWidgets.QGroupBox(self.page_4)
-        self.groupBox_7.setGeometry(QtCore.QRect(30, 10, 191, 791))
-        self.groupBox_7.setStyleSheet("QGroupBox{\n"
-"    border:none;\n"
-"    background-color: rgb(226, 221, 215);\n"
-"    \n"
-"}\n"
-"\n"
-"QPushButton{\n"
-"    border:none;\n"
-"    border-radius:4px;\n"
-"}\n"
-"QPushButton:hover{\n"
-"    \n"
-"    background-color: rgba(185, 185, 185, 128);\n"
-"}")
-        self.groupBox_7.setTitle("")
-        self.groupBox_7.setObjectName("groupBox_7")
-        self.RecordScrollArea_2 = QtWidgets.QScrollArea(self.groupBox_7)
-        self.RecordScrollArea_2.setGeometry(QtCore.QRect(10, 40, 171, 741))
-        self.RecordScrollArea_2.setMinimumSize(QtCore.QSize(0, 0))
-        self.RecordScrollArea_2.setMaximumSize(QtCore.QSize(10000, 10000))
-        self.RecordScrollArea_2.setStyleSheet("QScrollArea{\n"
-"    border-radius:8px;\n"
-"    background-color: rgb(243, 241, 239);\n"
-"    border:3px solid rgb(104, 104, 104)\n"
-"}\n"
-"QScrollBar:vertical\n"
-"{\n"
-"\n"
-"width:15px;\n"
-"border-radius:2px;\n"
-"margin:2px,2px,2px,2px;\n"
-"padding-top:10px;\n"
-"padding-bottom:10px;\n"
-"}\n"
-"QScrollBar::handle:vertical\n"
-"{\n"
-"width:16px;\n"
-"background:rgba(150, 150, 150, 120);\n"
-"min-height:20;\n"
-"border-radius:10px;\n"
-"\n"
-"}\n"
-"QScrollBar::handle:vertical:hover\n"
-"{\n"
-"background:rgb(206, 206, 206);\n"
-"border:1px solid #E0E0E0;\n"
-"}\n"
-"QScrollBar::handle:vertical::disabled\n"
-"{\n"
-"background:rgba(255, 255, 255, 0)\n"
-"}\n"
-"QScrollBar::up-arrow:vertical\n"
-"{\n"
-"border:none;\n"
-"background-image: url(:/Main/up_arrow.png);\n"
-"}\n"
-"QScrollBar::down-arrow:vertical\n"
-"{\n"
-"    background-image: url(:/Main/down_arrow.png);\n"
-"border:none;\n"
-"}\n"
-"QScrollBar::add-line:vertical\n"
-"{\n"
-"\n"
-"height:15px;\n"
-"background-color: rgba(255, 255, 255, 100);\n"
-"subcontrol-position:bottom;\n"
-"border:none;\n"
-"}\n"
-"QScrollBar::sub-line:vertical\n"
-"{\n"
-"border:none;\n"
-"height:15px;\n"
-"background-color: rgba(255, 255, 255, 0);\n"
-"subcontrol-position:top;\n"
-"}\n"
-"QScrollBar::add-page:vertical\n"
-"{\n"
-"background-color: rgba(255, 255, 255, 150);\n"
-"}\n"
-"QScrollBar::sub-page:vertical\n"
-"{\n"
-"background-color: rgba(255, 255, 255, 150);\n"
-"}\n"
-"")
-        self.RecordScrollArea_2.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        self.RecordScrollArea_2.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        self.RecordScrollArea_2.setWidgetResizable(True)
-        self.RecordScrollArea_2.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
-        self.RecordScrollArea_2.setObjectName("RecordScrollArea_2")
-        self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 165, 735))
-        self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
-        self.RecordScrollArea_2.setWidget(self.scrollAreaWidgetContents_2)
-        self.PicRd_timeLabel = QtWidgets.QLabel(self.groupBox_7)
-        self.PicRd_timeLabel.setGeometry(QtCore.QRect(50, 10, 91, 20))
-        font = QtGui.QFont()
-        font.setFamily("黑体")
-        font.setPointSize(12)
-        font.setBold(False)
-        font.setItalic(False)
-        font.setWeight(50)
-        self.PicRd_timeLabel.setFont(font)
-        self.PicRd_timeLabel.setStyleSheet("QLabel{\n"
-"    font-size:12pt;\n"
-"}")
-        self.PicRd_timeLabel.setAlignment(QtCore.Qt.AlignCenter)
-        self.PicRd_timeLabel.setObjectName("PicRd_timeLabel")
-        self.PicRd_backpage = QtWidgets.QPushButton(self.groupBox_7)
-        self.PicRd_backpage.setGeometry(QtCore.QRect(20, 10, 20, 20))
-        self.PicRd_backpage.setStyleSheet("QPushButton{\n"
-"    \n"
-"    background-image: url(:/Main/page_back.png);\n"
-"}")
-        self.PicRd_backpage.setText("")
-        self.PicRd_backpage.setObjectName("PicRd_backpage")
-        self.PicRd_nextpage = QtWidgets.QPushButton(self.groupBox_7)
-        self.PicRd_nextpage.setGeometry(QtCore.QRect(150, 10, 20, 20))
-        self.PicRd_nextpage.setStyleSheet("QPushButton{\n"
-"    \n"
-"    background-image: url(:/Main/page_next.png);\n"
-"}")
-        self.PicRd_nextpage.setText("")
-        self.PicRd_nextpage.setObjectName("PicRd_nextpage")
         self.label_88 = QtWidgets.QLabel(self.page_4)
         self.label_88.setGeometry(QtCore.QRect(257, 15, 101, 21))
         self.label_88.setStyleSheet("QLabel{\n"
@@ -3931,6 +3780,120 @@ class Ui_MainWindow(object):
         self.line_4.setFrameShape(QtWidgets.QFrame.VLine)
         self.line_4.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_4.setObjectName("line_4")
+        self.groupBox_2 = QtWidgets.QGroupBox(self.page_4)
+        self.groupBox_2.setGeometry(QtCore.QRect(490, 30, 391, 481))
+        self.groupBox_2.setTitle("")
+        self.groupBox_2.setObjectName("groupBox_2")
+        self.label_60 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_60.setGeometry(QtCore.QRect(266, 20, 16, 16))
+        self.label_60.setObjectName("label_60")
+        self.label_35 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_35.setGeometry(QtCore.QRect(50, 300, 16, 16))
+        self.label_35.setObjectName("label_35")
+        self.label_14 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_14.setGeometry(QtCore.QRect(20, 350, 191, 16))
+        self.label_14.setObjectName("label_14")
+        self.label_37 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_37.setGeometry(QtCore.QRect(90, 320, 291, 16))
+        self.label_37.setObjectName("label_37")
+        self.label_78 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_78.setGeometry(QtCore.QRect(20, 420, 191, 16))
+        self.label_78.setObjectName("label_78")
+        self.label_81 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_81.setGeometry(QtCore.QRect(147, 440, 181, 16))
+        self.label_81.setObjectName("label_81")
+        self.label_21 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_21.setGeometry(QtCore.QRect(50, 140, 251, 16))
+        self.label_21.setObjectName("label_21")
+        self.label_36 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_36.setGeometry(QtCore.QRect(90, 300, 181, 16))
+        self.label_36.setObjectName("label_36")
+        self.label_38 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_38.setGeometry(QtCore.QRect(50, 320, 16, 16))
+        self.label_38.setObjectName("label_38")
+        self.label_66 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_66.setGeometry(QtCore.QRect(16, 40, 111, 16))
+        self.label_66.setObjectName("label_66")
+        self.label_42 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_42.setGeometry(QtCore.QRect(16, 60, 121, 16))
+        self.label_42.setObjectName("label_42")
+        self.label_43 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_43.setGeometry(QtCore.QRect(16, 80, 111, 16))
+        self.label_43.setObjectName("label_43")
+        self.label_44 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_44.setGeometry(QtCore.QRect(239, 80, 54, 16))
+        self.label_44.setObjectName("label_44")
+        self.label_20 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_20.setGeometry(QtCore.QRect(20, 120, 131, 16))
+        self.label_20.setObjectName("label_20")
+        self.label_32 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_32.setGeometry(QtCore.QRect(263, 260, 121, 16))
+        self.label_32.setObjectName("label_32")
+        self.label_50 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_50.setGeometry(QtCore.QRect(50, 370, 16, 16))
+        self.label_50.setObjectName("label_50")
+        self.label_55 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_55.setGeometry(QtCore.QRect(50, 390, 16, 16))
+        self.label_55.setObjectName("label_55")
+        self.label_30 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_30.setGeometry(QtCore.QRect(80, 260, 54, 16))
+        self.label_30.setObjectName("label_30")
+        self.label_79 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_79.setGeometry(QtCore.QRect(50, 440, 71, 16))
+        self.label_79.setObjectName("label_79")
+        self.label_25 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_25.setGeometry(QtCore.QRect(50, 220, 16, 16))
+        self.label_25.setObjectName("label_25")
+        self.label_19 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_19.setGeometry(QtCore.QRect(90, 370, 151, 16))
+        self.label_19.setObjectName("label_19")
+        self.label_22 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_22.setGeometry(QtCore.QRect(80, 180, 161, 16))
+        self.label_22.setObjectName("label_22")
+        self.label_24 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_24.setGeometry(QtCore.QRect(90, 200, 141, 16))
+        self.label_24.setObjectName("label_24")
+        self.label_33 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_33.setGeometry(QtCore.QRect(80, 280, 201, 16))
+        self.label_33.setObjectName("label_33")
+        self.label_31 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_31.setGeometry(QtCore.QRect(150, 260, 91, 16))
+        self.label_31.setObjectName("label_31")
+        self.label_34 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_34.setGeometry(QtCore.QRect(330, 280, 91, 16))
+        self.label_34.setObjectName("label_34")
+        self.label_40 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_40.setGeometry(QtCore.QRect(216, 40, 91, 16))
+        self.label_40.setObjectName("label_40")
+        self.label_41 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_41.setGeometry(QtCore.QRect(326, 40, 41, 16))
+        self.label_41.setObjectName("label_41")
+        self.label_51 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_51.setGeometry(QtCore.QRect(90, 390, 151, 16))
+        self.label_51.setObjectName("label_51")
+        self.label_39 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_39.setGeometry(QtCore.QRect(16, 20, 141, 16))
+        self.label_39.setObjectName("label_39")
+        self.label_29 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_29.setGeometry(QtCore.QRect(90, 240, 221, 16))
+        self.label_29.setObjectName("label_29")
+        self.label_26 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_26.setGeometry(QtCore.QRect(310, 140, 41, 16))
+        self.label_26.setObjectName("label_26")
+        self.label_27 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_27.setGeometry(QtCore.QRect(90, 220, 211, 16))
+        self.label_27.setObjectName("label_27")
+        self.label_28 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_28.setGeometry(QtCore.QRect(50, 240, 16, 16))
+        self.label_28.setObjectName("label_28")
+        self.label_23 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_23.setGeometry(QtCore.QRect(50, 200, 16, 16))
+        self.label_23.setObjectName("label_23")
+        self.line_3 = QtWidgets.QFrame(self.groupBox_2)
+        self.line_3.setGeometry(QtCore.QRect(10, 100, 391, 31))
+        self.line_3.setFrameShape(QtWidgets.QFrame.HLine)
+        self.line_3.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line_3.setObjectName("line_3")
         self.stackedWidget.addWidget(self.page_4)
         self.groupBox_9 = QtWidgets.QGroupBox(self.centralwidget)
         self.groupBox_9.setGeometry(QtCore.QRect(9, 50, 151, 900))
@@ -3956,25 +3919,34 @@ class Ui_MainWindow(object):
         self.pageButton_0.setText("")
         self.pageButton_0.setObjectName("pageButton_0")
         self.pageButton_1 = QtWidgets.QPushButton(self.groupBox_9)
-        self.pageButton_1.setGeometry(QtCore.QRect(0, 50, 151, 51))
+        self.pageButton_1.setGeometry(QtCore.QRect(0, 100, 151, 51))
         self.pageButton_1.setStyleSheet("QPushButton{\n"
 "    background-image: url(:/Main/pageButton_1.png);\n"
 "}")
         self.pageButton_1.setText("")
         self.pageButton_1.setObjectName("pageButton_1")
         self.pageButton_2 = QtWidgets.QPushButton(self.groupBox_9)
-        self.pageButton_2.setGeometry(QtCore.QRect(0, 100, 151, 51))
+        self.pageButton_2.setGeometry(QtCore.QRect(0, 150, 151, 51))
         self.pageButton_2.setStyleSheet("QPushButton{\n"
 "    background-image: url(:/Main/pageButton_2.png);\n"
 "}")
         self.pageButton_2.setText("")
         self.pageButton_2.setObjectName("pageButton_2")
+        self.pageButton_3 = QtWidgets.QPushButton(self.groupBox_9)
+        self.pageButton_3.setGeometry(QtCore.QRect(0, 50, 151, 51))
+        self.pageButton_3.setStyleSheet("font: 11pt \"黑体\";")
+        self.pageButton_3.setObjectName("pageButton_3")
+        self.label_77 = QtWidgets.QLabel(self.centralwidget)
+        self.label_77.setGeometry(QtCore.QRect(890, 30, 71, 16))
+        self.label_77.setStyleSheet("color: rgb(255, 255, 255);")
+        self.label_77.setObjectName("label_77")
         self.label_16.raise_()
         self.minusButton.raise_()
         self.closeButton.raise_()
         self.label_59.raise_()
         self.stackedWidget.raise_()
         self.groupBox_9.raise_()
+        self.label_77.raise_()
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1076, 23))
@@ -3986,9 +3958,9 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         self.stackedWidget.setCurrentIndex(1)
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(0)
         self.tabWidget_2.setCurrentIndex(0)
-        self.tabWidget_3.setCurrentIndex(1)
+        self.tabWidget_3.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -3999,15 +3971,14 @@ class Ui_MainWindow(object):
         self.label_52.setText(_translate("MainWindow", "日期"))
         self.label_53.setText(_translate("MainWindow", "副本类型"))
         self.radioButton.setText(_translate("MainWindow", "最近"))
+        self.radioButton_2.setText(_translate("MainWindow", "按日期"))
         self.top_nearest_days_combobox.setItemText(0, _translate("MainWindow", "1天"))
         self.top_nearest_days_combobox.setItemText(1, _translate("MainWindow", "3天"))
         self.top_nearest_days_combobox.setItemText(2, _translate("MainWindow", "7天"))
         self.top_nearest_days_combobox.setItemText(3, _translate("MainWindow", "14天"))
-        self.label_56.setText(_translate("MainWindow", "或"))
         self.checkBox.setText(_translate("MainWindow", "木桩"))
         self.checkBox_3.setText(_translate("MainWindow", "25人主流副本"))
         self.checkBox_6.setText(_translate("MainWindow", "试炼之地"))
-        self.checkBox_7.setText(_translate("MainWindow", "浪客行"))
         self.top_files_table.setSortingEnabled(True)
         item = self.top_files_table.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "日期"))
@@ -4020,10 +3991,12 @@ class Ui_MainWindow(object):
         item = self.top_files_table.horizontalHeaderItem(4)
         item.setText(_translate("MainWindow", "时长"))
         item = self.top_files_table.horizontalHeaderItem(6)
+        item.setText(_translate("MainWindow", "操作"))
+        item = self.top_files_table.horizontalHeaderItem(7)
         item.setText(_translate("MainWindow", "key"))
         self.top_filt_button.setText(_translate("MainWindow", "开始筛选"))
         self.SelectFile.setText(_translate("MainWindow", "打开目录"))
-        self.label_58.setText(_translate("MainWindow", "或手动选择复盘文件："))
+        self.label_58.setText(_translate("MainWindow", "在这里手动选择复盘文件："))
         self.label_70.setText(_translate("MainWindow", "（仅木桩）标定战斗时间："))
         self.label_13.setText(_translate("MainWindow", "角色名"))
         self.label_57.setText(_translate("MainWindow", "游戏路径"))
@@ -4031,47 +4004,16 @@ class Ui_MainWindow(object):
         self.HelpButton.setText(_translate("MainWindow", "查看帮助"))
         self.SelectGamePath.setText(_translate("MainWindow", "手动选择"))
         self.MainButton.setText(_translate("MainWindow", "开始评分"))
-        self.label_62.setText(_translate("MainWindow", "提示：找到目标文件后，点击对应行的按钮即可"))
+        self.label_62.setText(_translate("MainWindow", "在左侧筛选出目标文件后，点击对应行即可"))
         self.cue_label.setText(_translate("MainWindow", "未查询到相关记录···"))
         self.checkBox_8.setText(_translate("MainWindow", "其它"))
-        self.label_111.setText(_translate("MainWindow", "·评分"))
-        self.label_60.setText(_translate("MainWindow", "的"))
-        self.label_35.setText(_translate("MainWindow", "有"))
-        self.label_14.setText(_translate("MainWindow", "对于玉简的使用，您："))
-        self.label_37.setText(_translate("MainWindow", "个技能未吃到血怒。"))
-        self.label_78.setText(_translate("MainWindow", "对于橙武的使用，您："))
-        self.label_81.setText(_translate("MainWindow", "个特效绝刀，绝刀平均怒气为"))
-        self.label_21.setText(_translate("MainWindow", "因为按键和网络延迟，一共损失了"))
-        self.label_36.setText(_translate("MainWindow", "个技能吃到了单层血怒，"))
-        self.label_38.setText(_translate("MainWindow", "有"))
-        self.label_66.setText(_translate("MainWindow", "战斗发生于"))
-        self.label_42.setText(_translate("MainWindow", "您使用的武器是："))
-        self.label_43.setText(_translate("MainWindow", "裤子上有着"))
-        self.label_44.setText(_translate("MainWindow", "大附魔。"))
-        self.label_20.setText(_translate("MainWindow", "在本次战斗中，您："))
-        self.label_32.setText(_translate("MainWindow", "跳破招(每段独立)。"))
-        self.label_50.setText(_translate("MainWindow", "有"))
-        self.label_55.setText(_translate("MainWindow", "有"))
-        self.label_30.setText(_translate("MainWindow", "其中有"))
-        self.label_79.setText(_translate("MainWindow", "一共打出了"))
-        self.label_25.setText(_translate("MainWindow", "有"))
-        self.label_19.setText(_translate("MainWindow", "个斩刀未吃到满层玉简。"))
-        self.label_22.setText(_translate("MainWindow", "是否考虑换个网络了呢？"))
-        self.label_24.setText(_translate("MainWindow", "个斩刀未吃到刀魂。"))
-        self.label_33.setText(_translate("MainWindow", "粗略计算以上两个技能共损失了"))
-        self.label_31.setText(_translate("MainWindow", "个绝刀，还有"))
-        self.label_34.setText(_translate("MainWindow", "伤害。"))
-        self.label_40.setText(_translate("MainWindow", "，持续了"))
-        self.label_41.setText(_translate("MainWindow", "秒。"))
-        self.label_51.setText(_translate("MainWindow", "个盾压蹭到了满层玉简。"))
-        self.label_39.setText(_translate("MainWindow", "本次战斗的首领是位于"))
-        self.label_29.setText(_translate("MainWindow", "个技能未吃到分野(不包括流血)，"))
-        self.label_26.setText(_translate("MainWindow", "秒。"))
-        self.label_27.setText(_translate("MainWindow", "个盾击蹭到了刀魂，恭喜！"))
-        self.label_28.setText(_translate("MainWindow", "有"))
-        self.label_23.setText(_translate("MainWindow", "有"))
-        self.EquipInfoButton.setText(_translate("MainWindow", "查看详细信息"))
-        self.export_excel_button.setText(_translate("MainWindow", "导出为Excel"))
+        self.export_excel_button.setText(_translate("MainWindow", "导出战斗记录解析"))
+        self.label_56.setText(_translate("MainWindow", "文件在其他路径？"))
+        self.label_71.setText(_translate("MainWindow", "我选择好文件了！"))
+        self.label_130.setText(_translate("MainWindow", " 辅助功能"))
+        self.label_72.setText(_translate("MainWindow", "需要全程战斗记录？"))
+        self.label_76.setText(_translate("MainWindow", "复盘目标文件："))
+        self.open_garbage_button.setText(_translate("MainWindow", "打开垃圾箱"))
         self.label_106.setText(_translate("MainWindow", "·复盘"))
         item = self.Retro_skill_data_table.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "#"))
@@ -4278,8 +4220,22 @@ class Ui_MainWindow(object):
         self.savesetting_3_button.setText(_translate("MainWindow", "空配置3"))
         self.label_5.setText(_translate("MainWindow", "载入配置"))
         self.tabWidget_3.setTabText(self.tabWidget_3.indexOf(self.tab_5), _translate("MainWindow", "装 备 栏 设 置"))
-        self.label_112.setText(_translate("MainWindow", "·装备设置"))
-        self.PicRd_timeLabel.setText(_translate("MainWindow", "0:00-0:30"))
+        self.label_111.setText(_translate("MainWindow", "·评分"))
+        self.to_retro_info_button.setText(_translate("MainWindow", "查看详细信息"))
+        item = self.marker_table.horizontalHeaderItem(0)
+        item.setText(_translate("MainWindow", "技能名"))
+        item = self.marker_table.horizontalHeaderItem(1)
+        item.setText(_translate("MainWindow", "评分"))
+        item = self.marker_table.horizontalHeaderItem(2)
+        item.setText(_translate("MainWindow", "评分系数"))
+        item = self.marker_table.horizontalHeaderItem(3)
+        item.setText(_translate("MainWindow", "理论数量"))
+        item = self.marker_table.horizontalHeaderItem(4)
+        item.setText(_translate("MainWindow", "实际数量"))
+        item = self.marker_table.horizontalHeaderItem(5)
+        item.setText(_translate("MainWindow", "理论伤害"))
+        item = self.marker_table.horizontalHeaderItem(6)
+        item.setText(_translate("MainWindow", "实际伤害"))
         self.label_88.setText(_translate("MainWindow", " 装备概览"))
         self.label_89.setText(_translate("MainWindow", "武器："))
         self.label_91.setText(_translate("MainWindow", "套装："))
@@ -4288,5 +4244,42 @@ class Ui_MainWindow(object):
         self.label_93.setText(_translate("MainWindow", "副本精简："))
         self.label_94.setText(_translate("MainWindow", "无皇精简："))
         self.label_95.setText(_translate("MainWindow", "特效腰坠："))
+        self.label_60.setText(_translate("MainWindow", "的"))
+        self.label_35.setText(_translate("MainWindow", "有"))
+        self.label_14.setText(_translate("MainWindow", "对于玉简的使用，您："))
+        self.label_37.setText(_translate("MainWindow", "个技能未吃到血怒。"))
+        self.label_78.setText(_translate("MainWindow", "对于橙武的使用，您："))
+        self.label_81.setText(_translate("MainWindow", "个特效绝刀，绝刀平均怒气为"))
+        self.label_21.setText(_translate("MainWindow", "因为按键和网络延迟，一共损失了"))
+        self.label_36.setText(_translate("MainWindow", "个技能吃到了单层血怒，"))
+        self.label_38.setText(_translate("MainWindow", "有"))
+        self.label_66.setText(_translate("MainWindow", "战斗发生于"))
+        self.label_42.setText(_translate("MainWindow", "您使用的武器是："))
+        self.label_43.setText(_translate("MainWindow", "裤子上有着"))
+        self.label_44.setText(_translate("MainWindow", "大附魔。"))
+        self.label_20.setText(_translate("MainWindow", "在本次战斗中，您："))
+        self.label_32.setText(_translate("MainWindow", "跳破招(每段独立)。"))
+        self.label_50.setText(_translate("MainWindow", "有"))
+        self.label_55.setText(_translate("MainWindow", "有"))
+        self.label_30.setText(_translate("MainWindow", "其中有"))
+        self.label_79.setText(_translate("MainWindow", "一共打出了"))
+        self.label_25.setText(_translate("MainWindow", "有"))
+        self.label_19.setText(_translate("MainWindow", "个斩刀未吃到满层玉简。"))
+        self.label_22.setText(_translate("MainWindow", "是否考虑换个网络了呢？"))
+        self.label_24.setText(_translate("MainWindow", "个斩刀未吃到刀魂。"))
+        self.label_33.setText(_translate("MainWindow", "粗略计算以上两个技能共损失了"))
+        self.label_31.setText(_translate("MainWindow", "个绝刀，还有"))
+        self.label_34.setText(_translate("MainWindow", "伤害。"))
+        self.label_40.setText(_translate("MainWindow", "，持续了"))
+        self.label_41.setText(_translate("MainWindow", "秒。"))
+        self.label_51.setText(_translate("MainWindow", "个盾压蹭到了满层玉简。"))
+        self.label_39.setText(_translate("MainWindow", "本次战斗的首领是位于"))
+        self.label_29.setText(_translate("MainWindow", "个技能未吃到分野(不包括流血)，"))
+        self.label_26.setText(_translate("MainWindow", "秒。"))
+        self.label_27.setText(_translate("MainWindow", "个盾击蹭到了刀魂，恭喜！"))
+        self.label_28.setText(_translate("MainWindow", "有"))
+        self.label_23.setText(_translate("MainWindow", "有"))
+        self.pageButton_3.setText(_translate("MainWindow", "评价"))
+        self.label_77.setText(_translate("MainWindow", "demo 0.0.3"))
 from pyqtgraph import PlotWidget
 import UI_rc

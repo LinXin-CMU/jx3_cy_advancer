@@ -3,14 +3,10 @@
 """
 生成图片的基本设置
 """
-import os
-from collections import namedtuple
-
+from os import listdir
 import requests
 from PIL import Image, ImageFont
-from PIL.ImageFont import FreeTypeFont
-from typing import Tuple, List, Union
-from os import getcwd
+from typing import Tuple, List
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 
@@ -41,7 +37,7 @@ font = MyFont(r'Sources/UI_Resources/FangZhengYouHei.TTF')
 ICON_PATH = r'Sources/Jx3_Datas/Icons/talent_icons'
 
 pool = ThreadPoolExecutor(12)
-equip_icons = [i.replace('.png', '') for i in os.listdir(r'Sources/Jx3_Datas/Icons/equip_icons') if i.endswith('.png')]
+equip_icons = [i.replace('.png', '') for i in listdir(r'Sources/Jx3_Datas/Icons/equip_icons') if i.endswith('.png')]
 
 
 def pos_add(item1: Tuple[int, int], item2: Tuple[int, int]) -> Tuple:

@@ -4,7 +4,8 @@
 
 from PyQt5.QtWidgets import QLabel, QFrame, QGroupBox, QScrollArea, QMainWindow, QScrollBar, QPlainTextEdit
 from PyQt5.Qt import QColor, QSize, QPixmap
-from PyQt5.QtCore import QPoint, Qt, QEvent
+from PyQt5.QtCore import QPoint, Qt, QEvent, pyqtSignal
+from PyQt5.QtGui import QMouseEvent
 from PIL import Image
 from collections import namedtuple
 from typing import Literal, Iterable
@@ -100,12 +101,18 @@ _target_multiple_id_to_name = {
 
 class ToolTipOutLabel(QLabel):
     # 自定义一个QLabel, 重写鼠标进入离开方法
-    def __init__(self, tip_parent: QPlainTextEdit, *args, **kwargs):
+
+    clicked_signal = pyqtSignal()
+
+    def __init__(self, tip_parent: QPlainTextEdit, *args, disable_clicked=False, **kwargs):
         super(ToolTipOutLabel, self).__init__(*args, **kwargs)
         self._tip_text: str | None = None
         self._tool_tip_parent: QPlainTextEdit = tip_parent
         self._tool_tip_parent_size: size | None = None
         self._bias = _bias = position(5, 5)
+        if not disable_clicked:
+            # noinspection PyUnresolvedReferences
+            self.clicked_signal.connect(lambda: self.raise_())
 
     def setToolTip(self, a0: str) -> None:
         self._tip_text: str = a0
@@ -137,6 +144,10 @@ class ToolTipOutLabel(QLabel):
     def leaveEvent(self, a0: QEvent) -> None:
         self._tool_tip_parent.setVisible(False)
         super(ToolTipOutLabel, self).leaveEvent(a0)
+
+    def mouseReleaseEvent(self, ev: QMouseEvent) -> None:
+        # noinspection PyUnresolvedReferences
+        self.clicked_signal.emit()
 
 
 class Jx3Label(ToolTipOutLabel):
@@ -606,7 +617,7 @@ class OperatePainter:
         :return:
         """
         majors = {'盾刀', '盾击', '盾压', '盾猛', '斩刀', '闪刀', '绝刀', '劫刀', '撼地', '盾舞', '盾墙', '盾壁', '盾毅',
-                  '阵云结晦', '月照连营', '雁门迢递', '断马摧城', '扬旌沙场', '矢尽兵穷', '盾反', '盾抛', '蹑云逐月', '迎风回浪',
+                  '阵云结晦', '月照连营', '雁门迢递', '断马摧城', '扬旌沙场', '矢尽兵穷', '寒啸千军', '盾反', '盾抛', '蹑云逐月', '迎风回浪',
                   '凌霄揽胜', '瑶台枕鹤'}
         _labels = []
         assert self._skill_data is not None
@@ -614,7 +625,7 @@ class OperatePainter:
             _name = skill_data['name']
             _buffs = skill_data['buffs']
             # 先生成MouseHoverText
-            _hover_text = ""
+            _hover_text = f"[{_name}]:\n"
             if _buffs is not None:
                 for buff, state in _buffs.items():
                     if buff not in buff_to_name:
@@ -674,6 +685,8 @@ class OperatePainter:
                 else:
                     _self_buffs[buff_name] += buff_data['times']
         # 根据数量生成自身buff行
+        if len(_self_buffs) == 0:
+            return
         self._add_row(3, row('自身buff', len(_self_buffs) * 15))
         # 生成buff持续时间线
         _self_buffs = {i: _self_buffs[i] for i in sorted(_self_buffs, key=lambda i: _self_buff_imports[i])}
@@ -698,7 +711,7 @@ class OperatePainter:
                 # 0层是表现buff，手动修改一下
                 if layer == 0:
                     layer = 1
-                _hover_text = f"{buff_name}:\nbuff层数:{layer}\n来源:{src_player}"
+                _hover_text = f"[{buff_name}]:\nbuff层数:{layer}\n来源:{src_player}"
                 if buff_name in BUFF_LEVEL_MEANING:
                     if level in BUFF_LEVEL_MEANING[buff_name]:
                         _hover_text = f"{buff_name}:\n{BUFF_LEVEL_MEANING[buff_name][level]}\nbuff层数:{layer}\n来源:{src_player}"
@@ -708,7 +721,7 @@ class OperatePainter:
                 _buff_label.setPixmap(buff_icons[_self_buff_to_name[buff_name]].resize((15, 15)).toqpixmap())
                 _buff_label.move(self._get_x(start_time, position=True), index*15)
                 _buff_label.setToolTip(_hover_text)
-                _buff_time_line = ToolTipOutLabel(self.ui.tooltip_textEdit, self._rows['自身buff'])
+                _buff_time_line = ToolTipOutLabel(self.ui.tooltip_textEdit, self._rows['自身buff'], disable_clicked=True)
                 _buff_time_line.resize(self._get_x(end_time - start_time) - 15, 15)
                 _buff_time_line.setStyleSheet(f"background-color: {_color}; font-size: 8pt; color: {_font_color}")
                 _buff_time_line.move(self._get_x(start_time, position=True) + 15, index*15+0)
@@ -757,6 +770,8 @@ class OperatePainter:
                 else:
                     _other_buffs[buff_name] += buff_data['times']
         # 根据数量生成自身buff行
+        if len(_other_buffs) == 0:
+            return
         self._add_row(4, row('增益buff', len(_other_buffs) * 15))
         # 生成buff持续时间线
         _other_buffs = {k: _other_buffs[k] for k in sorted(_other_buffs.keys(), key=lambda i: _other_buff_to_group[i])}
@@ -812,7 +827,7 @@ class OperatePainter:
                 # 0层是表现buff，手动修改一下
                 if layer == 0:
                     layer = 1
-                _hover_text = f"{buff_name}:\nbuff层数:{layer}\n来源:{src_player}"
+                _hover_text = f"[{buff_name}]:\nbuff层数:{layer}\n来源:{src_player}"
                 if buff_name in BUFF_LEVEL_MEANING:
                     if level in BUFF_LEVEL_MEANING[buff_name]:
                         _hover_text = f"{buff_name}:\n{BUFF_LEVEL_MEANING[buff_name][level]}\nbuff层数:{layer}\n来源:{src_player}"
@@ -822,7 +837,7 @@ class OperatePainter:
                 _buff_label.setPixmap(self._get_icon(buff_name).resize((15, 15)).toqpixmap())
                 _buff_label.move(self._get_x(start_time, position=True), index * 15)
                 _buff_label.setToolTip(_hover_text)
-                _buff_time_line = ToolTipOutLabel(self.ui.tooltip_textEdit, self._rows['增益buff'])
+                _buff_time_line = ToolTipOutLabel(self.ui.tooltip_textEdit, self._rows['增益buff'], disable_clicked=True)
                 _buff_time_line.resize(self._get_x(end_time - start_time) - 15, 15)
                 _buff_time_line.setStyleSheet(f"background-color: {_bg_color}; font-size: 8pt; color: {_color}")
                 _buff_time_line.move(self._get_x(start_time, position=True) + 15, index * 15 + 0)
@@ -889,6 +904,8 @@ class OperatePainter:
                     else:
                         _target_buffs[target][buff_name] += buff_data['times']
         # 根据数量生成自身buff行
+        if len(_target_buffs) == 0:
+            return
         self._add_row(-1, row('目标buff', max([len(i) for i in _target_buffs.values()]) * 15))
         # 生成buff持续时间线
         for target_id in _target_buffs:
@@ -973,7 +990,7 @@ class OperatePainter:
                 _buff_label.setPixmap(self._get_icon(buff_name).resize((15, 15)).toqpixmap())
                 _buff_label.move(self._get_x(start_time, position=True), row_height - (index * 15))
                 _buff_label.setToolTip(_hover_text)
-                _buff_time_line = ToolTipOutLabel(self.ui.tooltip_textEdit, self._rows['目标buff'])
+                _buff_time_line = ToolTipOutLabel(self.ui.tooltip_textEdit, self._rows['目标buff'], disable_clicked=True)
                 _buff_time_line.resize(self._get_x(end_time - start_time) - 15, 15)
                 _buff_time_line.setStyleSheet(f"background-color: {_bg_color}; font-size: 8pt; color: {_color}")
                 _buff_time_line.move(self._get_x(start_time, position=True) + 15, row_height - (index * 15))

@@ -114,8 +114,8 @@ class Analysis:
         # 2. 计算评分
         if self._skill_analysis_data is None:
             return
-        self._operate_checker.run(self._skill_analysis_data)
-
+        ret = self._operate_checker.run(self._skill_analysis_data)
+        return ret
 
     def _get_all_operate_data(self):
         """

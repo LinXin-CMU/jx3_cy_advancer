@@ -1,4 +1,4 @@
-import configparser
+from configparser import ConfigParser
 from typing import Any
 from os.path import exists
 from threading import Lock
@@ -18,7 +18,7 @@ class ConfigSetting:
     def __init__(self):
         self.path = r'Sources\Settings\config.ini'
         # config文件存放路径
-        self.cf = configparser.ConfigParser()
+        self.cf = ConfigParser()
         self.lock = Lock()
         # 保护单例模式的线程安全
         if not exists(self.path):
