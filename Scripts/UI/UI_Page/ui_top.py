@@ -3,10 +3,11 @@
 """
 ui首页的功能
 """
-import os
-import re
+from os import getcwd, listdir, path
+from re import compile, match
+from shutil import move
 from typing import Any
-from PyQt5.QtWidgets import QMainWindow, QFileDialog, QHeaderView, QTableWidgetItem, QAbstractItemView
+from PyQt5.QtWidgets import QMainWindow, QFileDialog, QHeaderView, QTableWidgetItem, QAbstractItemView, QLabel
 from PyQt5.QtCore import Qt, QTime
 from time import localtime
 from datetime import datetime, timedelta
@@ -17,8 +18,13 @@ from csv import DictWriter
 
 from Scripts.UI.UI_Base.ui_base import BaseUi
 from Scripts.UI.UI_Base.ui import Ui_MainWindow
-from Scripts.UI.UI_Base.ui_other import FILES_TABLE_COLUMN_WIDTHS
+from Scripts.UI.UI_Base.ui_other import FILES_TABLE_COLUMN_WIDTHS, set_page
 from CustomClasses.Exceptions import NotFoundJclFolderError
+
+
+set_row = set_page
+
+f = open("log.txt", 'w', encoding='gbk')
 
 
 class Top_UI(BaseUi):
@@ -70,6 +76,8 @@ class Top_UI(BaseUi):
             'data': []
             # index, date, time, map, target, persist, name
         }
+        # 设置列名显示
+        self.ui.top_files_table.horizontalHeader().setVisible(True)
 
     @property
     def target_file(self):
@@ -94,6 +102,7 @@ class Top_UI(BaseUi):
         self.ui.SelectGamePath.clicked.connect(self._game_path_button_func)
         self.ui.SelectFile.clicked.connect(self._select_file_button_func)
         self.ui.top_filt_button.clicked.connect(self._get_all_jcl_files_from_folder)
+        self.ui.open_garbage_button.clicked.connect(self._select_file_in_garbage_button_func)
         # 绑定文本框
         # 这里是检查手动输入的路径是否有误
         # 太无语了改一个字就会触发，在其他地方检查吧
@@ -113,7 +122,7 @@ class Top_UI(BaseUi):
         self.ui.top_zone_type_buttonGroup.buttonClicked.connect(self._read_filter_condition)
         # 不可改变列宽
         # self.ui.top_files_table.verticalHeader().setSectionResizeMode(QHeaderView.Stretch)
-        self.ui.top_files_table.setColumnHidden(6, True)
+        self.ui.top_files_table.setColumnHidden(7, True)
         self.ui.top_files_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
         # 点击单选框触发
         # self.ui.top_files_table.cellChanged.connect(self._table_inside_button_func)
@@ -141,10 +150,12 @@ class Top_UI(BaseUi):
             else:
                 self.ui.PathLineEdit.setText(self.game_path)
         # 尝试读取目标文件夹
-        _folders = eval(self.config['jcl_paths'])
-        if self.player_name in _folders:
-            self.folder_path = _folders[self.player_name]
-            self._folder_from = self.player_name
+        _folders = self.config['jcl_paths']
+        if _folders is not None:
+            _folders = eval(_folders)
+            if self.player_name in _folders:
+                self.folder_path = _folders[self.player_name]
+                self._folder_from = self.player_name
 
     def _set_nearest_date_combobox(self):
         """
@@ -171,12 +182,16 @@ class Top_UI(BaseUi):
         把从不同渠道获取的游戏路径切分为标准路径并储存\n
         :return:
         """
+        global f
         while True:
             try:
                 if '\\' in origin_path:
                     origin_path = origin_path.replace('\\', '/')
+                f.write(f'now path: {origin_path}\n')
+                f.close()
+                f = open('log.txt', 'a', encoding='gbk')
                 _path = origin_path.rsplit("/", 1)
-                if _path[1] == 'Game':
+                if _path[1] in 'Game':
                     self.game_path = _path[0]
                     self.ui.PathLineEdit.setText(self.game_path)
                     self.config.add_config('main', 'game_path', self.game_path)
@@ -203,14 +218,20 @@ class Top_UI(BaseUi):
         通过读取注册表尝试获取游戏路径\n
         :return:
         """
+        global f
+
         v = ''
         for regpath in [r'SOFTWARE\JX3Installer', r'SOFTWARE\Kingsoft\JX3', r'SOFTWARE\Kingsoft\SeasunGame\JX3']:
             try:
                 key = OpenKey(HKEY_LOCAL_MACHINE, regpath)
                 for i in range(50):
                     k, v, t = EnumValue(key, i)
+                    f.write(f"{regpath}_{k}_{v}\n")
+                    f.close()
+                    f = open('log.txt', 'a', encoding='gbk')
                     if k == 'InstPath':
-                        v = v.replace("\\", "/")
+                        if '\\' in v:
+                            v = v.replace("\\", "/")
                         v += '/Game'
                         CloseKey(key)
                         return v
@@ -218,6 +239,9 @@ class Top_UI(BaseUi):
                         CloseKey(key)
                         return v
             except FileNotFoundError as e:
+                f.write(f'cannot open path at {regpath}\n')
+                f.close()
+                f = open('log.txt', 'a', encoding='gbk')
                 continue
         return v
 
@@ -244,8 +268,17 @@ class Top_UI(BaseUi):
             self.ui.FileLineEdit.setText(_target_file)
         else:
             _target_file = \
-                QFileDialog.getOpenFileName(self.widget, '请选择想要复盘的文件', f'{os.getcwd()}', 'Jcl战斗记录文件(*.jcl)')[0]
+                QFileDialog.getOpenFileName(self.widget, '请选择想要复盘的文件', f'{getcwd()}', 'Jcl战斗记录文件(*.jcl)')[0]
             self.ui.FileLineEdit.setText(_target_file)
+
+    def _select_file_in_garbage_button_func(self):
+        """
+        在垃圾箱中手动选择jcl文件的方法\n
+        :return:
+        """
+        _target_file = \
+            QFileDialog.getOpenFileName(self.widget, '请选择想要复盘的文件', r"Sources/Jcl_Garbage", 'Jcl战斗记录文件(*.jcl)')[0]
+        self.ui.FileLineEdit.setText(_target_file)
 
     def _table_inside_button_func(self, row: int, column: int):
         """
@@ -261,19 +294,23 @@ class Top_UI(BaseUi):
             return
         # if not column == 5:
         #     return
-        # 设置当前行
-        key = self.ui.top_files_table.item(row, 6).text()
-        self.ui.FileLineEdit.setText(f"{self.folder_path}/{key}")
-        # 取消其他行
-        print(row)
-        self._trig = False
-        for r in range(self.ui.top_files_table.rowCount()):
-            if not r == row:
-                self.ui.top_files_table.item(r, 5).setCheckState(False)
-            else:
-                # 对点击行的适配
-                self.ui.top_files_table.item(r, 5).setCheckState(True)
-        self._trig = True
+        # 0913添加删除功能
+        if not column == 6:
+            # 设置当前行
+            key = self.ui.top_files_table.item(row, 7).text()
+            self.ui.FileLineEdit.setText(f"{self.folder_path}/{key}")
+            # 取消其他行
+            print(row)
+            self._trig = False
+            for r in range(self.ui.top_files_table.rowCount()):
+                if not r == row:
+                    self.ui.top_files_table.item(r, 5).setCheckState(False)
+                else:
+                    # 对点击行的适配
+                    self.ui.top_files_table.item(r, 5).setCheckState(True)
+            self._trig = True
+        else:
+            self.del_file_button_func(row)
 
     def _get_player_jcl_folder_path(self):
         """
@@ -281,31 +318,51 @@ class Top_UI(BaseUi):
         :return:
         """
         # if self.folder_path is None:
-        if self.game_path.endswith("JX3"):
-            _path = self.game_path + r'/Game/JX3/bin/zhcn_hd/interface/MY#DATA'
-            # 遍历MY#DATA，找到与player_name相符的文件夹
-            # 新版客户端适配
-            if not path.exists(_path):
-                _path = self.game_path + r'/Game/JX3_takeover/bin/zhcn_hd/interface/MY#DATA'
-            for _folder in listdir(_path):
-                try:
-                    if isinstance(eval(_folder.split('@')[0]), int):
-                        # 找到存放玩家数据的文件夹
-                        if self.player_name in listdir(rf'{_path}/{_folder}'):
-                            _path += rf'/{_folder}/userdata/combat_logs'
-                            self.folder_path = _path
-                            self._folder_from = self.player_name
-                            # print(self.folder_path)
-                            self._add_config_jcl_path()
-                            return
-                except SyntaxError as e:
-                    print(
-                        f"SyntaxError: {e} at Scripts/UI/UI_Page/ui_top.py _get_player_jcl_folder_path: 过滤MY#DATA中非玩家文件夹")
-                    continue
-            self.ShowWarningBoxForIdNotInGamePath(self.widget)
-            self.folder_path = None
-        else:
-            self.ShowWarningBoxForJx3GamePathSelectError(self.widget)
+        _path = self.game_path + r'/Game/JX3/bin/zhcn_hd/interface/MY#DATA'
+        # 遍历MY#DATA，找到与player_name相符的文件夹
+        # 新版客户端适配
+        if not path.exists(_path):
+            _path = self.game_path + r'/Game/JX3_takeover/bin/zhcn_hd/interface/MY#DATA'
+        # 均查询不到的情况下则遍历
+        if not path.exists(_path):
+            # 可能的目录
+            possible = {'JX3', 'JX3_EXP', 'Game', 'JX3_takeover', 'bin', 'zhcn_hd', 'interface'}
+            stop = 'MY#DATA'
+            #
+            _branches = [self.game_path]
+            for _ in range(1000):
+                cache = []
+                for folder in _branches:
+                    dirs = listdir(folder)
+                    # 检查是否可能是目标文件夹
+                    for _d in dirs:
+                        if _d in possible and path.isdir(f"{folder}/{_d}"):
+                            cache.append(f"{folder}/{_d}")
+                        elif _d == stop and path.isdir(f"{folder}/{_d}"):
+                            _path = f"{folder}/{_d}"
+                            break
+                if _path.endswith('MY#DATA') and path.isdir(_path):
+                    break
+                else:
+                    _branches = [i for i in cache]
+
+        for _folder in listdir(_path):
+            try:
+                if isinstance(eval(_folder.split('@')[0]), int):
+                    # 找到存放玩家数据的文件夹
+                    if self.player_name in listdir(rf'{_path}/{_folder}'):
+                        _path += rf'/{_folder}/userdata/combat_logs'
+                        self.folder_path = _path
+                        self._folder_from = self.player_name
+                        # print(self.folder_path)
+                        self._add_config_jcl_path()
+                        return
+            except SyntaxError as e:
+                print(
+                    f"SyntaxError: {e} at Scripts/UI/UI_Page/ui_top.py _get_player_jcl_folder_path: 过滤MY#DATA中非玩家文件夹")
+                continue
+        self.ShowWarningBoxForIdNotInGamePath(self.widget)
+        self.folder_path = None
 
     def _add_config_jcl_path(self):
         """
@@ -352,7 +409,7 @@ class Top_UI(BaseUi):
         if data is None:
             self.ShowWarningBoxForNotStartRead(self.widget)
         else:
-            workpath = QFileDialog.getExistingDirectory(self.widget, "请选择想要保存到的目录", os.getcwd())
+            workpath = QFileDialog.getExistingDirectory(self.widget, "请选择想要保存到的目录", getcwd())
             csv_name = self._target_file.replace(".jcl", "-") + self.player_name + '.csv'
             try:
                 with open(f"{workpath}/{csv_name}", 'w', encoding='gbk', newline='') as f:
@@ -408,7 +465,7 @@ class Top_UI(BaseUi):
             _files = listdir(self.folder_path)
         except FileNotFoundError:
             raise NotFoundJclFolderError
-        pattern = re.compile(
+        pattern = compile(
             r'(?P<year>\d{4})-(?P<month>\d{2})-(?P<day>\d{2})-(?P<hour>\d{2})-(?P<minute>\d{2})-(?P<second>\d{2})-(?P<map>.*?)-(?P<boss>.*?)\.jcl')
         _current_zones = eval(self.config['jx3_zones'])
         for index, item in enumerate(_files):
@@ -417,7 +474,7 @@ class Top_UI(BaseUi):
             # 过滤.log文件
             if item.endswith('.log'):
                 continue
-            res = re.match(pattern, item)
+            res = match(pattern, item)
             # index, date, time, map, target, persist, name
             # 过滤存在问题的文件名,如2022-08-08-19-17-35-苍云-.jcl
             if '' in res.groups():
@@ -444,6 +501,10 @@ class Top_UI(BaseUi):
             if self._filter['type'] is not Any:
                 _type_filter = self._filter['type']
                 # 根据副本类型筛选
+                if '浪客行' in _map:
+                    # 直接过滤浪客行
+                    continue
+
                 if '木桩' in _boss:
                     if '木桩' not in _type_filter:
                         continue
@@ -459,21 +520,25 @@ class Top_UI(BaseUi):
                         continue
                     else:
                         _pass = True
-                elif '浪客行' in _map:
-                    if '浪客行' not in _type_filter:
-                        continue
                 else:
                     if '其它' not in _type_filter:
                         if not _pass:
                             continue
 
             # 新建对应行的单选按钮
-            button = QTableWidgetItem()
-            button.setCheckState(Qt.Unchecked)
+            check_box = QTableWidgetItem()
+            check_box.setCheckState(Qt.Unchecked)
             # 生成供ui选择后回溯的key
             # 用HiddenColumn代替
             # decode_key = f"{_year}{_month:02}{_day:02}{_hour:02}{_minute:02}"
             # 记录对应行
+            # 新建对应行的删除按钮
+            del_button = QLabel()
+            del_button.resize(30, 15)
+            del_button.setText('删除')
+            del_button.setAlignment(Qt.AlignVCenter | Qt.AlignHCenter)
+            del_button.setStyleSheet("font-size: 8pt; background-color: #e4976a; color: #ffffff")
+
             try:
                 self._files['data'].append({
                     'date': f"{_year - 2000}/{_month:02}/{_day:02}",
@@ -481,7 +546,8 @@ class Top_UI(BaseUi):
                     'map': _map,
                     'target': _boss,
                     'persist': _get_jcl_file_persist_time(item),
-                    'button': button,
+                    'button': check_box,
+                    'del': del_button,
                     'name': item
                 })
             except UnicodeDecodeError as e:
@@ -499,19 +565,53 @@ class Top_UI(BaseUi):
         # 清空表格
         self.ui.top_files_table.setRowCount(0)
         length = len(self._files['data'])
-        if len(self._files['data']) == 0:
+        if length == 0:
             # 直接显示提示
             self.ui.cue_label.show()
         else:
             # 写入表格
-            self.ui.top_files_table.setRowCount(len(self._files['data']))
+            self.ui.top_files_table.setRowCount(length)
             for index, row in enumerate(self._files['data']):
                 for idx, item in enumerate(list(row.values())):
-                    self.ui.top_files_table.setItem(index, idx, QTableWidgetItem(item))
-            self.ui.top_files_table.setColumnHidden(6, True)
+                    # 0913 添加删除文件功能
+                    # if idx == 6:
+                    #     idx = 7
+                    if idx == 6:
+                        # item.clicked.connect(set_row(index, self.del_file_button_func))
+                        self.ui.top_files_table.setCellWidget(index, idx, item)
+                    else:
+                        _item = QTableWidgetItem(item)
+                        _item.setTextAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
+                        self.ui.top_files_table.setItem(index, idx, _item)
+            self.ui.top_files_table.setColumnHidden(7, True)
 
         # 恢复单选按钮的绑定
         # self.ui.top_files_table.cellChanged.connect(self._table_inside_button_func)
 
         # 设置表格可以被触发
         self._trig = True
+
+
+    def del_file_button_func(self, row):
+        """
+        删除按钮的作用方式
+        :param row:
+        :return:
+        """
+        _parent_table = self.ui.top_files_table
+
+        if _parent_table.rowCount() == 0:
+            return
+        try:
+            # 1. 将目标文件移动到垃圾文件夹
+            key = self.ui.top_files_table.item(row, 7).text()
+            _target_file = f"{self.folder_path}/{key}"
+            move(_target_file, r"Sources/Jcl_Garbage")
+            # 2. 删除该行
+            _parent_table.removeRow(row)
+        except FileNotFoundError as e:
+            print(f"FileNotFoundError: {e} at Scripts/UI/UI_Page/ui_top.py del_file_button_func: 未查找到目标文件，未知错误！")
+
+
+
+
