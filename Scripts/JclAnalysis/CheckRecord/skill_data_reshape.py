@@ -122,53 +122,53 @@ def _reshape_to_table(data: Dict[int, Dict[str, Union[str, int, Dict[str, Union[
             target_name: str = id_to_name_dict[target]['szName']
         except KeyError:
             target_name = "未知目标"
-
-        for msec, skill_data in tar_data.items():
+        for msec, skill_datas in tar_data.items():
             # 每个技能的dict
-            skill_name = skill_data['szName']
-            skill_id = skill_data['dwID']
-            # skill_level = skill_data['dwLevel']
-            # 会心判断
-            if skill_data['bCritical'] == '会心':
-                _critical = 1
-            else:
-                _critical = 0
-            # 闪避判断
-            if 'dodge' in skill_data['tResult']:
-                _dodge = 1
-            else:
-                _dodge = 0
-            # 伤害筛选
-            _dmg = skill_data['tResult']
+            for msec_index, skill_data in skill_datas.items():
+                skill_name = skill_data['szName']
+                skill_id = skill_data['dwID']
+                # skill_level = skill_data['dwLevel']
+                # 会心判断
+                if skill_data['bCritical'] == '会心':
+                    _critical = 1
+                else:
+                    _critical = 0
+                # 闪避判断
+                if 'dodge' in skill_data['tResult']:
+                    _dodge = 1
+                else:
+                    _dodge = 0
+                # 伤害筛选
+                _dmg = skill_data['tResult']
 
-            if '有效伤害' not in _dmg or _dmg['有效伤害'] == 0:
-                if 'dodge' not in _dmg:
-                    continue
+                if '有效伤害' not in _dmg or _dmg['有效伤害'] == 0:
+                    if 'dodge' not in _dmg:
+                        continue
 
-            # 统计数据
-            if skill_name in _skill:
-                _sk = _skill[skill_name]
-                _sk['dwID'].add(skill_id)
-                _sk['nCount'] += 1
-                _sk['nCritical'] += _critical
-                # 先存到一个local地址，待当前目标统计完再加入到总记录nDodge
-                _sk['_now_dodge'] += _dodge
-                # 先存到一个local地址，待当前目标统计完再加入到总记录tResult
-                _sk['_now_result'] = _check_damages(_sk['_now_result'], skill_data['tResult'], critical=_critical, msec=msec)
-                _sk['_now_target'].update({msec: target_name})
-            else:
-                _skill[skill_name] = {
-                    'dwID': {skill_id},
-                    'nCount': 1,
-                    'nCritical': _critical,
-                    'nDodge': 0,
-                    '_now_dodge': _dodge,
-                    '_now_result': _check_damages({}, skill_data['tResult'], critical=_critical, msec=msec),
-                    '_now_target': {msec: target_name},
-                    'tResult': {'normal': dict(), 'critical': dict()},
-                    'targets': dict()
-                }
-        # 分目标统计的部分
+                # 统计数据
+                if skill_name in _skill:
+                    _sk = _skill[skill_name]
+                    _sk['dwID'].add(skill_id)
+                    _sk['nCount'] += 1
+                    _sk['nCritical'] += _critical
+                    # 先存到一个local地址，待当前目标统计完再加入到总记录nDodge
+                    _sk['_now_dodge'] += _dodge
+                    # 先存到一个local地址，待当前目标统计完再加入到总记录tResult
+                    _sk['_now_result'] = _check_damages(_sk['_now_result'], skill_data['tResult'], critical=_critical, msec=msec)
+                    _sk['_now_target'].update({msec: target_name})
+                else:
+                    _skill[skill_name] = {
+                        'dwID': {skill_id},
+                        'nCount': 1,
+                        'nCritical': _critical,
+                        'nDodge': 0,
+                        '_now_dodge': _dodge,
+                        '_now_result': _check_damages({}, skill_data['tResult'], critical=_critical, msec=msec),
+                        '_now_target': {msec: target_name},
+                        'tResult': {'normal': dict(), 'critical': dict()},
+                        'targets': dict()
+                    }
+            # 分目标统计的部分
         for skill_name, skill_count in _skill.items():
             # 取出当前数据
             _normals = skill_count['_now_result']['normal']

@@ -92,6 +92,10 @@ class BaseUi:
     def ShowWarningBoxForPlayerKungFuWarning(parent):
         QMessageBox.warning(parent, '警告!', '当前玩家并非分山劲心法，仅能导出excel格式记录！')
 
+    @staticmethod
+    def ShowWarningBoxForMarkingError(parent):
+        QMessageBox.warning(parent, '错误!', '评分模块数据异常，无法计算得分！')
+
     def set_equip(self, equip: dict[str: Equip]):
         """
         接入装备数据的接口\n

@@ -117,9 +117,12 @@ class Main:
         用于展示评分模块\n
         :return:
         """
-        # 计算评分
-        data = self.analyzer.run_marker()
-        self.main_ui.page_mark.set_mark_table(data)
+        try:
+            # 计算评分
+            data = self.analyzer.run_marker()
+            self.main_ui.page_mark.set_mark_table(data)
+        except:
+            self.main_ui.ShowWarningBoxForMarkingError(self.main_ui)
 
 
     def _button_connection(self):

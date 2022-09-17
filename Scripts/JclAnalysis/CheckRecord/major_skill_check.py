@@ -164,7 +164,11 @@ class MajorSkillChecker:
                     try:
                         _kf = skill[skill_id][skill_level]['BelongKungfu']
                     except KeyError:
-                        _kf = get_buff_or_skill_from_jx3box('skill', skill_id, skill_level)['BelongKungfu']
+                        try:
+                            _kf = get_buff_or_skill_from_jx3box('skill', skill_id, skill_level)['BelongKungfu']
+                        except KeyError:
+                            # 访问不到时直接跳过
+                            continue
                     if skill_id in {30769, 30855, 30856, 9003, 9004, 9005, 9006, 9007} or _kf in {'10385', '10386', '10384', '10383', '24785'} \
                             and skill_name not in {'阵云绝', '破招外功伤害子技能（母）'}:
                         # 阵云单独处理

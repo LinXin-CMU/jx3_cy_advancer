@@ -134,6 +134,11 @@ class Top_UI(BaseUi):
         初始化时尝试读取游戏路径\n
         :return:
         """
+        global f
+        f.write(f"row 137, inside _read_config\n")
+        f.close()
+        f = open('log.txt', 'a', encoding='gbk')
+
         _name = self.config['player_name']
         if _name is not None:
             self.player_name = _name
@@ -183,11 +188,11 @@ class Top_UI(BaseUi):
         :return:
         """
         global f
-        while True:
+        for _ in range(10000):
             try:
                 if '\\' in origin_path:
                     origin_path = origin_path.replace('\\', '/')
-                f.write(f'now path: {origin_path}\n')
+                f.write(f'row 190, now path: {origin_path.__repr__()}\n')
                 f.close()
                 f = open('log.txt', 'a', encoding='gbk')
                 _path = origin_path.rsplit("/", 1)
@@ -195,6 +200,9 @@ class Top_UI(BaseUi):
                     self.game_path = _path[0]
                     self.ui.PathLineEdit.setText(self.game_path)
                     self.config.add_config('main', 'game_path', self.game_path)
+                    f.write(f'row 203, found from {origin_path.__repr__()}\n')
+                    f.close()
+                    f = open('log.txt', 'a', encoding='gbk')
                     break
                 else:
                     origin_path = _path[0]
@@ -226,7 +234,7 @@ class Top_UI(BaseUi):
                 key = OpenKey(HKEY_LOCAL_MACHINE, regpath)
                 for i in range(50):
                     k, v, t = EnumValue(key, i)
-                    f.write(f"{regpath}_{k}_{v}\n")
+                    f.write(f"row 229, {regpath}_{k}_{v}\n")
                     f.close()
                     f = open('log.txt', 'a', encoding='gbk')
                     if k == 'InstPath':
@@ -251,6 +259,10 @@ class Top_UI(BaseUi):
         :param game_path:
         :return:
         """
+        global f
+        f.write(f"row 137, inside _game_path_button_func\n")
+        f.close()
+        f = open('log.txt', 'a', encoding='gbk')
         game_path = QFileDialog.getExistingDirectory(self.widget, "请选择剑网3游戏文件夹下的Game文件夹")
         self._split_game_path(game_path)
         if self.game_path is None:
@@ -346,6 +358,9 @@ class Top_UI(BaseUi):
                 else:
                     _branches = [i for i in cache]
 
+        if not path.exists(_path):
+            self.ShowWarningBoxForJx3GamePathSelectError(self.widget)
+            return
         for _folder in listdir(_path):
             try:
                 if isinstance(eval(_folder.split('@')[0]), int):
@@ -361,8 +376,9 @@ class Top_UI(BaseUi):
                 print(
                     f"SyntaxError: {e} at Scripts/UI/UI_Page/ui_top.py _get_player_jcl_folder_path: 过滤MY#DATA中非玩家文件夹")
                 continue
-        self.ShowWarningBoxForIdNotInGamePath(self.widget)
-        self.folder_path = None
+        else:
+            self.ShowWarningBoxForIdNotInGamePath(self.widget)
+            self.folder_path = None
 
     def _add_config_jcl_path(self):
         """
@@ -431,6 +447,11 @@ class Top_UI(BaseUi):
         :return:
         """
 
+        global f
+        f.write(f'inside Top_UI._get_all_jcl_files_from_folder\n')
+        f.close()
+        f = open('log.txt', 'a', encoding='gbk')
+
         self._files = {
             'max_length': 50,
             'data': []
@@ -438,18 +459,6 @@ class Top_UI(BaseUi):
         }
         self._trig = False
 
-        def _get_jcl_file_persist_time(filename) -> str:
-            """
-            从文件的最后一行读取到战斗时间\n
-            :return:
-            """
-            _path = self.folder_path + '/' + filename
-            with open(_path, 'rb') as f:
-                f.seek(-100, 2)
-                _s = f.readlines()[-1].strip().split()[-1]
-                secs = self.lua.eval(_s.decode('gbk'))[3]
-                str_time = str(timedelta(seconds=secs // 1000))
-                return ":".join(str_time.split(':')[1:])
         # 新用户名点击的情况
         if self.folder_path is None:
             self._get_player_jcl_folder_path()
@@ -460,23 +469,42 @@ class Top_UI(BaseUi):
         # 判断路径是否为None, 防止os.getcwd()的问题
         if self.folder_path is None:
             return
+
+        f.write(f'row 467, {self.folder_path}\n')
+        f.close()
+        f = open('log.txt', 'a', encoding='gbk')
+
         # 路径不为None的情况下
         try:
             _files = listdir(self.folder_path)
+            f.write(f'row 481, listdir\n')
+            f.close()
+            f = open('log.txt', 'a', encoding='gbk')
         except FileNotFoundError:
             raise NotFoundJclFolderError
         pattern = compile(
             r'(?P<year>\d{4})-(?P<month>\d{2})-(?P<day>\d{2})-(?P<hour>\d{2})-(?P<minute>\d{2})-(?P<second>\d{2})-(?P<map>.*?)-(?P<boss>.*?)\.jcl')
         _current_zones = eval(self.config['jx3_zones'])
+        f.write(f'row 490, reading\n')
+        f.close()
+        f = open('log.txt', 'a', encoding='gbk')
         for index, item in enumerate(_files):
             # 筛选器用的标签，代表符合其他条件，可以跳过“其他”筛选
             _pass = False
             # 过滤.log文件
             if item.endswith('.log'):
                 continue
+            f.write(f'row 494, matching {item}\n')
+            f.close()
+            f = open('log.txt', 'a', encoding='gbk')
             res = match(pattern, item)
+            if res is None:
+                continue
             # index, date, time, map, target, persist, name
             # 过滤存在问题的文件名,如2022-08-08-19-17-35-苍云-.jcl
+            f.write(f'row 499, reading {item}\n')
+            f.close()
+            f = open('log.txt', 'a', encoding='gbk')
             if '' in res.groups():
                 continue
             _year = int(res.group('year'))
@@ -487,6 +515,9 @@ class Top_UI(BaseUi):
             _map = res.group('map')
             _boss = res.group('boss')
             # 执行筛选条件
+            f.write(f'row 515, filtrate {item}\n')
+            f.close()
+            f = open('log.txt', 'a', encoding='gbk')
             if self._filter['date'] is not Any:
                 # 根据时间筛选
                 _time_filter = self._filter['date']
@@ -545,15 +576,21 @@ class Top_UI(BaseUi):
                     'time': f"{_hour:02}:{_minute:02}",
                     'map': _map,
                     'target': _boss,
-                    'persist': _get_jcl_file_persist_time(item),
+                    'persist': self._get_jcl_file_persist_time(item),
                     'button': check_box,
                     'del': del_button,
                     'name': item
                 })
+                f.write(f'row 581, appending {item}\n')
+                f.close()
+                f = open('log.txt', 'a', encoding='gbk')
             except UnicodeDecodeError as e:
                 print(
                     f"UnicodeDecodeError: {e} at Scripts/UI/UI_Page/ui_top.py _get_all_jcl_files_from_folder: jcl文件未知错误")
                 continue
+        f.write(f'row 567, {self._files.__repr__()[:20]}\n')
+        f.close()
+        f = open('log.txt', 'a', encoding='gbk')
         # 先按时间排序，再按日期排序，保证双降序
         self._files['data'].sort(key=lambda i: i['time'], reverse=True)
         self._files['data'].sort(key=lambda i: i['date'], reverse=True)
@@ -613,5 +650,17 @@ class Top_UI(BaseUi):
             print(f"FileNotFoundError: {e} at Scripts/UI/UI_Page/ui_top.py del_file_button_func: 未查找到目标文件，未知错误！")
 
 
+    def _get_jcl_file_persist_time(self, filename) -> str:
+        """
+        从文件的最后一行读取到战斗时间\n
+        :return:
+        """
+        _path = self.folder_path + '/' + filename
+        with open(_path, 'rb') as _f:
+            _f.seek(-100, 2)
+            _s = _f.readlines()[-1].strip().split()[-1]
+            secs = self.lua.eval(_s.decode('gbk'))[3]
+            str_time = str(timedelta(seconds=secs // 1000))
 
+            return ":".join(str_time.split(':')[1:])
 

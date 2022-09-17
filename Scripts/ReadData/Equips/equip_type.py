@@ -53,8 +53,12 @@ class _Equip:
         except KeyError as e:
             # 未查询到则返回未知装备
             print(f"KeyError: not found id={e} equip at Scripts/ReadData/Equips/equip_type.py set_info")
-            self.equip_data = get_equip_from_jx3box(self.subtype, self.id)['Data']
-            print(f"get equip data from personal_data: {self.equip_data['Name']}")
+            try:
+                self.equip_data = get_equip_from_jx3box(self.subtype, self.id)['Data']
+                print(f"get equip data from personal_data: {self.equip_data['Name']}")
+            except TypeError:
+                # 未能查询到的情况下直接返回
+                return
         # 查找名称，品级，最大精炼
         if self.equip_data is not None:
             # 20220729装备栏精炼镶嵌不能正常读取

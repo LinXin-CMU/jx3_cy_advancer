@@ -308,17 +308,34 @@ class Player:
             # 用于进一步分析，得到表格内展示数据
             _target = data['dwTarget']
             if _target in self._skill_event_by_time_and_target:
-                self._skill_event_by_time_and_target[_target][msec] = {
-                    "szName": data['szName'],
-                    "dwID": skill_id,
-                    "dwLevel": skill_level,
-                    "bCritical": data['bCriticalStrike'],
-                    "tResult": data['tResultCount'],
-                    "tBuffs": {buff_id: (buff_data[1], buff_data[2]) for buff_id, buff_data in self._waiting_buffs.items()}
-                    #                   (level, layer)
-                }
+                if msec in self._skill_event_by_time_and_target[_target]:
+                    for i in range(50):
+                        if i in self._skill_event_by_time_and_target[_target][msec]:
+                            continue
+                        else:
+                            self._skill_event_by_time_and_target[_target][msec][i] = {
+                                "szName": data['szName'],
+                                "dwID": skill_id,
+                                "dwLevel": skill_level,
+                                "bCritical": data['bCriticalStrike'],
+                                "tResult": data['tResultCount'],
+                                "tBuffs": {buff_id: (buff_data[1], buff_data[2]) for buff_id, buff_data in self._waiting_buffs.items()}
+                                #                   (level, layer)
+                            }
+                            break
+                else:
+                    self._skill_event_by_time_and_target[_target][msec] = {0: {
+                        "szName": data['szName'],
+                        "dwID": skill_id,
+                        "dwLevel": skill_level,
+                        "bCritical": data['bCriticalStrike'],
+                        "tResult": data['tResultCount'],
+                        "tBuffs": {buff_id: (buff_data[1], buff_data[2]) for buff_id, buff_data in
+                                   self._waiting_buffs.items()}
+                        #                   (level, layer)
+                    }}
             else:
-                self._skill_event_by_time_and_target[_target] = {msec: {
+                self._skill_event_by_time_and_target[_target] = {msec: {0: {
                     "szName": data['szName'],
                     "dwID": skill_id,
                     "dwLevel": skill_level,
@@ -326,7 +343,7 @@ class Player:
                     "tResult": data['tResultCount'],
                     "tBuffs": {buff_id: (buff_data[1], buff_data[2]) for buff_id, buff_data in
                                self._waiting_buffs.items()}
-                }}
+                }}}
 
 
 
