@@ -71,9 +71,10 @@ class Player:
         """
         return self._buff
 
-    def update(self, data: Dict[int, Dict], player_id: int, npc_id: List):
+    def update(self, data: Dict[int, Dict], player_id: int, npc_id: List, time_limit):
         """
         根据每行的数据内容以更新自身数据\n
+        :param time_limit:
         :param npc_id:
         :param data:
         :param player_id:
@@ -89,6 +90,9 @@ class Player:
         self._skill_event_by_time_and_target = {}
 
         for index, item in data.items():
+            # 添加时间限制
+            if time_limit and item['msec'] > time_limit:
+                break
             index: int
             item: Dict[str, Union[int, str, Dict]]
             self._type_update(item)

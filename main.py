@@ -44,7 +44,11 @@ class Main:
             # 判断心法
             if self.reader.player_kungfu in {'分山劲', '铁骨衣'}:
                 # 读取行为部分
-                self.analyzer.run()
+                # 时间限制判断
+                _limit = 0
+                if '木桩' in self.reader.boss_name:
+                    _limit = self.main_ui.get_limit_time()
+                self.analyzer.run(_limit)
                 # 读取装备部分
                 self.reader.get_equip_info()
                 # 生成装备对象
@@ -54,7 +58,7 @@ class Main:
                 # 展示复盘页
                 self._sub_show_operate()
                 # 展示评分页
-                self._sub_show_mark()
+                self._sub_show_mark(_limit)
             else:
                 self.main_ui.ShowWarningBoxForPlayerKungFuWarning(self.main_ui)
         except JclFileEncodeError:
@@ -112,14 +116,14 @@ class Main:
         self.main_ui.page_retro.draw_operate_picture(self.analyzer.get_operate_data(), self.reader.record_info)
 
 
-    def _sub_show_mark(self):
+    def _sub_show_mark(self, limit_time):
         """
         用于展示评分模块\n
         :return:
         """
         try:
             # 计算评分
-            data = self.analyzer.run_marker()
+            data = self.analyzer.run_marker(limit_time)
             self.main_ui.page_mark.set_mark_table(data)
         except:
             self.main_ui.ShowWarningBoxForMarkingError(self.main_ui)
@@ -142,11 +146,12 @@ class Main:
             # 0-3
             button = getattr(self.main_ui.ui, f"pageButton_{i}")
             button.clicked.connect(set_page(i, self.main_ui.ui.stackedWidget.setCurrentIndex))
+            button.clicked.connect(set_page(i, self.main_ui.page_button_style))
+        self.main_ui.page_button_style(0)
         # 绑定额外的页面跳转
         self.main_ui.ui.to_retro_info_button.clicked.connect(lambda _: self.main_ui.ui.stackedWidget.setCurrentIndex(1))
         # 绑定导出csv文件
         self.main_ui.ui.export_excel_button.clicked.connect(lambda: self.main_ui.page_top.export_csv_data(self.reader.csv_data))
-
 
 
 if __name__ == '__main__':

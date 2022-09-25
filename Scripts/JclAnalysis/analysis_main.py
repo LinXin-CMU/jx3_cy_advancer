@@ -65,7 +65,7 @@ class Analysis:
         return *self._get_all_operate_data(), self._data_checker.benefit_buffs, self._npc.target_buff_data
 
 
-    def run(self):
+    def run(self, time_limit=0):
         pool = ThreadPoolExecutor(3)
 
         self.data = self._reader.data
@@ -93,9 +93,9 @@ class Analysis:
         # wait([future3, future4, future5], return_when='ALL_COMPLETED')
         # self._skill_to_table = future3.result()
 
-        self._player.update(self.data, player_id, npc_id)
+        self._player.update(self.data, player_id, npc_id, time_limit)
         # 这里是得到按不同目的分类的buff和技能数据
-        self._npc.run(self.data, self._reader.boss_name, player_id, self._reader.record_info)
+        self._npc.run(self.data, self._reader.boss_name, player_id, self._reader.record_info, time_limit)
 
         # 开始对技能统计数据的处理
         # 1. 整理技能至可供表格展示的状态
@@ -106,9 +106,13 @@ class Analysis:
         self._data_checker.run_buff()
 
 
-    def run_marker(self):
+    def run_marker(self, time_limit=0):
         # 开始进入评分模块
-        _fight_time = self._reader.record_info['end_fight_time']['timestamp'] - self._reader.record_info['start_fight_time']['timestamp']
+        if time_limit:
+            _fight_time = int(time_limit / 1000)
+        else:
+            _fight_time = self._reader.record_info['end_fight_time']['timestamp'] - \
+                          self._reader.record_info['start_fight_time']['timestamp']
         # 1. 读取玩家数据
         self._operate_checker.basic_setting(self.attribute, _fight_time)
         # 2. 计算评分

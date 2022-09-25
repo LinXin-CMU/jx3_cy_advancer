@@ -62,6 +62,8 @@ class MainUi(UiStyle, QMainWindow, BaseUi):
         self.ui.closeButton.setIcon(QIcon(r'Sources/UI_Resources/closeWindow.png'))
         self.ui.minusButton.setIconSize(QSize(30, 20))
         self.ui.closeButton.setIconSize(QSize(30, 20))
+        # 测试用
+        self.ui.top_fight_time_timeedit.timeChanged.connect(self.get_limit_time)
 
     def page_button_style(self, index):
         """
@@ -70,17 +72,28 @@ class MainUi(UiStyle, QMainWindow, BaseUi):
         """
         stylesheet_inside = """
             QPushButton{
-                background-color: rgb(218, 85, 56);
+                background-color: rgb(226, 221, 215);
+                color: #000000
             }
         """
         for i in range(4):
             # 0-3号pushbutton
             stylesheet_normal = """
                         QPushButton{
-                            background - image: url(:/Main/pageButton_%d.png);
+                            background-color: rgb(206, 81, 53);
+                            color: #ffffff
                         }
-                    """ % i
-            button: QPushButton = getattr(self.ui, f"pageButton_{index}")
+                    """
+            button: QPushButton = getattr(self.ui, f"pageButton_{i}")
             button.setStyleSheet(stylesheet_normal)
         button: QPushButton = getattr(self.ui, f"pageButton_{index}")
         button.setStyleSheet(stylesheet_inside)
+
+    def get_limit_time(self) -> int:
+        """
+        返回战斗毫秒数
+        :return:
+        """
+        _time = self.ui.top_fight_time_timeedit.time().toPyTime()
+        ms = _time.hour * 60 * 1000 + _time.minute * 1000 + 999
+        return ms

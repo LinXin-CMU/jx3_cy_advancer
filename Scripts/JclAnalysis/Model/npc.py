@@ -57,7 +57,7 @@ class Npc:
                     self._checked_players[player_id] = player_data['dwMountKungfuName']
 
 
-    def run(self, data: Dict[int, Dict[str, Union[str, int, Dict[str, Union[int, str, bool]]]]], npc_name: str, player_id: int, record_info: Dict):
+    def run(self, data: Dict[int, Dict[str, Union[str, int, Dict[str, Union[int, str, bool]]]]], npc_name: str, player_id: int, record_info: Dict, time_limit: int):
         """
         外层接口
         :return:
@@ -70,6 +70,9 @@ class Npc:
         self._get_target_player()
 
         for index, _data in data.items():
+            # 添加时间限制
+            if time_limit and _data['msec'] > time_limit:
+                break
             if _data['type'] == 21:
                 _caster = _data['data']['dwCaster']
                 _target = _data['data']['dwTarget']

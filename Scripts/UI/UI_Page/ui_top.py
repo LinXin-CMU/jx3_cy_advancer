@@ -188,6 +188,8 @@ class Top_UI(BaseUi):
         :return:
         """
         global f
+        self.game_path = origin_path
+        self.ui.PathLineEdit.setText(self.game_path)
         for _ in range(10000):
             try:
                 if '\\' in origin_path:

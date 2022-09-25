@@ -3905,6 +3905,9 @@ class Ui_MainWindow(object):
 "QPushButton{\n"
 "    border:none;\n"
 "    color: rgb(255, 255, 255);\n"
+"    font: 11pt \"黑体\";\n"
+"    border-top-left-radius: 25px;\n"
+"    border-bottom-left-radius: 25px;\n"
 "}\n"
 "QPushButton:hover{\n"
 "    background-color: rgb(218, 85, 56);\n"
@@ -3912,29 +3915,20 @@ class Ui_MainWindow(object):
         self.groupBox_9.setTitle("")
         self.groupBox_9.setObjectName("groupBox_9")
         self.pageButton_0 = QtWidgets.QPushButton(self.groupBox_9)
-        self.pageButton_0.setGeometry(QtCore.QRect(0, 0, 151, 51))
-        self.pageButton_0.setStyleSheet("QPushButton{\n"
-"    background-image: url(:/Main/pageButton_0.png);\n"
-"}")
-        self.pageButton_0.setText("")
+        self.pageButton_0.setGeometry(QtCore.QRect(20, 0, 131, 51))
+        self.pageButton_0.setStyleSheet("")
         self.pageButton_0.setObjectName("pageButton_0")
         self.pageButton_1 = QtWidgets.QPushButton(self.groupBox_9)
-        self.pageButton_1.setGeometry(QtCore.QRect(0, 100, 151, 51))
-        self.pageButton_1.setStyleSheet("QPushButton{\n"
-"    background-image: url(:/Main/pageButton_1.png);\n"
-"}")
-        self.pageButton_1.setText("")
+        self.pageButton_1.setGeometry(QtCore.QRect(20, 100, 131, 51))
+        self.pageButton_1.setStyleSheet("")
         self.pageButton_1.setObjectName("pageButton_1")
         self.pageButton_2 = QtWidgets.QPushButton(self.groupBox_9)
-        self.pageButton_2.setGeometry(QtCore.QRect(0, 150, 151, 51))
-        self.pageButton_2.setStyleSheet("QPushButton{\n"
-"    background-image: url(:/Main/pageButton_2.png);\n"
-"}")
-        self.pageButton_2.setText("")
+        self.pageButton_2.setGeometry(QtCore.QRect(20, 150, 131, 51))
+        self.pageButton_2.setStyleSheet("")
         self.pageButton_2.setObjectName("pageButton_2")
         self.pageButton_3 = QtWidgets.QPushButton(self.groupBox_9)
-        self.pageButton_3.setGeometry(QtCore.QRect(0, 50, 151, 51))
-        self.pageButton_3.setStyleSheet("font: 11pt \"黑体\";")
+        self.pageButton_3.setGeometry(QtCore.QRect(20, 50, 131, 51))
+        self.pageButton_3.setStyleSheet("")
         self.pageButton_3.setObjectName("pageButton_3")
         self.label_77 = QtWidgets.QLabel(self.centralwidget)
         self.label_77.setGeometry(QtCore.QRect(890, 30, 71, 16))
@@ -3957,7 +3951,7 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(0)
         self.tabWidget.setCurrentIndex(0)
         self.tabWidget_2.setCurrentIndex(0)
         self.tabWidget_3.setCurrentIndex(0)
@@ -4279,7 +4273,10 @@ class Ui_MainWindow(object):
         self.label_27.setText(_translate("MainWindow", "个盾击蹭到了刀魂，恭喜！"))
         self.label_28.setText(_translate("MainWindow", "有"))
         self.label_23.setText(_translate("MainWindow", "有"))
+        self.pageButton_0.setText(_translate("MainWindow", "设置"))
+        self.pageButton_1.setText(_translate("MainWindow", "复盘"))
+        self.pageButton_2.setText(_translate("MainWindow", "装备"))
         self.pageButton_3.setText(_translate("MainWindow", "评价"))
-        self.label_77.setText(_translate("MainWindow", "demo 0.0.3"))
+        self.label_77.setText(_translate("MainWindow", "demo 1.2"))
 from pyqtgraph import PlotWidget
 import UI_rc
