@@ -201,11 +201,20 @@ class Player:
                 else:
                     self._buff[new_buff_id] = {old_buff[1]: [(old_buff[0], msec, old_buff[1], old_buff[2], old_buff[3], old_buff[4])]}
         else:
+            # 添加该buff的情况
             # 判断来源id
             src_id = data['dwSkillSrcID']
             if src_id == 0:
                 src_id = data['dwPlayerID']
-            # 添加该buff的情况
+            # 特殊处理
+            match new_buff_id:
+                # 玉简特殊处理：盾飞时添加一次6层，后续要避免重复
+                case 21648:
+                    if 21648 in self._waiting_buffs:
+                        buff_yj_ly = self._waiting_buffs[21648][2]
+                        if buff_yj_ly == 6:
+                            return
+
             if new_buff_id in self._waiting_buffs:
                 # 判断等级
                 if data['nLevel'] >= self._waiting_buffs[new_buff_id][1] or new_buff_id == 9052:
@@ -239,33 +248,6 @@ class Player:
         :return:
         """
         # 按技能统计用函数
-        def _check_buffs(tBuffs: Dict):
-            """
-            用于更新buff的内部函数
-            :param tBuffs:
-            :return:
-            """
-            for buff_id, buff_value in write_data['tBuffs'].items():
-                # buff_value: tuple('nLevel', 'nStackNum')
-                if buff_id in tBuffs:
-                    if buff_value[0] in tBuffs[buff_id]:
-                        _t = tBuffs[buff_id][buff_value[0]]
-                        _t['nCount'] += 1
-                        _t['nLayer'] += buff_value[1]
-                        # tBuffs[buff_id][buff_value[0]] = _t
-                    else:
-                        tBuffs[buff_id][buff_value[0]] = {
-                            'nCount': 1,
-                            'nLayer': buff_value[1]
-                        }
-                else:
-                    tBuffs[buff_id] = {
-                        buff_value[0]: {
-                            'nCount': 1,
-                            'nLayer': buff_value[1]
-                        }
-                    }
-            return tBuffs
 
         if status == 'dodge':
             data['bCriticalStrike'] = False
@@ -349,7 +331,37 @@ class Player:
                                self._waiting_buffs.items()}
                 }}}
 
+        # 2022.9.25 盾飞后立即获得玉简效果
+        match skill_id:
+            case 13050:
+                self._add_additional_buff(msec, 21648, '玉简·分山劲', 1, 6)
 
 
+    def _add_additional_buff(self, msec: int, buff_id: int, buff_name: str, level: int, layer: int, src=0):
+        """
+        用于人工添加一些buff
+        :param buff_id:
+        :param buff_name:
+        :param level:
+        :param layer:
+        :param persist:
+        :param src:
+        :return:
+        """
 
+        _buff_data = {
+            'dwPlayerID': self.player_id,
+            'bDelete': False,
+            'nIndex': -1,
+            'bCanCancel': 'buff',
+            'dwBuffID': buff_id,
+            'szName': buff_name,
+            'nStackNum': layer,
+            'nEndFrame': -1,
+            'bInit': False,
+            'nLevel': level,
+            'dwSkillSrcID': src,
+            'bIsValid': True
+        }
+        self._add_buff(msec, _buff_data)
 
