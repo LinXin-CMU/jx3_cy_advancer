@@ -209,7 +209,7 @@ class Player:
             # 特殊处理
             match new_buff_id:
                 # 玉简特殊处理：盾飞时添加一次6层，后续要避免重复
-                case 21648:
+                case 21648 if data['nStackNum'] == 6:
                     if 21648 in self._waiting_buffs:
                         buff_yj_ly = self._waiting_buffs[21648][2]
                         if buff_yj_ly == 6:
@@ -286,6 +286,12 @@ class Player:
         else:
             self._skill_event_by_id[skill_id] = {skill_level: {"szName": data['szName'], msec: write_data}}
 
+        # 必须写在伤害统计前面，避免判定用子技能被过滤掉
+        # 2022.9.25 盾飞后立即获得玉简效果
+        match skill_id:
+            case 13050:
+                self._add_additional_buff(msec, 21648, '玉简·分山劲', 1, 6)
+
         if dmg_sum == 0 and not status == 'dodge':
             # 无伤害子技能
             return
@@ -331,10 +337,7 @@ class Player:
                                self._waiting_buffs.items()}
                 }}}
 
-        # 2022.9.25 盾飞后立即获得玉简效果
-        match skill_id:
-            case 13050:
-                self._add_additional_buff(msec, 21648, '玉简·分山劲', 1, 6)
+
 
 
     def _add_additional_buff(self, msec: int, buff_id: int, buff_name: str, level: int, layer: int, src=0):
