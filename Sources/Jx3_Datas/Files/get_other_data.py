@@ -55,9 +55,9 @@ def get_equip_from_jx3box(subtype: Literal["armor", "trinket", "weapon"], id: in
         nonlocal ret
         resp = requests.get(url=url, timeout=3)
         if resp.status_code == 200:
-            data = resp.json()['list']
-            if len(data) > 0:
-                ret = {'ID': data['ID'], 'Data': data[0]}
+            data = resp.json().get('list')
+            if isinstance(data, dict):
+                ret = {'ID': data.get('ID'), 'Data': data[0]}
                 return ret
 
     thread = Thread(target=_get, daemon=True)
