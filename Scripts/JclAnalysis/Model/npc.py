@@ -11,7 +11,7 @@ import_kungfu = {'傲血战意', '铁牢律', '离经易道', '太虚剑意', '�
 import_skill = {403: [661, 12717], 180: [23305], 21317: [16680], 23208: [16330], 23216: [16331], 23218: [16330],
                 23211: [16330], 23210: [16365], 22609: [15850], 13050: [8248], 13054: [], 8249: [8249], 15511: [10530, 10533],
                 23240: [10530, 10533], 23234: [], 23235: [], 23236: [], 23826: [], 23835: [], 23836: [], 3980: [4058],
-                3963: [4418]}
+                3963: [4418], 29187: [8249], 29188: [8249], 29186: [8249], 29185: [8249], 13308: [8249], 20989: [8249]}
 
 
 buff = namedtuple('buff', ['id', 'level', 'layer', 'persist_msec', 'src_name'])
@@ -30,6 +30,7 @@ def delete_self(func):
 class Npc:
 
     def __init__(self):
+        self._blood_data = {}
         self._record_info = None
         self.npc_name = None
         self.player_id = None
@@ -91,15 +92,20 @@ class Npc:
         # print(self._buffs)
         self._get_target_buff_data()
 
+        pass
+
     def _be_casted(self, msec, caster, target, skill_id, skill_level):
         """
         用于筛选当前技能是否是会添加所需buff的技能，如是的话会调用添加buff\n
         :return:
         """
         _add_buff = None
-        kungfu = self._checked_players[caster]
-        caster_data = self._record_info['name_data'][caster]
-        caster_name = caster_data['szName']
+        kungfu = self._checked_players.get(caster)
+        caster_data = self._record_info['name_data'].get(caster)
+        caster_name = caster_data.get('szName')
+
+
+
         match kungfu:
 
             case '傲血战意' | '铁牢律':
@@ -139,28 +145,16 @@ class Npc:
                     buff_xr = self._get_buff(msec, caster_name, target, 8248, 1)
                     if buff_xr is not None:
                         self._add_buff(buff_xr.start, caster_name, target, buff(8248, 1, 1, msec-buff_xr.start, caster_name))
-                else:
-                    # if not caster == self.player_id:
-                    #     return
-                    # buff_xr = self._get_buff(msec, caster_name, target, 8248, 1, del_buff=False)
-                    # if buff_xr is None:
-                    #     buff_lx = self._get_buff(msec, caster_name, target, 8249, 50, del_buff=False)
-                    #     if buff_lx is None:
-                    #         return
-                    #     else:
-                    #         if '炼狱' in self._record_info['name_data'][caster]['aTalent']:
-                    #             lx = 1 * 1000
-                    #         else:
-                    #             lx = 2 * 1000
-                    #         if msec - buff_lx.end < lx:
-                    #             self._add_buff(buff_lx.end, caster_name, target, buff(8249, 50, 1, msec - buff_lx.end, caster_name))
-                    # else:
-                    #     if '炼狱' in self._record_info['name_data'][caster]['aTalent']:
-                    #         lx = 1 * 1000
-                    #     else:
-                    #         lx = 2 * 1000
-                    #     if msec - buff_xr.end < lx:
-                    #         self._add_buff(buff_xr.end, caster_name, target, buff(8249, 50, 1, msec-buff_xr.end, caster_name))
+                elif skill_id in {29187, 29188, 29186, 29185, 13308, 20989, 8249}:
+                    # 流血部分
+                    if not caster == self.player_id:
+                        return
+
+                    if target in self._blood_data:
+                        self._blood_data[target].append((msec, skill_id))
+                    else:
+                        self._blood_data[target] = [(msec, skill_id)]
+                    # blood_data.append((msec, skill_id))
                     pass
 
             case '莫问' | '相知':
@@ -221,7 +215,6 @@ class Npc:
                 else:
                     self._buffs[caster_name][target][_buff.id][_buff.level].append(buff_time(start_time, end_time, _buff.layer, _buff.src_name))
 
-
     def _get_buff(self, msec, caster_name, target, buff_id, buff_level, *, del_buff=True) -> buff_time:
         """
         读取所需buff\n
@@ -242,7 +235,6 @@ class Npc:
 
         return ret
 
-
     def _get_target_buff_data(self):
         """
         将buff数据整理成返回的格式\n
@@ -250,6 +242,9 @@ class Npc:
         """
         self._targets_buff_data = {}
         _target_count = {}
+
+        # 添加npc的流血buff
+        self._logic_LiuXue()
 
         for src_name, targets_data in self._buffs.items():
             for target, buffs_data in targets_data.items():
@@ -276,66 +271,8 @@ class Npc:
             self._targets_buff_data[target_id]['count'] = _target_count[target_id]
             # 减去重叠的小破风
             if '661_30' in target_buff and '12717_30' in target_buff:
-                # 先遍历劲风破风, 获取劲风破风时间轴
-                jf_times = []
-                for jf_time in target_buff['12717_30']['times']:
-                    if len(jf_times) == 0:
-                        jf_times.append((jf_time[0], jf_time[1]))
-                    else:
-                        past_time = jf_times[-1]
-                        if jf_time[0] < past_time[1]:
-                            jf_times[-1] = (past_time[0], max(past_time[1], jf_time[1]))
-                        else:
-                            jf_times.append((jf_time[0], jf_time[1]))
-                # 对于每一个小破风，检测其是否被包含在劲风破风里
-                # 双指针
-                p_pf = 0   # 661-破风
-                p_jf = 0   # 12717-劲风
-                buff_p_pf = target_buff['661_30']['times']
-                buff_p_jf = jf_times
-                while True:
-                    # 更新下标界限
-                    stop_pf = len(buff_p_pf) - 1
-                    stop_jf = len(buff_p_jf) - 1
-                    # 读取buff
-                    buff_pf: buff_res = buff_res(*buff_p_pf[p_pf])
-                    buff_jf: buff_res = buff_res(*buff_p_jf[p_jf], 1, 1, buff_pf.src_name)
-                    # 布尔运算
-                    if buff_pf.start >= buff_jf.start and buff_pf.end <= buff_jf.end:
-                        # 破风完全在劲风内，移除破风
-                        del self._targets_buff_data[target_id]['661_30']['times'][p_pf]
-                    elif buff_pf.start < buff_jf.start and buff_pf.end > buff_jf.end:
-                        # 劲风完全在破风内，拆分破风
-                        head = (buff_pf.start, buff_jf.start-1, buff_pf.level, buff_pf.layer, buff_pf.src_name)
-                        tail = (buff_jf.end+1, buff_pf.end, buff_pf.level, buff_pf.layer, buff_pf.src_name)
-                        self._targets_buff_data[target_id]['661_30']['times'] = buff_p_pf[:p_pf] + [head, tail] + buff_p_pf[p_pf+1:]
-                    elif buff_pf.end > buff_jf.start > buff_pf.start:
-                        # 破风右端在劲风内
-                        self._targets_buff_data[target_id]['661_30']['times'][p_pf] = \
-                            (buff_pf.start, buff_jf.start-1, buff_pf.level, buff_pf.layer, buff_pf.src_name)
-                    elif buff_pf.start < buff_jf.end < buff_pf.end:
-                        # 破风左侧在劲风内
-                        self._targets_buff_data[target_id]['661_30']['times'][p_pf] = \
-                            (buff_jf.end+1, buff_pf.end, buff_pf.level, buff_pf.layer, buff_pf.src_name)
-                    # 指针位移和循环判定终止
-                    if p_pf < stop_pf and buff_pf.end < buff_jf.start:
-                        p_pf = min(p_pf + 1, stop_pf)
-                    elif p_jf < stop_jf and buff_jf.end < buff_pf.start:
-                        p_jf = min(p_jf + 1, stop_jf)
-                    # 劲风已到最后一位，破风有剩余的情况
-                    elif p_jf == stop_jf and buff_jf.end < buff_pf.start:
-                        end = buff_pf.end
-                        for i in range(p_pf+1, stop_pf+1):
-                            buff_pf: buff_res = buff_res(*buff_p_pf[i])
-                            self._targets_buff_data[target_id]['661_30']['times'][i] = \
-                                (end, buff_pf.end, buff_pf.level, buff_pf.layer, buff_pf.src_name)
-                            end = buff_pf.end
-                        break
-                    # 破风已到最后一位，劲风有剩余的情况
-                    elif p_pf == stop_pf and buff_pf.end < buff_jf.start:
-                        break
-                    elif p_pf == stop_pf and p_jf == stop_jf:
-                        break
+                self._logic_PoFeng(target_id, target_buff)
+
 
 
     @property
@@ -424,6 +361,146 @@ class Npc:
                         return False
         return inner
 
+    def _logic_PoFeng(self, target_id, target_buff):
+        # 先遍历劲风破风, 获取劲风破风时间轴
+        jf_times = []
+        for jf_time in target_buff['12717_30']['times']:
+            if len(jf_times) == 0:
+                jf_times.append((jf_time[0], jf_time[1]))
+            else:
+                past_time = jf_times[-1]
+                if jf_time[0] < past_time[1]:
+                    jf_times[-1] = (past_time[0], max(past_time[1], jf_time[1]))
+                else:
+                    jf_times.append((jf_time[0], jf_time[1]))
+        # 对于每一个小破风，检测其是否被包含在劲风破风里
+        # 双指针
+        p_pf = 0  # 661-破风
+        p_jf = 0  # 12717-劲风
+        buff_p_pf = target_buff['661_30']['times']
+        buff_p_jf = jf_times
+        while True:
+            # 更新下标界限
+            stop_pf = len(buff_p_pf) - 1
+            stop_jf = len(buff_p_jf) - 1
+            # 读取buff
+            buff_pf: buff_res = buff_res(*buff_p_pf[p_pf])
+            buff_jf: buff_res = buff_res(*buff_p_jf[p_jf], 1, 1, buff_pf.src_name)
+            # 布尔运算
+            if buff_pf.start >= buff_jf.start and buff_pf.end <= buff_jf.end:
+                # 破风完全在劲风内，移除破风
+                del self._targets_buff_data[target_id]['661_30']['times'][p_pf]
+            elif buff_pf.start < buff_jf.start and buff_pf.end > buff_jf.end:
+                # 劲风完全在破风内，拆分破风
+                head = (buff_pf.start, buff_jf.start - 1, buff_pf.level, buff_pf.layer, buff_pf.src_name)
+                tail = (buff_jf.end + 1, buff_pf.end, buff_pf.level, buff_pf.layer, buff_pf.src_name)
+                self._targets_buff_data[target_id]['661_30']['times'] = buff_p_pf[:p_pf] + [head, tail] + buff_p_pf[
+                                                                                                          p_pf + 1:]
+            elif buff_pf.end > buff_jf.start > buff_pf.start:
+                # 破风右端在劲风内
+                self._targets_buff_data[target_id]['661_30']['times'][p_pf] = \
+                    (buff_pf.start, buff_jf.start - 1, buff_pf.level, buff_pf.layer, buff_pf.src_name)
+            elif buff_pf.start < buff_jf.end < buff_pf.end:
+                # 破风左侧在劲风内
+                self._targets_buff_data[target_id]['661_30']['times'][p_pf] = \
+                    (buff_jf.end + 1, buff_pf.end, buff_pf.level, buff_pf.layer, buff_pf.src_name)
+            # 指针位移和循环判定终止
+            if p_pf < stop_pf and buff_pf.end < buff_jf.start:
+                p_pf = min(p_pf + 1, stop_pf)
+            elif p_jf < stop_jf and buff_jf.end < buff_pf.start:
+                p_jf = min(p_jf + 1, stop_jf)
+            # 劲风已到最后一位，破风有剩余的情况
+            elif p_jf == stop_jf and buff_jf.end < buff_pf.start:
+                end = buff_pf.end
+                for i in range(p_pf + 1, stop_pf + 1):
+                    buff_pf: buff_res = buff_res(*buff_p_pf[i])
+                    self._targets_buff_data[target_id]['661_30']['times'][i] = \
+                        (end, buff_pf.end, buff_pf.level, buff_pf.layer, buff_pf.src_name)
+                    end = buff_pf.end
+                break
+            # 破风已到最后一位，劲风有剩余的情况
+            elif p_pf == stop_pf and buff_pf.end < buff_jf.start:
+                break
+            elif p_pf == stop_pf and p_jf == stop_jf:
+                break
+
+    def _logic_LiuXue(self):
+
+        # 流血复盘用数据
+        # 炼狱技能战斗中无法替换，不会冲突
+        LiuXue_GeLie = {29187: 0, 29188: 0, 29186: 1, 29185: 1}  # 子技能id所对应的是否有割裂buff
+        GeLie = {13308: 1, 20989: 1}  # 闪刀子技能
+
+        player_data = self._record_info['name_data'].get(self.player_id)
+        if not player_data:
+            return
+
+        # 状态
+        start_blood_time = 0
+        latest_blood_time = 0
+        has_gelie = 0
+
+        player_talent = player_data.get('aTalent')
+        if player_talent:
+            LIANYU = 1000 if '炼狱' in player_talent else 2000
+        else:
+            LIANYU = 2000
+
+        player_name = player_data.get('szName')
+        if not player_name:
+            player_name = '未知目标'
+        # 是否点出了割裂
+        # GELIE = 1 if '割裂' in player_talent else 0
+        # 流血间隔时间
+
+        for npc_id, blood_data in self._blood_data.items():
+            for time, skill_id in blood_data:
+                match skill_id:
+                    case 8249:
+                        # 流血
+                        latest_blood_time = time
+
+                    case 13308 | 20989:
+                        # 闪刀
+                        has_gelie = 1
+
+                    case _:
+                        # 斩刀
+                        lv_gelie = LiuXue_GeLie.get(skill_id)
+                        if lv_gelie is None:
+                            continue
+
+                        # 判定流血
+                        if has_gelie:
+                            if lv_gelie:
+                                # 原 -> 割裂，现 -> 割裂：没断
+                                continue
+                            else:
+                                # 原 -> 割裂，现 -> 无割裂：断了
+                                buff_lx = buff(8249, 0, 1, latest_blood_time - start_blood_time, player_name)
+                                self._add_buff(start_blood_time, player_name, npc_id, buff_lx)
+                                start_blood_time = time
+                                has_gelie = 0
+                        else:
+                            if start_blood_time == 0:
+                                # 第一个斩刀
+                                start_blood_time = time
+                                continue
+
+                            else:
+                                # 原 -> 无割裂，现 -> 无割裂：根据流血间隔判断
+                                if time - latest_blood_time >= LIANYU:
+                                    # 断了
+                                    # ret.add((start_blood_time, latest_blood_time))
+                                    buff_lx = buff(8249, 0, 1, latest_blood_time - start_blood_time, player_name)
+                                    self._add_buff(start_blood_time, player_name, npc_id, buff_lx)
+                                    start_blood_time = time
+
+            # 全部结束的情况
+            if not start_blood_time == 0:
+                # ret.add((start_blood_time, latest_blood_time))
+                buff_lx = buff(8249, 0, 1, latest_blood_time - start_blood_time, player_name)
+                self._add_buff(start_blood_time, player_name, npc_id, buff_lx)
 
 
 

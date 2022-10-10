@@ -76,7 +76,11 @@ class MainChecker:
         try:
             for skill_id, _ in self._player.skill_events_by_id.items():
                 for skill_level, skill_data in _.items():
-                    skill_name = skill_data.pop('szName')
+                    if 'szName' in skill_data:
+                        skill_name = skill_data.pop('szName')
+                    else:
+                        skill_name = ''
+
                     for msec, cast_state in skill_data.items():
                         # result = cast_state['tResult']
                         buff = cast_state['tBuffs']
@@ -84,6 +88,8 @@ class MainChecker:
                         # 发送内容
                         major_gen.send((_type, msec, skill_id, skill_level, skill_name, buff))
         # try:
+        except StopIteration:
+            pass
         finally:
             major_gen.close()
             # print(*[f"{i}: {self._major_checker.major_skill_list[i]}\n" for i in sorted(self._major_checker.major_skill_list.keys())])

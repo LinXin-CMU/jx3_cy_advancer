@@ -347,3 +347,4 @@
 ['skill', 32583, {1: {'Name': '未知skill', 'BelongKungFu': -1}}]
 ['skill', 32465, {1: {'Name': '未知skill', 'BelongKungFu': -1}}]
 ['skill', 2918, {1: {'Remark': None, 'Name': None, 'SkillName': '天策_技能事件_龙城铁壁_驱散', 'Desc': None, 'BelongKungfu': '10022'}}]
+['skill', 756, {1: {'Remark': None, 'Name': None, 'SkillName': '天策攻击阵法第四重', 'Desc': None, 'BelongKungfu': '10101'}}]

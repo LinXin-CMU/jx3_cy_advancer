@@ -3,7 +3,7 @@
 
 from .Model.player import Player
 from .Model.npc import Npc
-from .CheckRecord.skill_data_reshape import read_origin_skill_data
+from .CheckRecord.skill_data_reshape import read_origin_skill_data, read_blood_skill_data
 from .Mark.operate_marker import OperateMarker
 from .checker_main import MainChecker
 from CustomClasses.Exceptions import JclTypeError

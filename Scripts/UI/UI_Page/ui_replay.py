@@ -80,19 +80,19 @@ _other_buff_to_group = {
 _target_buff_imports = {
     '破风': 'TianCe', '破风增强': 'TianCe', '赤雷裂空': 'TianCe',
     '秋肃': 'WanHua', '画影残月': 'ChunYang', '穿林': 'QiXiu', '红蝶': 'QiXiu', '镜中寒樱': 'QiXiu',
-    '戒火': 'MingJiao', '烈日': 'MingJiao', '琉璃灼烧': 'MingJiao', '虚弱': 'CangYun',
+    '戒火': 'MingJiao', '烈日': 'MingJiao', '琉璃灼烧': 'MingJiao', '虚弱': 'CangYun', '流血': 'CangYun',
     '破甲': 'ChangGe', '入世': 'ChangGe',
 }
 _target_buff_to_group = {
-    '破风': 2, '破风增强': 2, '赤雷裂空': 3,
-    '秋肃': 4, '画影残月': 5, '穿林': 6, '红蝶': 6, '镜中寒樱': 6,
-    '戒火': 4, '烈日': 7, '琉璃灼烧': 8, '虚弱': 1,
-    '破甲': 9, '入世': 9,
+    '破风': 3, '破风增强': 3, '赤雷裂空': 4,
+    '秋肃': 5, '画影残月': 6, '穿林': 7, '红蝶': 7, '镜中寒樱': 7,
+    '戒火': 5, '烈日': 8, '琉璃灼烧': 9, '虚弱': 2, '流血': 1,
+    '破甲': 10, '入世': 10,
 }
 _target_id_to_name = {
     '661_30': '破风', '12717_30': '破风增强', '16466_1': '赤雷裂空',
     '23305_1': '秋肃', '16680_1': '画影残月',
-    '4058_1': '戒火', '4418_1': '烈日', '8248_1': '虚弱',
+    '4058_1': '戒火', '4418_1': '烈日', '8248_1': '虚弱', '8249_0': '流血'
 }
 _target_multiple_id_to_name = {
     '16330': '穿林', '16331': '红蝶', '16365': '镜中寒樱', '15850': '琉璃灼烧', '10530': '破甲', '10533': '入世',
@@ -714,7 +714,7 @@ class OperatePainter:
                 _hover_text = f"[{buff_name}]:\nbuff层数:{layer}\n来源:{src_player}"
                 if buff_name in BUFF_LEVEL_MEANING:
                     if level in BUFF_LEVEL_MEANING[buff_name]:
-                        _hover_text = f"{buff_name}:\n{BUFF_LEVEL_MEANING[buff_name][level]}\nbuff层数:{layer}\n来源:{src_player}"
+                        _hover_text = f"[{buff_name}]:\n{BUFF_LEVEL_MEANING[buff_name][level]}\nbuff层数:{layer}\n来源:{src_player}"
                 _buff_label = ToolTipOutLabel(self.ui.tooltip_textEdit, self._rows['自身buff'])
                 _buff_label.resize(15, 15)
                 _buff_label.setStyleSheet(f"background-color: {_color}; font-size: 9pt;")
@@ -830,7 +830,7 @@ class OperatePainter:
                 _hover_text = f"[{buff_name}]:\nbuff层数:{layer}\n来源:{src_player}"
                 if buff_name in BUFF_LEVEL_MEANING:
                     if level in BUFF_LEVEL_MEANING[buff_name]:
-                        _hover_text = f"{buff_name}:\n{BUFF_LEVEL_MEANING[buff_name][level]}\nbuff层数:{layer}\n来源:{src_player}"
+                        _hover_text = f"[{buff_name}]:\n{BUFF_LEVEL_MEANING[buff_name][level]}\nbuff层数:{layer}\n来源:{src_player}"
                 _buff_label = ToolTipOutLabel(self.ui.tooltip_textEdit, self._rows['增益buff'])
                 _buff_label.resize(15, 15)
                 _buff_label.setStyleSheet(f"background-color: {_bg_color}; font-size: 9pt;")
@@ -923,7 +923,7 @@ class OperatePainter:
             # 记录buff所属的门派和行分组
             _g = _target_buff_to_group[buff_name]
             _m = _target_buff_imports[buff_name]
-            # 万花特殊查找
+            # 万花秋肃与戒火在同一行，特殊查找
             if _m == 'WanHua':
                 if 'MingJiao' in _has_groups:
                     if _g in _has_groups['MingJiao']['group']:
@@ -979,10 +979,10 @@ class OperatePainter:
                 # 0层是表现buff，手动修改一下
                 if layer == 0:
                     layer = 1
-                _hover_text = f"{buff_name}:\nbuff层数:{layer}\n来源:{src_player}"
+                _hover_text = f"[{buff_name}]:\nbuff层数:{layer}\n来源:{src_player}"
                 if buff_name in BUFF_LEVEL_MEANING:
                     if level in BUFF_LEVEL_MEANING[buff_name]:
-                        _hover_text = f"{buff_name}:\n{BUFF_LEVEL_MEANING[buff_name][level]}\nbuff层数:{layer}\n来源:{src_player}"
+                        _hover_text = f"[{buff_name}]:\n{BUFF_LEVEL_MEANING[buff_name][level]}\nbuff层数:{layer}\n来源:{src_player}"
 
                 _buff_label = ToolTipOutLabel(self.ui.tooltip_textEdit, self._rows['目标buff'])
                 _buff_label.resize(15, 15)

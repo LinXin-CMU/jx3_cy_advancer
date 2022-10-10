@@ -97,7 +97,7 @@ class Player:
             item: Dict[str, Union[int, str, Dict]]
             self._type_update(item)
         # print(*[f"{i}: {j}\n" for i, j in self._skill.items()])
-        pass
+        # pass
 
     def _type_update(self, item: Dict[str, Union[int, str, Dict]]):
         """

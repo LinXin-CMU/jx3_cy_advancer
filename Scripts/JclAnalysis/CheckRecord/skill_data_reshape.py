@@ -272,5 +272,173 @@ def read_origin_skill_data(data: Dict[int, Dict[str, Union[int, Dict]]], id_to_n
     total_damage = 0
     # 整理表格格式的技能统计
     data_to_table = _reshape_to_table(data, id_to_name_dict)
+    # 计算流血时间轴
+    # _read_blood_skill_data(data)
 
     return data_to_table
+
+
+def read_blood_skill_data(data: Dict[int, Dict[int, Dict[Union[int, str], Dict]]], player_talent: List[str]):
+    """
+    根据技能统计数据猜测流血时间轴
+    :param data:
+    :return:
+    """
+    # 炼狱技能战斗中无法替换，不会冲突
+    LiuXue_GeLie = {29187: 0, 29188: 0, 29186: 1, 29185: 1}    # 子技能id所对应的是否有割裂buff
+    GeLie = {13308: 1, 20989: 1}    # 闪刀子技能
+
+    # 斩闪流血的全部时间数据
+    blood_data = []
+
+
+    skill_lx = data.get(8249)
+    if not skill_lx:
+        return
+
+    for lv in range(28, 0, -1):
+        lx_data = skill_lx.get(lv)
+        if not lx_data:
+            continue
+        else:
+            lx_data.pop('szName')
+
+            # 直接将取出的流血技能合并至总技能
+            for i in lx_data:
+                blood_data.append((i, 8249))
+            break
+    else:
+        return
+
+    # print(lx_data)
+    # 到这里是取出了流血，且流血只需要释放时间
+
+    # zd_data = {}
+    for zhandao_id in LiuXue_GeLie:
+        _skill_zd = data.get(zhandao_id)
+        if not _skill_zd:
+            continue
+        else:
+            for lv in range(28, 0, -1):
+                _zd_data = _skill_zd.get(lv)
+                if not _zd_data:
+                    continue
+                else:
+                    _zd_data.pop('szName')
+
+                    # 直接将取出的斩刀技能合并至总技能
+                    # zd_data.update({i: zhandao_id for i in _zd_data})
+                    for i in _zd_data:
+                        blood_data.append((i, zhandao_id))
+                    break
+    # if not zd_data:
+    #     return
+
+    # print(zd_data)
+    # 到这里是取出了斩刀时间及斩刀对应的id
+
+    # sd_data = []
+    for shandao_id in GeLie:
+        _skill_sd = data.get(shandao_id)
+        if not _skill_sd:
+            continue
+        else:
+            for lv in range(28, 0, -1):
+                _sd_data = _skill_sd.get(lv)
+                if not _sd_data:
+                    continue
+                else:
+                    _sd_data.pop('szName')
+
+                    # 直接将取出的闪刀技能合并至总技能
+                    # sd_data += [i for i in _sd_data]
+                    for i in _sd_data:
+                        blood_data.append((i, shandao_id))
+                    break
+    # if sd_data:
+    #     sd_data.sort()
+
+    # if not sd_data:
+    #     return
+    # 循环允许不打闪刀
+
+    # print(sd_data)
+    # 取出闪刀所对应时间，闪刀序列允许为空
+
+    blood_data.sort(key=lambda i: i[0])
+
+    ret = set()
+    # 状态
+    start_blood_time = 0
+    latest_blood_time = 0
+    has_gelie = 0
+
+    # 是否点出了割裂
+    # GELIE = 1 if '割裂' in player_talent else 0
+    # 流血间隔时间
+    LIANYU = 1000 if '炼狱' in player_talent else 2000
+
+    for time, skill_id in blood_data:
+        match skill_id:
+            case 8249:
+                # 流血
+                latest_blood_time = time
+
+            case 13308 | 20989:
+                # 闪刀
+                has_gelie = 1
+
+            case _:
+                # 斩刀
+                lv_gelie = LiuXue_GeLie.get(skill_id)
+                if lv_gelie is None:
+                    continue
+
+                # 判定流血
+                if has_gelie:
+                    if lv_gelie:
+                        # 原 -> 割裂，现 -> 割裂：没断
+                        continue
+                    else:
+                        # 原 -> 割裂，现 -> 无割裂：断了
+                        ret.add((start_blood_time, latest_blood_time))
+                        start_blood_time = time
+                        has_gelie = 0
+                else:
+                    if start_blood_time == 0:
+                        # 第一个斩刀
+                        start_blood_time = time
+                        continue
+
+                    else:
+                        # 原 -> 无割裂，现 -> 无割裂：根据流血间隔判断
+                        if time - latest_blood_time >= LIANYU:
+                            # 断了
+                            ret.add((start_blood_time, latest_blood_time))
+                            start_blood_time = time
+
+    # 全部结束的情况
+    if not start_blood_time == 0:
+        ret.add((start_blood_time, latest_blood_time))
+
+    pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
